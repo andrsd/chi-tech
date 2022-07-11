@@ -8,7 +8,7 @@ jobs:
     name: ubuntu-clang
     env:
       PETSC_VERSION: 3.17.0
-      PETSC_CACHE_NUM: 1
+      PETSC_CACHE_NUM: 2
     steps:
       - name: Install dependencies
         run: |
@@ -42,6 +42,7 @@ jobs:
             --download-pnetcdf \
             --download-hdf5 \
             --download-zlib \
+            --download-hypre \
             CC=clang-12 CXX=clang++-12 FC=gfortran-10 \
             PETSC_DIR=`pwd`
           echo "::endgroup::"
@@ -61,7 +62,7 @@ jobs:
     name: ubuntu-gcc
     env:
       PETSC_VERSION: 3.17.0
-      PETSC_CACHE_NUM: 1
+      PETSC_CACHE_NUM: 2
     steps:
       - name: Install dependencies
         run: |
@@ -95,6 +96,7 @@ jobs:
             --download-pnetcdf \
             --download-hdf5 \
             --download-zlib \
+            --download-hypre \
             CC=gcc CXX=g++ FC=gfortran-10 \
             PETSC_DIR=`pwd`
           echo "::endgroup::"
@@ -114,7 +116,7 @@ jobs:
     name: macosx-clang
     env:
       PETSC_VERSION: 3.17.0
-      PETSC_CACHE_NUM: 1
+      PETSC_CACHE_NUM: 2
       SDKROOT: /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk
     steps:
       - name: Install dependencies
@@ -146,6 +148,7 @@ jobs:
             --download-pnetcdf \
             --download-hdf5 \
             --download-zlib \
+            --download-hypre \
             CC=clang CXX=clang++ FC=gfortran-10 \
             PETSC_DIR=`pwd`
           echo "::endgroup::"
