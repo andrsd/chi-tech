@@ -14,7 +14,7 @@ jobs:
     name: ubuntu-clang-vtk
     env:
       PETSC_VERSION: 3.17.0
-      PETSC_CACHE_NUM: 1
+      PETSC_CACHE_NUM: 2
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
@@ -46,7 +46,7 @@ jobs:
     name: ubuntu-gcc-vtk
     env:
       PETSC_VERSION: 3.17.0
-      PETSC_CACHE_NUM: 1
+      PETSC_CACHE_NUM: 2
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
@@ -78,7 +78,7 @@ jobs:
     name: macosx-clang-vtk
     env:
       PETSC_VERSION: 3.17.0
-      PETSC_CACHE_NUM: 1
+      PETSC_CACHE_NUM: 2
       SDKROOT: /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk
     steps:
       - name: Checkout source
