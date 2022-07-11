@@ -1,0 +1,105 @@
+name: build
+
+on:
+  push:
+    branches:
+      - next
+  pull_request:
+    branches:
+      - next
+
+jobs:
+  linux-clang:
+    runs-on: ubuntu-22.04
+    name: ubuntu-clang-vtk
+    env:
+      PETSC_VERSION: 3.17.0
+      PETSC_CACHE_NUM: 1
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt install llvm-12 libblas-dev liblapack-dev lua libvtk9-dev
+      - name: Setup env
+        run: |
+          echo "${{ github.workspace }}/petsc/bin" >> $GITHUB_PATH
+          echo "PETSC_ROOT=${{ github.workspace }}/petsc" >> $GITHUB_ENV
+          echo "LUA_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "CC=mpicc" >> $GITHUB_ENV
+          echo "CXX=mpicxx" >> $GITHUB_ENV
+      - name: Load PETSc
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/petsc
+          key: ${{ runner.os }}-clang-petsc-cache-${{ env.PETSC_CACHE_NUM }}
+          restore-keys: ${{ runner.os }}-clang-petsc-cache-${{ env.PETSC_CACHE_NUM }}
+      - name: Configure
+        run: |
+          cmake -S . -B ${{ github.workspace }}/build
+      - name: Build
+        run: make -C ${{ github.workspace }}/build
+
+  linux-gcc:
+    runs-on: ubuntu-22.04
+    name: ubuntu-gcc-vtk
+    env:
+      PETSC_VERSION: 3.17.0
+      PETSC_CACHE_NUM: 1
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt install libblas-dev liblapack-dev lua libvtk9-dev
+      - name: Setup env
+        run: |
+          echo "${{ github.workspace }}/petsc/bin" >> $GITHUB_PATH
+          echo "PETSC_ROOT=${{ github.workspace }}/petsc" >> $GITHUB_ENV
+          echo "LUA_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "CC=mpicc" >> $GITHUB_ENV
+          echo "CXX=mpicxx" >> $GITHUB_ENV
+      - name: Load PETSc
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/petsc
+          key: ${{ runner.os }}-gcc-petsc-cache-${{ env.PETSC_CACHE_NUM }}
+          restore-keys: ${{ runner.os }}-gcc-petsc-cache-${{ env.PETSC_CACHE_NUM }}
+      - name: Configure
+        run: |
+          cmake -S . -B ${{ github.workspace }}/build
+      - name: Build
+        run: make -C ${{ github.workspace }}/build
+
+  macosx-clang:
+    runs-on: macos-10.15
+    name: macosx-clang-vtk
+    env:
+      PETSC_VERSION: 3.17.0
+      PETSC_CACHE_NUM: 1
+      SDKROOT: /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: brew install cmake automake lcov llvm@12 lua vtk
+      - name: Setup env
+        run: |
+          echo "${{ github.workspace }}/petsc/bin" >> $GITHUB_PATH
+          echo "PETSC_ROOT=${{ github.workspace }}/petsc" >> $GITHUB_ENV
+          echo "LUA_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "CC=mpicc" >> $GITHUB_ENV
+          echo "CXX=mpicxx" >> $GITHUB_ENV
+      - name: Load PETSc
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/petsc
+          key: ${{ runner.os }}-clang-petsc-cache-${{ env.PETSC_CACHE_NUM }}
+          restore-keys: ${{ runner.os }}-clang-petsc-cache-${{ env.PETSC_CACHE_NUM }}
+      - name: Configure
+        run: |
+          cmake -S . -B ${{ github.workspace }}/build
+      - name: Build
+        run: make -C ${{ github.workspace }}/build

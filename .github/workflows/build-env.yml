@@ -1,0 +1,161 @@
+name: build-env
+
+on: [workflow_dispatch]
+
+jobs:
+  linux-clang:
+    runs-on: ubuntu-22.04
+    name: ubuntu-clang
+    env:
+      PETSC_VERSION: 3.17.0
+      PETSC_CACHE_NUM: 1
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt install llvm-12 libblas-dev liblapack-dev
+      - name: Cache PETSc
+        id: cache-petsc
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/petsc
+          key: ${{ runner.os }}-clang-petsc-cache-${{ env.PETSC_CACHE_NUM }}
+      - name: Build PETSc
+        run: |
+          cd ${{ github.workspace }}
+          wget -q https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-${PETSC_VERSION}.tar.gz
+          tar -xzf petsc-${PETSC_VERSION}.tar.gz
+          cd petsc-${PETSC_VERSION}
+          echo "::group::configure"
+          ./configure \
+            --prefix=${{ github.workspace }}/petsc \
+            --shared-libraries \
+            --with-debugging=no \
+            --with-64-bit-indices=yes \
+            --with-cxx-dialect=cxx14 \
+            --with-pic=yes \
+            --with-ssl=no \
+            --download-cmake \
+            --download-mpich \
+            --download-exodusii \
+            --download-netcdf \
+            --download-pnetcdf \
+            --download-hdf5 \
+            --download-zlib \
+            CC=clang-12 CXX=clang++-12 FC=gfortran-10 \
+            PETSC_DIR=`pwd`
+          echo "::endgroup::"
+          echo "::group::make"
+          make PETSC_DIR=`pwd` PETSC_ARCH=arch-linux-c-opt all
+          make PETSC_DIR=`pwd` PETSC_ARCH=arch-linux-c-opt install
+          echo "::endgroup::"
+      - name: Upload configure.log
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ github.job }}-configure.log
+          path: ${{ github.workspace }}/petsc-${{ env.PETSC_VERSION }}/configure.log
+
+  linux-gcc:
+    runs-on: ubuntu-22.04
+    name: ubuntu-gcc
+    env:
+      PETSC_VERSION: 3.17.0
+      PETSC_CACHE_NUM: 1
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt install libblas-dev liblapack-dev
+      - name: Cache PETSc
+        id: cache-petsc
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/petsc
+          key: ${{ runner.os }}-gcc-petsc-cache-${{ env.PETSC_CACHE_NUM }}
+      - name: Build PETSc
+        run: |
+          cd ${{ github.workspace }}
+          wget -q https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-${PETSC_VERSION}.tar.gz
+          tar -xzf petsc-${PETSC_VERSION}.tar.gz
+          cd petsc-${PETSC_VERSION}
+          echo "::group::configure"
+          ./configure \
+            --prefix=${{ github.workspace }}/petsc \
+            --shared-libraries \
+            --with-debugging=no \
+            --with-64-bit-indices=yes \
+            --with-cxx-dialect=cxx14 \
+            --with-pic=yes \
+            --with-ssl=no \
+            --download-cmake \
+            --download-mpich \
+            --download-exodusii \
+            --download-netcdf \
+            --download-pnetcdf \
+            --download-hdf5 \
+            --download-zlib \
+            CC=gcc CXX=g++ FC=gfortran-10 \
+            PETSC_DIR=`pwd`
+          echo "::endgroup::"
+          echo "::group::make"
+          make PETSC_DIR=`pwd` PETSC_ARCH=arch-linux-c-opt all
+          make PETSC_DIR=`pwd` PETSC_ARCH=arch-linux-c-opt install
+          echo "::endgroup::"
+      - name: Upload configure.log
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ github.job }}-configure.log
+          path: ${{ github.workspace }}/petsc-${{ env.PETSC_VERSION }}/configure.log
+
+  macosx-clang:
+    runs-on:  macos-10.15
+    name: macosx-clang
+    env:
+      PETSC_VERSION: 3.17.0
+      PETSC_CACHE_NUM: 1
+      SDKROOT: /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk
+    steps:
+      - name: Install dependencies
+        run: brew install cmake automake
+      - name: Cache PETSc
+        id: cache-petsc
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/petsc
+          key: ${{ runner.os }}-clang-petsc-cache-${{ env.PETSC_CACHE_NUM }}
+      - name: Build PETSc
+        run: |
+          cd ${{ github.workspace }}
+          wget -q https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-${PETSC_VERSION}.tar.gz
+          tar -xzf petsc-${PETSC_VERSION}.tar.gz
+          cd petsc-${PETSC_VERSION}
+          echo "::group::configure"
+          ./configure \
+            --prefix=${{ github.workspace }}/petsc \
+            --shared-libraries \
+            --with-debugging=no \
+            --with-64-bit-indices=yes \
+            --with-cxx-dialect=cxx14 \
+            --with-pic=yes \
+            --with-ssl=no \
+            --download-mpich \
+            --download-exodusii \
+            --download-netcdf \
+            --download-pnetcdf \
+            --download-hdf5 \
+            --download-zlib \
+            CC=clang CXX=clang++ FC=gfortran-10 \
+            PETSC_DIR=`pwd`
+          echo "::endgroup::"
+          echo "::group::make"
+          make PETSC_DIR=`pwd` PETSC_ARCH=arch-darwin-c-opt all
+          make PETSC_DIR=`pwd` PETSC_ARCH=arch-darwin-c-opt install
+          echo "::endgroup::"
+      - name: Upload configure.log
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ github.job }}-configure.log
+          path: ${{ github.workspace }}/petsc-${{ env.PETSC_VERSION }}/configure.log
