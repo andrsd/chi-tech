@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt install llvm-12 libblas-dev liblapack-dev lua libvtk9-dev
+          sudo apt install llvm-12 libblas-dev liblapack-dev lua5.4 liblua5.4-dev libvtk9-dev
       - name: Setup env
         run: |
           echo "${{ github.workspace }}/petsc/bin" >> $GITHUB_PATH
@@ -53,7 +53,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt install libblas-dev liblapack-dev lua libvtk9-dev
+          sudo apt install libblas-dev liblapack-dev lua5.4 liblua5.4-dev libvtk9-dev
       - name: Setup env
         run: |
           echo "${{ github.workspace }}/petsc/bin" >> $GITHUB_PATH
