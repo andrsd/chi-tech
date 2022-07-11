@@ -8,6 +8,7 @@ extern ChiMPI& chi_mpi;
 
 #include <sstream>
 
+#ifdef CHITECH_HAVE_VTK
 #include <vtkSmartPointer.h>
 #include <vtkXMLUnstructuredGridReader.h>
 #include <vtkUnstructuredGrid.h>
@@ -20,12 +21,14 @@ extern ChiMPI& chi_mpi;
 #include <vtkAppendFilter.h>
 
 #include <vtkCleanUnstructuredGrid.h>
+#endif
 
 //###################################################################
 /**Reads an Ensight-Gold unstructured mesh.*/
 void chi_mesh::UnpartitionedMesh::
   ReadFromEnsightGold(const chi_mesh::UnpartitionedMesh::Options &options)
 {
+#ifdef CHITECH_HAVE_VTK
   //======================================== Attempt to open file
   std::ifstream file;
   file.open(options.file_name);
@@ -217,4 +220,8 @@ void chi_mesh::UnpartitionedMesh::
   //======================================== Always do this
   ComputeCentroidsAndCheckQuality();
   BuildMeshConnectivity();
+#else
+  chi_log.Log(LOG_ALLERROR) << "ReadFromEnsightGold: ChiTech was not built with VTK support.";
+  exit(EXIT_FAILURE);
+#endif
 }

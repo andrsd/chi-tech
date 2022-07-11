@@ -1,10 +1,13 @@
 #ifndef CHI_MESH_UNPARTITIONED_MESH_H
 #define CHI_MESH_UNPARTITIONED_MESH_H
 
+#include "chitech_config.h"
 #include "ChiMesh/chi_mesh.h"
 #include "ChiMesh/Cell/cell.h"
 
+#ifdef CHITECH_HAVE_VTK
 #include <vtkCell.h>
+#endif
 
 //###################################################################
 /**This object is intented for unpartitioned meshes that still require
@@ -67,6 +70,7 @@ public:
            zmin=0.0, zmax=0.0;
   } bound_box;
 
+#ifdef CHITECH_HAVE_VTK
   static LightWeightCell* CreateCellFromVTKPolyhedron(vtkCell* vtk_cell);
   static LightWeightCell* CreateCellFromVTKHexahedron(vtkCell* vtk_cell);
   static LightWeightCell* CreateCellFromVTKTetrahedron(vtkCell* vtk_cell);
@@ -78,6 +82,7 @@ public:
   static LightWeightCell* CreateCellFromVTKLine(vtkCell* vtk_cell);
 
   static LightWeightCell* CreateCellFromVTKVertex(vtkCell* vtk_cell);
+#endif
 
   void BuildMeshConnectivity();
   void ComputeCentroidsAndCheckQuality();

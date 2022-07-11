@@ -8,6 +8,7 @@ extern ChiMPI& chi_mpi;
 
 #include <fstream>
 
+#ifdef CHITECH_HAVE_VTK
 #include <vtkSmartPointer.h>
 #include <vtkXMLUnstructuredGridReader.h>
 #include <vtkUnstructuredGrid.h>
@@ -324,11 +325,14 @@ chi_mesh::UnpartitionedMesh::LightWeightCell* chi_mesh::UnpartitionedMesh::
   return point_cell;
 }
 
+#endif
+
 //###################################################################
 /**Reads a VTK unstructured mesh.*/
 void chi_mesh::UnpartitionedMesh::
   ReadFromVTU(const chi_mesh::UnpartitionedMesh::Options &options)
 {
+#ifdef CHITECH_HAVE_VTK
   //======================================== Attempt to open file
   std::ifstream file;
   file.open(options.file_name);
@@ -565,5 +569,8 @@ void chi_mesh::UnpartitionedMesh::
   //======================================== Always do this
   ComputeCentroidsAndCheckQuality();
   BuildMeshConnectivity();
+#else
+  chi_log.Log(LOG_ALLERROR) << "ReadFromVTU: ChiTech was not built with VTK support.";
+  exit(EXIT_FAILURE);
+#endif
 }
-

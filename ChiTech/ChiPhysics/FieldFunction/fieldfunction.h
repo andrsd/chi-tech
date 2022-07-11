@@ -1,13 +1,16 @@
 #ifndef CHI_FIELD_FUNCTION_H
 #define CHI_FIELD_FUNCTION_H
 
+#include "chitech_config.h"
 #include "../chi_physics_namespace.h"
 #include "../../ChiMesh/MeshContinuum/chi_meshcontinuum.h"
 #include "ChiMath/SpatialDiscretization/spatial_discretization.h"
 #include "ChiMath/UnknownManager/unknown_manager.h"
 
+#ifdef CHITECH_HAVE_VTK
 #include <vtkUnstructuredGrid.h>
 #include <vtkPointData.h>
+#endif
 
 #include <petscksp.h>
 
@@ -121,10 +124,12 @@ public:
                         const std::string& field_name,
                         const std::vector<std::string>& component_names);
 
+#ifdef CHITECH_HAVE_VTK
   void UploadCellGeometry(const chi_mesh::Cell& cell,
                           int64_t& node_counter,
                           vtkNew<vtkPoints>& points,
                           vtkNew<vtkUnstructuredGrid>& ugrid);
+#endif
 };
 
 

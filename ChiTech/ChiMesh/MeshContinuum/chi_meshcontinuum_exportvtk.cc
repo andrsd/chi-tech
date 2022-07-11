@@ -13,6 +13,7 @@ extern ChiMPI& chi_mpi;
 #include "ChiPhysics/chi_physics.h"
 extern ChiPhysics&  chi_physics_handler;
 
+#ifdef CHITECH_HAVE_VTK
 #include <vtkCellType.h>
 #include <vtkUnstructuredGrid.h>
 #include <vtkUnstructuredGridWriter.h>
@@ -24,11 +25,13 @@ extern ChiPhysics&  chi_physics_handler;
 #include <vtkIntArray.h>
 
 #include <vtkInformation.h>
+#endif
 
 //###################################################################
 /**Exports just the mesh to VTK format.*/
 void chi_mesh::MeshContinuum::ExportCellsToVTK(const char* baseName) const
 {
+#ifdef CHITECH_HAVE_VTK
   chi_log.Log() << "Exporting mesh to VTK. " << local_cells.size();
   std::vector<std::vector<double>> d_nodes;
 
@@ -185,4 +188,8 @@ void chi_mesh::MeshContinuum::ExportCellsToVTK(const char* baseName) const
   }
 
   chi_log.Log() << "Done exporting mesh to VTK.";
+#else
+  chi_log.Log(LOG_ALLERROR) << "ExportCellsToVTK: ChiTech was not built with VTK support.";
+  exit(EXIT_FAILURE);
+#endif
 }

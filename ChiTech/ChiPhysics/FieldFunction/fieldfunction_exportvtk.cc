@@ -9,7 +9,9 @@ extern ChiLog& chi_log;
 #include "chi_mpi.h"
 extern ChiMPI& chi_mpi;
 
+#ifdef CHITECH_HAVE_VTK
 #include <vtkCellType.h>
+#endif
 
 #include <fstream>
 
@@ -21,6 +23,7 @@ void chi_physics::FieldFunction::
   ExportToVTKComponentOnly(const std::string& base_name,
                            const std::string& field_name)
 {
+#ifdef CHITECH_HAVE_VTK
   chi_log.Log(LOG_0)
     << "Exporting field function " << text_name
     << " to files with base name " << base_name;
@@ -35,6 +38,10 @@ void chi_physics::FieldFunction::
   if (field_sdm_type == SDMType::PIECEWISE_LINEAR_DISCONTINUOUS)
     ExportToVTKPWLD(base_name,field_name);
 
+#else
+  chi_log.Log(LOG_ALLERROR) << "ExportToVTKComponentOnly: ChiTech was not built with VTK support.";
+  exit(EXIT_FAILURE);
+#endif
 }
 
 //###################################################################
@@ -45,6 +52,7 @@ void chi_physics::FieldFunction::
 void chi_physics::FieldFunction::ExportToVTK(const std::string& base_name,
                                              const std::string& field_name)
 {
+#ifdef CHITECH_HAVE_VTK
   chi_log.Log(LOG_0)
     << "Exporting field function " << text_name
     << " to files with base name " << base_name
@@ -60,6 +68,10 @@ void chi_physics::FieldFunction::ExportToVTK(const std::string& base_name,
   if (field_sdm_type == SDMType::PIECEWISE_LINEAR_DISCONTINUOUS)
     ExportToVTKPWLD(base_name, field_name, true);
 
+#else
+  chi_log.Log(LOG_ALLERROR) << "ExportToVTK: ChiTech was not built with VTK support.";
+  exit(EXIT_FAILURE);
+#endif
 }
 
 
@@ -74,6 +86,7 @@ void chi_physics::FieldFunction::WritePVTU(const std::string& base_filename,
                                            const std::string& field_name,
                                            const std::vector<std::string>& component_names)
 {
+#ifdef CHITECH_HAVE_VTK
   std::string summary_file_name = base_filename + std::string(".pvtu");
   std::ofstream ofile;
   ofile.open(summary_file_name);
@@ -117,7 +130,7 @@ void chi_physics::FieldFunction::WritePVTU(const std::string& base_filename,
 
   bool is_global_mesh =
     chi_mesh::GetCurrentHandler()->volume_mesher->options.mesh_global;
-  
+
   // Cut off path to base_filename
   std::string filename_short = base_filename.substr(base_filename.find_last_of("/\\")+1);
 
@@ -137,8 +150,14 @@ void chi_physics::FieldFunction::WritePVTU(const std::string& base_filename,
   ofile << "</VTKFile>" << std::endl;
 
   ofile.close();
+#else
+  chi_log.Log(LOG_ALLERROR) << "WritePVTU: ChiTech was not built with VTK support.";
+  exit(EXIT_FAILURE);
+#endif
 }
 
+
+#ifdef CHITECH_HAVE_VTK
 
 //###################################################################
 /**Uploads just the geometry portion of a cell to VTK.*/
@@ -207,3 +226,5 @@ void chi_physics::FieldFunction::
                           faces_vids.data());
   }//polyhedron
 }
+
+#endif

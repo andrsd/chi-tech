@@ -12,6 +12,7 @@ extern ChiLog& chi_log;
 extern ChiMPI& chi_mpi;
 extern ChiPhysics&  chi_physics_handler;
 
+#ifdef CHITECH_HAVE_VTK
 #include <vtkUnstructuredGrid.h>
 #include <vtkUnstructuredGridWriter.h>
 #include <vtkXMLUnstructuredGridWriter.h>
@@ -22,6 +23,7 @@ extern ChiPhysics&  chi_physics_handler;
 #include <vtkUnsignedIntArray.h>
 
 #include <vtkInformation.h>
+#endif
 
 
 //###################################################################
@@ -32,6 +34,7 @@ void chi_physics::FieldFunction::ExportToVTKPWLC(const std::string& base_name,
                                                  const std::string& field_name,
                                                  bool all_components/*=false*/)
 {
+#ifdef CHITECH_HAVE_VTK
   if (spatial_discretization->type !=
       chi_math::SpatialDiscretizationType::PIECEWISE_LINEAR_CONTINUOUS)
     throw std::invalid_argument(std::string(__PRETTY_FUNCTION__) +
@@ -155,4 +158,8 @@ void chi_physics::FieldFunction::ExportToVTKPWLC(const std::string& base_name,
   //============================================= Parallel summary file
   if (chi_mpi.location_id == 0)
       WritePVTU(base_filename, field_name, component_names);
+#else
+  chi_log.Log(LOG_ALLERROR) << "ExportToVTKPWLC: ChiTech was not built with VTK support.";
+  exit(EXIT_FAILURE);
+#endif
 }
