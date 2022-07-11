@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 
+#================================================ Set project targets
+SET(TARGET ChiTech)
+project(${TARGET} C CXX)
+
 message(STATUS "Configuring ${CMAKE_BUILD_TYPE} build of ChiTech.")
 
 if(UNIX AND NOT APPLE)
@@ -23,12 +27,14 @@ message(STATUS "PETSC_ROOT set to ${PETSC_ROOT}")
 
 if (NOT DEFINED LUA_ROOT)
     if (NOT (DEFINED ENV{LUA_ROOT}))
-        message(FATAL_ERROR "***** LUA_ROOT is not set *****")
+        find_package(Lua REQUIRED)
     else()
         set(LUA_ROOT "$ENV{LUA_ROOT}")
     endif()
 endif()
-message(STATUS "LUA_ROOT set to ${LUA_ROOT}")
+if (DEFINED LUA_ROOT)
+    message(STATUS "LUA_ROOT set to ${LUA_ROOT}")
+endif()
 
 if (NOT DEFINED VTK_DIR)
     if (NOT (DEFINED ENV{VTK_DIR}))
@@ -38,10 +44,6 @@ if (NOT DEFINED VTK_DIR)
     endif()
 endif()
 message(STATUS "VTK_DIR set to ${VTK_DIR}")
-
-#================================================ Set project targets
-SET(TARGET ChiTech)
-project(${TARGET} C CXX)
 
 #================================================ Set variables
 set(CHI_TECH_DIR "${PROJECT_SOURCE_DIR}")
@@ -63,7 +65,9 @@ endif()
 
 #================================================ Export vars to config file
 file(APPEND "${CONFIG_FILE_NAME}" "set(PETSC_ROOT ${PETSC_ROOT})\n")
-file(APPEND "${CONFIG_FILE_NAME}" "set(LUA_ROOT ${LUA_ROOT})\n")
+if (DEFINED LUA_ROOT)
+    file(APPEND "${CONFIG_FILE_NAME}" "set(LUA_ROOT ${LUA_ROOT})\n")
+endif()
 file(APPEND "${CONFIG_FILE_NAME}" "set(VTK_DIR ${VTK_DIR})\n")
 
 #================================================ Include macros
@@ -76,7 +80,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 #================================================ Default include directories
 include_directories(SYSTEM ${MPI_CXX_INCLUDE_PATH})
-include_directories(SYSTEM "${LUA_ROOT}/include")
+if (DEFINED LUA_ROOT)
+    include_directories(SYSTEM "${LUA_ROOT}/include")
+else()
+    include_directories(SYSTEM ${LUA_INCLUDE_DIR})
+endif()
 include_directories(SYSTEM "${PETSC_ROOT}/include")
 
 include_directories(SYSTEM "${CHI_TECH_DIR}/ThirdParty/paraview")
@@ -90,7 +98,10 @@ include_directories("${CHI_TECH_DIR}/ChiResources")
 include_directories("${CHI_TECH_DIR}/ChiModules")
 
 #================================================ Library directories
-link_directories("${LUA_ROOT}/lib")
+if (DEFINED LUA_ROOT)
+    link_directories("${LUA_ROOT}/lib")
+    set(LUA_LIBRARIES lua)
+endif()
 link_directories("${PETSC_ROOT}/lib")
 
 # --------------------------- VTK
@@ -123,7 +134,7 @@ else ()
     vtk_module_autoinit(TARGETS ${TARGET} MODULES ${VTK_LIBRARIES})
 endif()
 
-set(CHI_LIBS stdc++ lua m dl ${MPI_CXX_LIBRARIES} petsc ${VTK_LIBRARIES})
+set(CHI_LIBS stdc++ ${LUA_LIBRARIES} m dl ${MPI_CXX_LIBRARIES} petsc ${VTK_LIBRARIES})
 
 #================================================ Compiler flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
