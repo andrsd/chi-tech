@@ -27,6 +27,7 @@ jobs:
           echo "${{ github.workspace }}/petsc/bin" >> $GITHUB_PATH
           echo "PETSC_ROOT=${{ github.workspace }}/petsc" >> $GITHUB_ENV
           echo "LUA_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "VTK_DIR=/usr" >> $GITHUB_ENV
           echo "CC=mpicc" >> $GITHUB_ENV
           echo "CXX=mpicxx" >> $GITHUB_ENV
       - name: Load PETSc
@@ -59,6 +60,7 @@ jobs:
           echo "${{ github.workspace }}/petsc/bin" >> $GITHUB_PATH
           echo "PETSC_ROOT=${{ github.workspace }}/petsc" >> $GITHUB_ENV
           echo "LUA_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "VTK_DIR=/usr" >> $GITHUB_ENV
           echo "CC=mpicc" >> $GITHUB_ENV
           echo "CXX=mpicxx" >> $GITHUB_ENV
       - name: Load PETSc
@@ -90,6 +92,7 @@ jobs:
           echo "${{ github.workspace }}/petsc/bin" >> $GITHUB_PATH
           echo "PETSC_ROOT=${{ github.workspace }}/petsc" >> $GITHUB_ENV
           echo "LUA_ROOT=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "VTK_DIR=$(brew --prefix)" >> $GITHUB_ENV
           echo "CC=mpicc" >> $GITHUB_ENV
           echo "CXX=mpicxx" >> $GITHUB_ENV
       - name: Load PETSc
