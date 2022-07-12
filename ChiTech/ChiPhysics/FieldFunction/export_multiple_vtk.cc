@@ -9,6 +9,7 @@ extern ChiLog& chi_log;
 #include "chi_mpi.h"
 extern ChiMPI& chi_mpi;
 
+#ifdef CHITECH_HAVE_VTK
 #include <vtkCellType.h>
 #include <vtkUnstructuredGrid.h>
 #include <vtkUnstructuredGridWriter.h>
@@ -21,6 +22,7 @@ extern ChiMPI& chi_mpi;
 #include <vtkIntArray.h>
 
 #include <vtkInformation.h>
+#endif
 
 //###################################################################
 /**Exports multiple field functions to a VTK file collection.*/
@@ -28,6 +30,7 @@ void chi_physics::FieldFunction::
   ExportMultipleFFToVTK(const std::string& file_base_name,
                         const std::vector<std::shared_ptr<chi_physics::FieldFunction>>& ff_list)
 {
+#ifdef CHITECH_HAVE_VTK
   chi_log.Log(LOG_0) << "Exporting field functions to VTK with file base \""
                      << file_base_name << "\"";
 
@@ -302,4 +305,8 @@ void chi_physics::FieldFunction::
   grid_writer->Write();
 
   chi_log.Log(LOG_0) << "Done exporting field functions to VTK.";
+#else
+  chi_log.Log(LOG_ALLERROR) << "ExportMultipleFFToVTK: ChiTech was not built with VTK support.";
+  exit(EXIT_FAILURE);
+#endif
 }

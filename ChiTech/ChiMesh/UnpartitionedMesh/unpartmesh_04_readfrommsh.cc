@@ -6,6 +6,7 @@ extern ChiLog& chi_log;
 #include "chi_mpi.h"
 
 #include <map>
+#include <fstream>
 
 //###################################################################
 /**Reads an unpartitioned mesh from a gmesh .msh legacy ASCII format 2 file.*/
@@ -385,6 +386,3 @@ void chi_mesh::UnpartitionedMesh::ReadFromMsh(const Options &options)
                 << "Number of nodes read: " << vertices.size() << "\n"
                 << "Number of cells read: " << raw_cells.size();
 }
-
-
-

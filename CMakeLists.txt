@@ -38,12 +38,14 @@ endif()
 
 if (NOT DEFINED VTK_DIR)
     if (NOT (DEFINED ENV{VTK_DIR}))
-        message(FATAL_ERROR "***** VTK_DIR is not set *****")
+        find_package(VTK QUIET)
     else()
         set(VTK_DIR "$ENV{VTK_DIR}")
+        message(STATUS "VTK_DIR set to ${VTK_DIR}")
+        find_package(VTK PATHS ${VTK_DIR} QUIET)
     endif()
+    set(CHITECH_HAVE_VTK ${VTK_FOUND})
 endif()
-message(STATUS "VTK_DIR set to ${VTK_DIR}")
 
 #================================================ Set variables
 set(CHI_TECH_DIR "${PROJECT_SOURCE_DIR}")
@@ -68,7 +70,9 @@ file(APPEND "${CONFIG_FILE_NAME}" "set(PETSC_ROOT ${PETSC_ROOT})\n")
 if (DEFINED LUA_ROOT)
     file(APPEND "${CONFIG_FILE_NAME}" "set(LUA_ROOT ${LUA_ROOT})\n")
 endif()
-file(APPEND "${CONFIG_FILE_NAME}" "set(VTK_DIR ${VTK_DIR})\n")
+if(CHITECH_HAVE_VTK)
+    file(APPEND "${CONFIG_FILE_NAME}" "set(VTK_DIR ${VTK_DIR})\n")
+endif()
 
 #================================================ Include macros
 include(GNUInstallDirs)
@@ -89,6 +93,7 @@ include_directories(SYSTEM "${PETSC_ROOT}/include")
 
 include_directories(SYSTEM "${CHI_TECH_DIR}/ThirdParty/paraview")
 
+include_directories(${PROJECT_BINARY_DIR})
 include_directories("${CHI_TECH_DIR}/ChiTech")
 include_directories("${CHI_TECH_DIR}/ChiTech/ChiLua")
 include_directories("${CHI_TECH_DIR}/ChiTech/ChiMPI")
@@ -104,37 +109,36 @@ if (DEFINED LUA_ROOT)
 endif()
 link_directories("${PETSC_ROOT}/lib")
 
+set(CHI_LIBS stdc++ ${LUA_LIBRARIES} m dl ${MPI_CXX_LIBRARIES} petsc)
+
 # --------------------------- VTK
-find_package(VTK PATHS ${VTK_DIR} QUIET)
-message (STATUS "VTK_VERSION: ${VTK_VERSION}")
-if (NOT VTK_FOUND)
-    message(FATAL_ERROR "VTK not found: ${VTK_NOT_FOUND_MESSAGE}")
-endif()
+if(CHITECH_HAVE_VTK)
+  message (STATUS "VTK_VERSION: ${VTK_VERSION}")
 
-if (VTK_VERSION VERSION_LESS "8.90.0")
-    find_package(VTK COMPONENTS
-            vtkCommonCore vtkCommonDataModel
-            vtkIOLegacy vtkIOCore
-            vtkIOXML vtkParallelCore vtkIOParallelXML
-            vtkFiltersCore
-            vtkIOEnSight
-            REQUIRED PATHS ${VTK_DIR})
-    # old system
-    include(${VTK_USE_FILE})
-    include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
-else ()
-    find_package(VTK COMPONENTS
-            CommonCore CommonDataModel
-            IOLegacy IOCore
-            IOXML ParallelCore IOParallelXML
-            FiltersCore
-            IOEnSight
-            REQUIRED PATHS ${VTK_DIR})
-    # vtk_module_autoinit is needed
-    vtk_module_autoinit(TARGETS ${TARGET} MODULES ${VTK_LIBRARIES})
+  if (VTK_VERSION VERSION_LESS "8.90.0")
+      find_package(VTK COMPONENTS
+              vtkCommonCore vtkCommonDataModel
+              vtkIOLegacy vtkIOCore
+              vtkIOXML vtkParallelCore vtkIOParallelXML
+              vtkFiltersCore
+              vtkIOEnSight
+              REQUIRED PATHS ${VTK_DIR})
+      # old system
+      include(${VTK_USE_FILE})
+      include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
+  else ()
+      find_package(VTK COMPONENTS
+              CommonCore CommonDataModel
+              IOLegacy IOCore
+              IOXML ParallelCore IOParallelXML
+              FiltersCore
+              IOEnSight
+              REQUIRED PATHS ${VTK_DIR})
+      # vtk_module_autoinit is needed
+      vtk_module_autoinit(TARGETS ${TARGET} MODULES ${VTK_LIBRARIES})
+  endif()
+  list(APPEND CHI_LIBS ${VTK_LIBRARIES})
 endif()
-
-set(CHI_LIBS stdc++ ${LUA_LIBRARIES} m dl ${MPI_CXX_LIBRARIES} petsc ${VTK_LIBRARIES})
 
 #================================================ Compiler flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MPI_CXX_COMPILE_FLAGS}")
@@ -168,9 +172,6 @@ endif()
 #================================================ Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MPI_CXX_LINK_FLAGS}")
 
-#================================================ Third-party library
-add_subdirectory("${CHI_TECH_DIR}/ThirdParty")
-
 #================================================ Define source directories
 set(SOURCES "${CHI_TECH_DIR}/ChiTech/chi_runtime.cc")
 add_subdirectory("${CHI_TECH_DIR}/ChiTech/ChiConsole")
@@ -191,8 +192,14 @@ add_subdirectory("${CHI_TECH_MOD}")
 
 #================================================ Define targets
 add_library(ChiLib STATIC ${SOURCES})
-target_link_libraries(ChiLib ${CHI_LIBS} ThirdParty)
+target_link_libraries(ChiLib ${CHI_LIBS})
 target_compile_options(ChiLib PUBLIC ${CHI_CXX_FLAGS})
+
+#================================================ Third-party library
+add_subdirectory("${CHI_TECH_DIR}/ThirdParty")
+if(CHITECH_HAVE_VTK)
+target_link_libraries(ChiLib ThirdParty)
+endif()
 
 add_executable(${TARGET} "${CHI_TECH_DIR}/ChiTech/chi_tech_main.cc")
 target_link_libraries(${TARGET} ChiLib)
@@ -201,3 +208,7 @@ target_compile_options(${TARGET} PUBLIC ${CHI_CXX_FLAGS})
 # |------------ Write Makefile to root directory
 file(WRITE ${PROJECT_SOURCE_DIR}/Makefile "subsystem:\n" "\t$(MAKE) -C chi_build \n\n"
         "clean:\n\t$(MAKE) -C chi_build clean\n")
+
+#================================================ Config
+
+configure_file(ChiTech/chitech_config.h.in chitech_config.h)

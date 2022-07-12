@@ -5,6 +5,7 @@ extern ChiLog& chi_log;
 #include "chi_mpi.h"
 
 #include <algorithm>
+#include <fstream>
 
 //###################################################################
 /**Reads an unpartitioned mesh from a wavefront .obj file.*/
