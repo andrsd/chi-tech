@@ -5,6 +5,8 @@
 
 #include "chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 int chiLBKESCreateSolver(lua_State *L);
 int chiLBKESInitialize(lua_State *L);
 int chiLBKESExecute(lua_State *L);
@@ -30,5 +32,7 @@ namespace lbs
     void RegisterLuaEntities(lua_State *L);
   }//namespace k_eigenvalue_lua_utils
 }//namespace LinearBoltzmann
+
+#endif
 
 #endif //LBKES_LUA_UTILS_H

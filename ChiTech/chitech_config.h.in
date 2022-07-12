@@ -1,3 +1,4 @@
 #pragma once
 
+#cmakedefine CHITECH_HAVE_LUA
 #cmakedefine CHITECH_HAVE_VTK

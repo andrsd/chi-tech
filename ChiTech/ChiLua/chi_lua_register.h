@@ -1,3 +1,7 @@
+#include "chitech_config.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #define RegisterFunction(x) \
         int x(lua_State *L); \
         lua_register(this->consoleState, #x, x);
@@ -261,3 +265,5 @@
 //AddNamedConstantToNamespace(Name,1,LuaNamespace)
 
 //string: This file was generated using the script: CHI_TECH/ChiLua/chi_lua_docbuild.lua
+
+#endif

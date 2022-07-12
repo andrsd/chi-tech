@@ -1,6 +1,8 @@
 #include "LBSAdjointSolver/lbsadj_solver.h"
 #include "lbsadj_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
 #include "ChiMesh/LogicalVolume/chi_mesh_logicalvolume.h"
 
@@ -35,3 +37,4 @@ int chiAdjointSolverExportImportanceMapBinary(lua_State* L)
 }//namespace lua_utils
 }//namespace lbs_adjoint
 
+#endif

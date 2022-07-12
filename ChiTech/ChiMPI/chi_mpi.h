@@ -2,6 +2,7 @@
 #define CHI_MPI_H
 
 #include <mpi.h>
+#include "chitech_config.h"
 #include "../ChiMesh/chi_mesh.h"
 
 #include "chi_runtime.h"
@@ -40,7 +41,9 @@ public:
 
 private:
   static ChiMPI instance;
+#ifdef CHITECH_HAVE_LUA
   friend int ChiTech::Initialize(int argc, char **argv);
+#endif
 
   ChiMPI() noexcept {}
   void SetLocationID(int in_location_id) {m_location_id = in_location_id;}

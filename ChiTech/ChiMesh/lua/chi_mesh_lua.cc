@@ -1,5 +1,7 @@
 #include "chi_mesh_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/OrthoGrids/lua/lua_mesh_orthomacros.h"
 #include "ChiMesh/UnpartitionedMesh/lua/unpartition_mesh_lua_utils.h"
 #include "ChiMesh/LogicalVolume/lua/logicvolume_lua.h"
@@ -168,3 +170,5 @@ void chi_mesh::lua_utils::RegisterLuaEntities(lua_State *L)
 
 
 }
+
+#endif

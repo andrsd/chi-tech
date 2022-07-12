@@ -1,4 +1,7 @@
 #include "ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "unpartition_mesh_lua_utils.h"
 
 #include "chi_log.h"
@@ -265,3 +268,4 @@ int chiUnpartitionedMeshFinalizeEmpty(lua_State* L)
   return 0;
 }
 
+#endif

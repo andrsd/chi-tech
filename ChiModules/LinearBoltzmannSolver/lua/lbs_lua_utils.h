@@ -5,6 +5,8 @@
 
 #include "chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 int chiLBSCreateSolver(lua_State *L);
 int chiLBSSetProperty(lua_State *L);
 int chiLBSInitialize(lua_State *L);
@@ -56,5 +58,7 @@ namespace lbs
     void RegisterLuaEntities(lua_State* L);
   }
 }
+
+#endif
 
 #endif

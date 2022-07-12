@@ -1,4 +1,7 @@
 #include "chi_ffinter_volume.h"
+#include "chitech_config.h"
+
+#ifdef CHITECH_HAVE_LUA
 
 #include "ChiConsole/chi_console.h"
 extern ChiConsole&  chi_console;
@@ -28,3 +31,5 @@ double chi_mesh::FieldFunctionInterpolationVolume::
 
   return ret_val;
 }
+
+#endif

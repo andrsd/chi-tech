@@ -1,5 +1,7 @@
 #include "chi_console.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include <cstdio>
 
 //############################################################################# Execute file
@@ -45,3 +47,5 @@ void ChiConsole::PostMPIInfo(int location_id, int number_of_processes) const
   lua_pushnumber(L,number_of_processes);
   lua_setglobal(L,"chi_number_of_processes");
 }
+
+#endif

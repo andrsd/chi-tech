@@ -15,8 +15,9 @@ typedef chi_mesh::sweep_management::SweepChunk SweepChunk;
 
 extern ChiLog& chi_log;
 extern ChiMPI& chi_mpi;
+#ifdef CHITECH_HAVE_LUA
 extern ChiConsole& chi_console;
-
+#endif
 
 void
 LBSCurvilinear::Solver::PerformInputChecks()
@@ -333,10 +334,14 @@ LBSCurvilinear::Solver::InitializeSpatialDiscretization()
 
 
   MPI_Barrier(MPI_COMM_WORLD);
+#ifdef CHITECH_HAVE_LUA
+  // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+  // can be activated again
   chi_log.Log(LOG_0)
     << "Cell matrices computed.                   Process memory = "
     << std::setprecision(3)
     << chi_console.GetMemoryUsageInMB() << " MB";
+#endif
 }
 
 

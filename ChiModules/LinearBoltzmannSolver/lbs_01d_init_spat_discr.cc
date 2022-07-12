@@ -5,8 +5,10 @@
 #include "chi_log.h"
 extern ChiLog& chi_log;
 
+#ifdef CHITECH_HAVE_LUA
 #include "ChiConsole/chi_console.h"
 extern ChiConsole&  chi_console;
+#endif
 
 #include <iomanip>
 
@@ -19,9 +21,13 @@ void lbs::SteadySolver::InitializeSpatialDiscretization()
                                           COMPUTE_UNIT_INTEGRALS);
 
 
+#ifdef CHITECH_HAVE_LUA
+  // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+  // can be activated again
   MPI_Barrier(MPI_COMM_WORLD);
   chi_log.Log(LOG_0)
     << "Cell matrices computed.                   Process memory = "
     << std::setprecision(3)
     << chi_console.GetMemoryUsageInMB() << " MB";
+#endif
 }

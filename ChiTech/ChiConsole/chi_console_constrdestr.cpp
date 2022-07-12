@@ -1,5 +1,7 @@
 #include "chi_console.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMath/lua/chi_math_lua.h"
 #include "ChiMesh/lua/chi_mesh_lua.h"
 #include "ChiMPI/lua/chi_mpi_lua.h"
@@ -32,4 +34,4 @@ ChiConsole::ChiConsole() noexcept
   chi_modules::lua_utils::RegisterLuaEntities(L);
 }
 
-
+#endif

@@ -1,5 +1,7 @@
-file (GLOB_RECURSE MORE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+if(CHITECH_WITH_LUA)
+    file (GLOB_RECURSE MORE_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
-set(SOURCES ${SOURCES} ${MORE_SOURCES} PARENT_SCOPE)
+    set(SOURCES ${SOURCES} ${MORE_SOURCES} PARENT_SCOPE)
+endif()
 
 #set_source_files_properties(chi_console_00_constrdestr.cc PROPERTIES COMPILE_FLAGS -Wno-effc++)

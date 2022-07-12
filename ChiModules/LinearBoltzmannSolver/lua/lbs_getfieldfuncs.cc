@@ -1,6 +1,8 @@
 #include "ChiLua/chi_lua.h"
 #include "lbs_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "../lbs_linear_boltzmann_solver.h"
 
 #include "ChiPhysics/chi_physics.h"
@@ -94,3 +96,5 @@ int chiLBSGetScalarFieldFunctionList(lua_State *L)
   lua_pushnumber(L,count);
   return 2;
 }
+
+#endif

@@ -16,8 +16,10 @@ extern ChiTimer chi_program_timer;
 typedef chi_mesh::sweep_management::AngleSet TAngleSet;
 typedef chi_mesh::sweep_management::AngleSetGroup TAngleSetGroup;
 
+#ifdef CHITECH_HAVE_LUA
 #include "ChiConsole/chi_console.h"
 extern ChiConsole&  chi_console;
+#endif
 
 #include <iomanip>
 
@@ -67,12 +69,16 @@ void lbs::SteadySolver::ComputeSweepOrderings(LBSGroupset& groupset) const
                              " Invalid angle aggregation type.");
   }//switch on method
 
+#ifdef CHITECH_HAVE_LUA
+  // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+  // can be activated again
   if (options.verbose_inner_iterations)
     chi_log.Log(LOG_0)
       << chi_program_timer.GetTimeString()
       << " Done computing sweep orderings.           Process memory = "
       << std::setprecision(3)
       << chi_console.GetMemoryUsageInMB() << " MB";
+#endif
 
 }
 

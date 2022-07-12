@@ -1,5 +1,7 @@
 #include "lbs_curvilinear_solver_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #define LUA_FMACRO1(x) lua_register(L, #x, x)
 
 #define LUA_CTABLE1(x) \
@@ -21,3 +23,5 @@ void LBSCurvilinear::lua_utils::RegisterLuaEntities(lua_State *L)
   LUA_CADDCONST_VALUE_TO_TABLE1(CYLINDRICAL, 2, LBSCurvilinear);
   LUA_CADDCONST_VALUE_TO_TABLE1(SPHERICAL,   3, LBSCurvilinear);
 }
+
+#endif

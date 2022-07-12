@@ -1,5 +1,7 @@
 #include"ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include"../Solver/diffusion_solver.h"
 
 #include"ChiPhysics/chi_physics.h"
@@ -34,3 +36,5 @@ int chiDiffusionInitialize(lua_State *L)
   lua_pushnumber(L,success);
   return 1;
 }
+
+#endif

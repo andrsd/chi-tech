@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "../sldfe_sq.h"
 
 #include "ChiMath/chi_math.h"
@@ -81,3 +83,5 @@ int chiPrintToPythonSLDFESQAngularQuadrature(lua_State* L)
 
   return 0;
 }
+
+#endif

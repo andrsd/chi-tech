@@ -1,4 +1,7 @@
 #include "ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMath//chi_math.h"
 
 #include "ChiMath/Quadratures/product_quadrature.h"
@@ -68,3 +71,5 @@ int chiGetProductQuadrature(lua_State *L)
 
   return 1;
 }
+
+#endif

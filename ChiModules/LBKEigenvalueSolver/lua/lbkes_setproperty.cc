@@ -1,5 +1,7 @@
 #include "../lbkes_k_eigenvalue_solver.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include <chi_lua.h>
 #include "lbkes_lua_utils.h"
 
@@ -77,3 +79,5 @@ int chiLBKESSetProperty(lua_State *L)
   }
   return 0;
 }
+
+#endif

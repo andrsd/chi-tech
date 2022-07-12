@@ -1,6 +1,8 @@
 #ifndef CHI_PHYSICS_H
 #define CHI_PHYSICS_H
 
+#include "chitech_config.h"
+
 #include<iostream>
 
 

@@ -1,4 +1,7 @@
 #include"../../../ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include <iostream>
 #include "../chi_region.h"
 #include "../../SurfaceMesh/chi_surfacemesh.h"
@@ -94,3 +97,5 @@ int chiRegionGetBoundarySurfaceMesh(lua_State *L)
 
   return 0;
 }
+
+#endif

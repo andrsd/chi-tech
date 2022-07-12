@@ -9,8 +9,10 @@ extern ChiLog&     chi_log;
 #include "chi_mpi.h"
 extern ChiMPI&      chi_mpi;
 
+#ifdef CHITECH_HAVE_LUA
 #include "ChiConsole/chi_console.h"
 extern ChiConsole&  chi_console;
+#endif
 
 #include <iomanip>
 
@@ -84,9 +86,12 @@ void lbs::SteadySolver::SolveGroupset(LBSGroupset& groupset)
     WriteRestartData(options.write_restart_folder_name,
                      options.write_restart_file_base);
 
+#ifdef CHITECH_HAVE_LUA
+  // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+  // can be activated again
   chi_log.Log(LOG_0)
     << "Groupset solve complete.                  Process memory = "
     << std::setprecision(3)
     << chi_console.GetMemoryUsageInMB() << " MB";
+#endif
 }
-

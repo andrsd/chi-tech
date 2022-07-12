@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "LBSAdjointSolver/lbsadj_solver.h"
 
 #include "ChiPhysics/chi_physics.h"
@@ -41,3 +43,5 @@ int chiAdjointSolverCreate(lua_State* L)
 
 } //namespace lua_utils
 } //namespace lbs_adjoint
+
+#endif

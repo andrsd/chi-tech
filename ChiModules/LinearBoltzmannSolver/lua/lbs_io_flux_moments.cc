@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "LinearBoltzmannSolver/lbs_linear_boltzmann_solver.h"
 
 #include "lbs_lua_utils.h"
@@ -219,3 +221,5 @@ int chiLBSReadFluxMoments(lua_State *L)
 
   return 0;
 }
+
+#endif

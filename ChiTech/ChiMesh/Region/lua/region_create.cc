@@ -1,5 +1,7 @@
 #include"../../../ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "../chi_region.h"
 #include "../../MeshHandler/chi_meshhandler.h"
 
@@ -27,3 +29,4 @@ int chiRegionCreate(lua_State *L)
   return 1;
 }
 
+#endif

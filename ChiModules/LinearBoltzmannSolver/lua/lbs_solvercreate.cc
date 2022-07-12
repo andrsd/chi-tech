@@ -1,4 +1,7 @@
 #include "ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "../lbs_linear_boltzmann_solver.h"
 #include "ChiPhysics/chi_physics.h"
 #include <chi_log.h>
@@ -53,3 +56,5 @@ int chiLBSCreateSolver(lua_State *L)
       static_cast<lua_Integer>(chi_physics_handler.solver_stack.size()-1));
   return 1;
 }
+
+#endif

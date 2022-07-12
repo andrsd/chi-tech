@@ -1,5 +1,7 @@
 #include <ChiLua/chi_lua.h>
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "lua_test.h"
 
 #include "unit_tests.h"
@@ -39,3 +41,4 @@ void chi_lua_test::lua_utils::RegisterLuaEntities(lua_State *L)
   LUA_FMACRO1(chiLuaTest);
 }
 
+#endif

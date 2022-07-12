@@ -1,5 +1,7 @@
 #include "material_property_base.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 //###################################################################
 /** Base class method for pushing lua table.*/
 void chi_physics::MaterialProperty::PushLuaTable(lua_State* L)
@@ -9,3 +11,5 @@ void chi_physics::MaterialProperty::PushLuaTable(lua_State* L)
   lua_pushboolean(L,true);
   lua_settable(L,-3);
 }
+
+#endif

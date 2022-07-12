@@ -5,7 +5,9 @@
 #include "ChiMesh/SweepUtilities/FLUDS/FLUDS.h"
 
 #include <ChiConsole/chi_console.h>
+#ifdef CHITECH_HAVE_LUA
 extern ChiConsole&  chi_console;
+#endif
 
 #include <chi_log.h>
 extern ChiLog& chi_log;
@@ -46,6 +48,9 @@ InitializeLocalAndDownstreamBuffers()
         fluds->deplocI_face_dof_count[deplocI]*num_grps*num_angles,0.0);
     }
 
+#ifdef CHITECH_HAVE_LUA
+    // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+    // can be activated again
     //================================================ Make a memory query
     double memory_mb = chi_console.GetMemoryUsageInMB();
 
@@ -55,6 +60,7 @@ InitializeLocalAndDownstreamBuffers()
     chi_log.LogEvent(ChiLog::StdTags::MAX_MEMORY_USAGE,
                      ChiLog::EventType::SINGLE_OCCURRENCE,
                      memory_event_info);
+#endif
 
     data_initialized = true;
   }

@@ -1,4 +1,7 @@
 #include "../../../ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "../Extruder/volmesher_extruder.h"
 #include "../PredefinedUnpartitioned/volmesher_predefunpart.h"
 
@@ -173,3 +176,5 @@ int chiVolumeMesherCreate(lua_State *L)
 
   return 0;
 }
+
+#endif

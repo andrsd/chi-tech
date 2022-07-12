@@ -1,4 +1,7 @@
 #include "../../ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include <iostream>
 #include <sstream>
 
@@ -86,3 +89,5 @@ int chiEdgeLoopSplitByAngle(lua_State *L)
 
   return 2;
 }
+
+#endif

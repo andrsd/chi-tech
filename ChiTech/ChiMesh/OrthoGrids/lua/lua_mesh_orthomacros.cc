@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/chi_mesh.h"
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
 #include "chi_log.h"
@@ -280,3 +282,5 @@ int chiMeshCreateUnpartitioned3DOrthoMesh(lua_State* L)
 
   return 2;
 }
+
+#endif

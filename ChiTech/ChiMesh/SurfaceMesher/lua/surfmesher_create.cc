@@ -1,4 +1,7 @@
 #include "../../../ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include <iostream>
 #include "../Predefined/surfmesher_predefined.h"
 #include "../PassThrough/surfmesher_passthrough.h"
@@ -81,3 +84,5 @@ int chiSurfaceMesherCreate(lua_State *L)
 
   return 0;
 }
+
+#endif

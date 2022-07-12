@@ -3,6 +3,8 @@
 
 #include "chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 int chiVolumeMesherCreate(lua_State *L);
 int chiVolumeMesherExecute(lua_State *L);
 int chiVolumeMesherSetProperty(lua_State *L);
@@ -14,5 +16,7 @@ int chiVolumeMesherSetKBACutsZ(lua_State *L);
 
 int chiVolumeMesherSetMatIDToAll(lua_State* L);
 int chiVolumeMesherSetupOrthogonalBoundaries(lua_State* L);
+
+#endif
 
 #endif //CHITECH_VOLUMEMESHER_LUA_H

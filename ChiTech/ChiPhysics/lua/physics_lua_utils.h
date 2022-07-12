@@ -4,6 +4,8 @@
 #include "ChiPhysics/SolverBase/chi_solver.h"
 #include "chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 int chiSolverAddRegion(lua_State *L);
 int chiSolverInitialize(lua_State *L);
 int chiSolverExecute(lua_State *L);
@@ -35,5 +37,7 @@ namespace chi_physics
      void RegisterLuaEntities(lua_State* L);
   }
 }
+
+#endif
 
 #endif //CHI_PHYSICS_LUA_UTILS_H

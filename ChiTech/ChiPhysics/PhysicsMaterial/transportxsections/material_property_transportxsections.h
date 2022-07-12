@@ -1,6 +1,7 @@
 #ifndef CHI_PHYSICS_TRANSPORT_CROSS_SECTIONS_H
 #define CHI_PHYSICS_TRANSPORT_CROSS_SECTIONS_H
 
+#include "chitech_config.h"
 #include "ChiPhysics/PhysicsMaterial/material_property_base.h"
 #include "ChiMath/SparseMatrix/chi_math_sparse_matrix.h"
 
@@ -143,7 +144,9 @@ public:
                       int collapse_type = E_COLLAPSE_JACOBI);
 
   //05
+#ifdef CHITECH_HAVE_LUA
   void PushLuaTable(lua_State* L) override;
+#endif
 
   //06
   void ExportToChiFormat(const std::string& file_name);

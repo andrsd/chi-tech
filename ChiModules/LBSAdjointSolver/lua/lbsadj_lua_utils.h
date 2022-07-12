@@ -5,6 +5,8 @@
 
 #include "chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 namespace lbs_adjoint
 {
   namespace lua_utils
@@ -31,5 +33,7 @@ namespace lbs_adjoint
     void RegisterLuaEntities(lua_State* L);
   }//namespace lua_utils
 }//namespace lbs_adjoint
+
+#endif
 
 #endif //LBSADJOINTSOLVER_LUA_UTILS_H

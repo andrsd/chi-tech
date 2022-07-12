@@ -1,5 +1,7 @@
 #include "unit_tests.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMath/dynamic_vector.h"
 #include "ChiMath/dynamic_matrix.h"
 
@@ -59,3 +61,5 @@ bool chi_unit_tests::Test_chi_math(bool verbose)
 
   return passed;
 }
+
+#endif

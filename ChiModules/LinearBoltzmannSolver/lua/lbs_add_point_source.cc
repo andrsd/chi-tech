@@ -1,6 +1,8 @@
 #include "chi_lua.h"
 #include "lbs_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "chi_log.h"
 extern ChiLog& chi_log;
 
@@ -51,3 +53,5 @@ int chiLBSAddPointSource(lua_State *L)
 
   return 0;
 }
+
+#endif

@@ -1,7 +1,9 @@
 #include "lbs_linear_boltzmann_solver.h"
 
+#ifdef CHITECH_HAVE_LUA
 #include <ChiConsole/chi_console.h>
 extern ChiConsole&  chi_console;
+#endif
 
 #include <chi_log.h>
 extern ChiLog& chi_log;
@@ -35,11 +37,15 @@ void lbs::SteadySolver::ResetSweepOrderings(LBSGroupset& groupset)
 
   MPI_Barrier(MPI_COMM_WORLD);
 
+#ifdef CHITECH_HAVE_LUA
+  // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+  // can be activated again
   if (options.verbose_inner_iterations)
     chi_log.Log(LOG_0)
       << "SPDS and FLUDS reset complete.            Process memory = "
       << std::setprecision(3)
       << chi_console.GetMemoryUsageInMB() << " MB";
+#endif
 
   double local_app_memory =
     chi_log.ProcessEvent(ChiLog::StdTags::MAX_MEMORY_USAGE,

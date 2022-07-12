@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/VolumeMesher/chi_volumemesher.h"
 
 //###################################################################
@@ -10,3 +12,5 @@ int chiVolumeMesherSetupOrthogonalBoundaries(lua_State* L)
   chi_mesh::VolumeMesher::SetupOrthogonalBoundaries();
   return 0;
 }
+
+#endif

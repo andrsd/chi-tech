@@ -1,5 +1,7 @@
 #include "chi_console.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "chi_runtime.h"
 
 #include "chi_log.h"
@@ -40,3 +42,5 @@ void ChiConsole::RunConsoleLoop(char*)
 
   chi_log.Log(LOG_0) << "Console loop stopped successfully.";
 }
+
+#endif

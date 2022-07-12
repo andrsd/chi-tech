@@ -1,6 +1,8 @@
 #include "LBSAdjointSolver/lbsadj_solver.h"
 #include "lbsadj_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 namespace lbs_adjoint
 {
 namespace lua_utils
@@ -27,3 +29,5 @@ int chiAdjointSolverComputeInnerProduct(lua_State* L)
 
 }//namespace lua_utils
 }//namespace lbs_adjoint
+
+#endif

@@ -1,5 +1,7 @@
 #include"../../../ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include <iostream>
 #include <algorithm>
 #include "../chi_surfacemesh.h"
@@ -120,3 +122,5 @@ int chiComputeLoadBalancing(lua_State *L)
 
   return 0;
 }
+
+#endif

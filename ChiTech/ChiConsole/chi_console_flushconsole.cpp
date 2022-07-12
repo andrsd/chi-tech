@@ -1,5 +1,7 @@
 #include "chi_console.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiPhysics/chi_physics.h"
 extern ChiPhysics&   		chi_physics_handler;
 
@@ -15,3 +17,5 @@ void ChiConsole::FlushConsole()
   for (auto& command : command_buffer)
     luaL_dostring(consoleState, command.c_str());
 }
+
+#endif

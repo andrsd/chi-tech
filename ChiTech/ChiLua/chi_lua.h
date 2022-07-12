@@ -1,6 +1,10 @@
 #ifndef CHI_LUA_H
 #define CHI_LUA_H
 
+#include "chitech_config.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 extern "C"
 {
 #include "lua.h"
@@ -24,5 +28,7 @@ void LuaPopulateVectorFrom1DArray(const std::string& func_name,
                                   lua_State* L,
                                   int table_arg_index,
                                   std::vector<double>& vec);
+
+#endif
 
 #endif

@@ -1,5 +1,7 @@
 #include "unit_tests.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiDataTypes/byte_array.h"
 #include "ChiMesh/Cell/cell.h"
 
@@ -204,3 +206,5 @@ bool chi_unit_tests::Test_chi_data_types(bool verbose)
 
   return passed;
 }
+
+#endif

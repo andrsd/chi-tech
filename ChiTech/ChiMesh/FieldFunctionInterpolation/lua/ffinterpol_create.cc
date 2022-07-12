@@ -1,4 +1,7 @@
 #include "../../../ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "../../MeshHandler/chi_meshhandler.h"
 #include "../../FieldFunctionInterpolation/Slice/chi_ffinter_slice.h"
 #include "../../FieldFunctionInterpolation/Line/chi_ffinter_line.h"
@@ -83,3 +86,5 @@ int chiFFInterpolationCreate(lua_State *L)
 
   return 0;
 }
+
+#endif

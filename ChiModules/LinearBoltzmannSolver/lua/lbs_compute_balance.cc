@@ -1,6 +1,8 @@
 #include "ChiLua/chi_lua.h"
 #include "lbs_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "../lbs_linear_boltzmann_solver.h"
 
 //###################################################################
@@ -28,3 +30,5 @@ int chiLBSComputeBalance(lua_State *L)
 
   return 0;
 }
+
+#endif

@@ -1,5 +1,7 @@
 #include "chi_math_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMath/Quadratures/LegendrePoly/lua/legendre_lua.h"
 #include "ChiMath/Quadratures/lua/quadratures_lua.h"
 #include "ChiMath/Quadratures/SLDFESQ/lua/sldfe_lua.h"
@@ -31,3 +33,5 @@ void chi_math::lua_utils::RegisterLuaEntities(lua_State *L)
   LUA_FMACRO1(chiLocallyRefineSLDFESQAngularQuadrature);
   LUA_FMACRO1(chiPrintToPythonSLDFESQAngularQuadrature);
 }
+
+#endif

@@ -1,4 +1,7 @@
 #include "../../../ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include <iostream>
 #include "../surfacemesher.h"
 
@@ -68,3 +71,5 @@ int chiSurfaceMesherSetProperty(lua_State *L)
 
   return 0;
 }
+
+#endif

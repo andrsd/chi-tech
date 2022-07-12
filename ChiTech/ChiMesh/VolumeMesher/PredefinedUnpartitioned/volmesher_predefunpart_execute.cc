@@ -16,18 +16,24 @@ extern ChiMPI& chi_mpi;
 #include "ChiTimer/chi_timer.h"
 extern ChiTimer chi_program_timer;
 
+#ifdef CHITECH_HAVE_LUA
 #include "ChiConsole/chi_console.h"
 extern ChiConsole&   chi_console;
+#endif
 
 //###################################################################
 /**Executes the predefined3D mesher.*/
 void chi_mesh::VolumeMesherPredefinedUnpartitioned::Execute()
 {
+#ifdef CHITECH_HAVE_LUA
+  // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this can
+  // be activated again
   chi_log.Log(LOG_0)
     << chi_program_timer.GetTimeString()
     << " VolumeMesherPredefinedUnpartitioned executing. Memory in use = "
     << chi_console.GetMemoryUsageInMB() << " MB"
     << std::endl;
+#endif
 
   //======================================== Get the current handler
   auto mesh_handler = chi_mesh::GetCurrentHandler();

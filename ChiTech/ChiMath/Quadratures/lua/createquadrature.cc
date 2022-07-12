@@ -1,4 +1,7 @@
 #include "../../../ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "../../chi_math.h"
 #include "../quadrature_gausslegendre.h"
 #include "../quadrature_gausschebyshev.h"
@@ -67,3 +70,5 @@ int chiCreateQuadrature(lua_State *L)
   }
   return 0;
 }
+
+#endif

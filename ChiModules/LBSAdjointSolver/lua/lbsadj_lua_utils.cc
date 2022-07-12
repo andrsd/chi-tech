@@ -1,5 +1,7 @@
 #include "lbsadj_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiPhysics/chi_physics.h"
 extern ChiPhysics&  chi_physics_handler;
 
@@ -49,3 +51,5 @@ void lbs_adjoint::lua_utils::RegisterLuaEntities(lua_State* L)
   lua_register(L, "chiAdjointSolverComputeInnerProduct",
                lbs_adjoint::lua_utils::chiAdjointSolverComputeInnerProduct);
 }
+
+#endif

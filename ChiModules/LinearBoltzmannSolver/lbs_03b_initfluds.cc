@@ -9,7 +9,9 @@
 
 #include <iomanip>
 
+#ifdef CHITECH_HAVE_LUA
 extern ChiConsole&  chi_console;
+#endif
 extern ChiLog&     chi_log;
 extern ChiMPI&      chi_mpi;
 
@@ -57,6 +59,9 @@ void lbs::SteadySolver::InitFluxDataStructures(LBSGroupset& groupset)
   else
     InitAngleAggSingle(groupset);
 
+#ifdef CHITECH_HAVE_LUA
+  // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+  // can be activated again
   if (options.verbose_inner_iterations)
     chi_log.Log(LOG_0)
       << chi_program_timer.GetTimeString()
@@ -64,7 +69,7 @@ void lbs::SteadySolver::InitFluxDataStructures(LBSGroupset& groupset)
       << "         Process memory = "
       << std::setprecision(3) << chi_console.GetMemoryUsageInMB()
       << " MB.";
-
+#endif
 
   MPI_Barrier(MPI_COMM_WORLD);
 }

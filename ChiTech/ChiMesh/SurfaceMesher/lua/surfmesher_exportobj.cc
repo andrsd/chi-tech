@@ -1,4 +1,7 @@
 #include <ChiLua/chi_lua.h>
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "../surfacemesher.h"
 
 #include <ChiMesh/MeshHandler/chi_meshhandler.h>
@@ -50,3 +53,5 @@ int chiSurfaceMesherExportToObj(lua_State* L)
 
   return 0;
 }
+
+#endif
