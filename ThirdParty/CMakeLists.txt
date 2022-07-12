@@ -1,4 +1,4 @@
-if(CHITECH_HAVE_VTK)
+if(CHITECH_WITH_VTK)
 
 add_subdirectory("paraview")
 
