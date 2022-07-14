@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.12)
 SET(TARGET ChiTech)
 project(${TARGET} C CXX)
 
+option(CHITECH_WITH_VTK "Build with VTK support" YES)
+
 message(STATUS "Configuring ${CMAKE_BUILD_TYPE} build of ChiTech.")
 
 if(UNIX AND NOT APPLE)
@@ -36,15 +38,15 @@ if (DEFINED LUA_ROOT)
     message(STATUS "LUA_ROOT set to ${LUA_ROOT}")
 endif()
 
-if (NOT DEFINED VTK_DIR)
-    if (NOT (DEFINED ENV{VTK_DIR}))
-        find_package(VTK QUIET)
-    else()
-        set(VTK_DIR "$ENV{VTK_DIR}")
-        message(STATUS "VTK_DIR set to ${VTK_DIR}")
-        find_package(VTK PATHS ${VTK_DIR} QUIET)
+if (CHITECH_WITH_VTK)
+    if (NOT DEFINED VTK_DIR)
+        if (NOT (DEFINED ENV{VTK_DIR}))
+            message(FATAL_ERROR "***** VTK_DIR is not set *****")
+        else()
+            set(VTK_DIR "$ENV{VTK_DIR}")
+        endif()
     endif()
-    set(CHITECH_HAVE_VTK ${VTK_FOUND})
+    message(STATUS "VTK_DIR set to ${VTK_DIR}")
 endif()
 
 #================================================ Set variables
@@ -70,7 +72,7 @@ file(APPEND "${CONFIG_FILE_NAME}" "set(PETSC_ROOT ${PETSC_ROOT})\n")
 if (DEFINED LUA_ROOT)
     file(APPEND "${CONFIG_FILE_NAME}" "set(LUA_ROOT ${LUA_ROOT})\n")
 endif()
-if(CHITECH_HAVE_VTK)
+if(CHITECH_WITH_VTK)
     file(APPEND "${CONFIG_FILE_NAME}" "set(VTK_DIR ${VTK_DIR})\n")
 endif()
 
@@ -112,32 +114,36 @@ link_directories("${PETSC_ROOT}/lib")
 set(CHI_LIBS stdc++ ${LUA_LIBRARIES} m dl ${MPI_CXX_LIBRARIES} petsc)
 
 # --------------------------- VTK
-if(CHITECH_HAVE_VTK)
-  message (STATUS "VTK_VERSION: ${VTK_VERSION}")
-
-  if (VTK_VERSION VERSION_LESS "8.90.0")
-      find_package(VTK COMPONENTS
-              vtkCommonCore vtkCommonDataModel
-              vtkIOLegacy vtkIOCore
-              vtkIOXML vtkParallelCore vtkIOParallelXML
-              vtkFiltersCore
-              vtkIOEnSight
-              REQUIRED PATHS ${VTK_DIR})
-      # old system
-      include(${VTK_USE_FILE})
-      include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
-  else ()
-      find_package(VTK COMPONENTS
-              CommonCore CommonDataModel
-              IOLegacy IOCore
-              IOXML ParallelCore IOParallelXML
-              FiltersCore
-              IOEnSight
-              REQUIRED PATHS ${VTK_DIR})
-      # vtk_module_autoinit is needed
-      vtk_module_autoinit(TARGETS ${TARGET} MODULES ${VTK_LIBRARIES})
-  endif()
-  list(APPEND CHI_LIBS ${VTK_LIBRARIES})
+if(CHITECH_WITH_VTK)
+    find_package(VTK PATHS ${VTK_DIR} QUIET)
+    message (STATUS "VTK_VERSION: ${VTK_VERSION}")
+    if (NOT VTK_FOUND)
+        message(FATAL_ERROR "VTK not found: ${VTK_NOT_FOUND_MESSAGE}")
+    endif()
+    
+    if (VTK_VERSION VERSION_LESS "8.90.0")
+        find_package(VTK COMPONENTS
+                vtkCommonCore vtkCommonDataModel
+                vtkIOLegacy vtkIOCore
+                vtkIOXML vtkParallelCore vtkIOParallelXML
+                vtkFiltersCore
+                vtkIOEnSight
+                REQUIRED PATHS ${VTK_DIR})
+        # old system
+        include(${VTK_USE_FILE})
+        include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
+    else ()
+        find_package(VTK COMPONENTS
+                CommonCore CommonDataModel
+                IOLegacy IOCore
+                IOXML ParallelCore IOParallelXML
+                FiltersCore
+                IOEnSight
+                REQUIRED PATHS ${VTK_DIR})
+        # vtk_module_autoinit is needed
+        vtk_module_autoinit(TARGETS ${TARGET} MODULES ${VTK_LIBRARIES})
+    endif()
+    list(APPEND CHI_LIBS ${VTK_LIBRARIES})
 endif()
 
 #================================================ Compiler flags
@@ -197,8 +203,8 @@ target_compile_options(ChiLib PUBLIC ${CHI_CXX_FLAGS})
 
 #================================================ Third-party library
 add_subdirectory("${CHI_TECH_DIR}/ThirdParty")
-if(CHITECH_HAVE_VTK)
-target_link_libraries(ChiLib ThirdParty)
+if(CHITECH_WITH_VTK)
+    target_link_libraries(ChiLib ThirdParty)
 endif()
 
 add_executable(${TARGET} "${CHI_TECH_DIR}/ChiTech/chi_tech_main.cc")
@@ -210,5 +216,9 @@ file(WRITE ${PROJECT_SOURCE_DIR}/Makefile "subsystem:\n" "\t$(MAKE) -C chi_build
         "clean:\n\t$(MAKE) -C chi_build clean\n")
 
 #================================================ Config
+
+if(CHITECH_WITH_VTK)
+  set(CHITECH_HAVE_VTK ${CHITECH_WITH_VTK})
+endif()
 
 configure_file(ChiTech/chitech_config.h.in chitech_config.h)
