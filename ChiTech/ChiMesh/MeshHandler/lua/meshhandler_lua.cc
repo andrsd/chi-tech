@@ -1,5 +1,7 @@
 #include"ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "../chi_meshhandler.h"
 #include "chi_runtime.h"
 
@@ -62,3 +64,5 @@ int chiMeshHandlerSetCurrent(lua_State *L)
 
   return 0;
 }
+
+#endif

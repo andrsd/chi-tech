@@ -8,9 +8,10 @@ extern ChiMPI& chi_mpi;
 extern ChiLog& chi_log;
 
 #include <iomanip>
+#ifdef CHITECH_HAVE_LUA
 #include "ChiConsole/chi_console.h"
-
 extern ChiConsole&  chi_console;
+#endif
 
 
 
@@ -56,11 +57,15 @@ void lbs::SteadySolver::Initialize()
 
   InitializeParrays();//g
 
+#ifdef CHITECH_HAVE_LUA
+  // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+  // can be activated again
   MPI_Barrier(MPI_COMM_WORLD);
   chi_log.Log(LOG_0)
     << "Done with parallel arrays.                Process memory = "
     << std::setprecision(3)
     << chi_console.GetMemoryUsageInMB() << " MB" << std::endl;
+#endif
 
   //================================================== Initialize boundaries
   InitializeBoundaries();//h

@@ -1,5 +1,7 @@
 #include "unit_tests.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "chi_misc_utils.h"
 
 #include "chi_log.h"
@@ -38,3 +40,5 @@ bool chi_unit_tests::Test_chi_misc_utils(bool verbose)
 
   return passed;
 }
+
+#endif

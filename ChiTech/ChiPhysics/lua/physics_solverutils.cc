@@ -1,4 +1,7 @@
 #include "ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "physics_lua_utils.h"
 
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
@@ -189,3 +192,5 @@ int chiSolverSetBasicOption(lua_State* L)
 
   return 0;
 }
+
+#endif

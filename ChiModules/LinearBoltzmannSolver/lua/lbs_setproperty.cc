@@ -1,6 +1,8 @@
 #include "ChiLua/chi_lua.h"
 #include "lbs_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "../lbs_linear_boltzmann_solver.h"
 #include "ChiMath/chi_math.h"
 
@@ -430,3 +432,5 @@ int chiLBSSetProperty(lua_State *L)
 
   return 0;
 }
+
+#endif

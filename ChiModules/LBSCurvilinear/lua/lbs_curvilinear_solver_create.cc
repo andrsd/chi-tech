@@ -1,5 +1,8 @@
 #include "chi_log.h"
 #include "ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiPhysics/chi_physics.h"
 
 #include "LBSCurvilinear/lbs_curvilinear_solver.h"
@@ -50,3 +53,5 @@ int chiLBSCurvilinearCreateSolver(lua_State *L)
 
   return 1;
 }
+
+#endif

@@ -1,5 +1,7 @@
 #include "physics_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "../FieldFunction/lua/fieldfunctions_lua.h"
 #include "../PhysicsMaterial/transportxsections/lua/xsections_lua_utils.h"
 
@@ -79,3 +81,5 @@ void chi_physics::lua_utils::RegisterLuaEntities(lua_State *L)
   LUA_CMACRO1(CHI_XSFILE,             24);
 
 }
+
+#endif

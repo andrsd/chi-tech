@@ -3,6 +3,8 @@
 
 #include "../chi_mpi.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 extern ChiMPI& chi_mpi;
 
 /** \defgroup chiMPI E MPI Utilities
@@ -24,3 +26,5 @@ int chiMPIBarrier(lua_State *L)
   MPI_Barrier(MPI_COMM_WORLD);
   return 0;
 }
+
+#endif

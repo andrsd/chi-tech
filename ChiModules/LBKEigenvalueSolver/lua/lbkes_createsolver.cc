@@ -2,6 +2,8 @@
 
 #include <chi_lua.h>
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiPhysics/chi_physics.h"
 extern ChiPhysics& chi_physics_handler;
 
@@ -34,3 +36,5 @@ int chiLBKESCreateSolver(lua_State* L)
   lua_pushinteger(L, n);
   return 1;
 }
+
+#endif

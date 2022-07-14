@@ -1,5 +1,7 @@
 #include "lbkes_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiPhysics/chi_physics.h"
 extern ChiPhysics&  chi_physics_handler;
 
@@ -41,3 +43,5 @@ void lbs::k_eigenvalue_lua_utils::RegisterLuaEntities(lua_State *L)
   LUA_CMACRO1(MAX_ITERATIONS, 1);
   LUA_CMACRO1(TOLERANCE     , 2);
 }
+
+#endif

@@ -1,6 +1,8 @@
 /** @file Runtime file*/
 #include "chi_runtime.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiConsole/chi_console.h"
 #include "ChiMath/chi_math.h"
 #include "ChiPhysics/chi_physics.h"
@@ -229,4 +231,9 @@ int ChiTech::RunBatch(int argc, char** argv)
   return error_code;
 }
 
+#else
 
+std::vector<chi_mesh::MeshHandler*>  ChiTech::meshhandler_stack;
+int                                  ChiTech::current_mesh_handler=-1;
+
+#endif

@@ -1,4 +1,7 @@
 #include "ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include<iostream>
 #include "ChiPhysics/chi_physics.h"
 #include "ChiPhysics/PhysicsMaterial/material_property_scalarvalue.h"
@@ -241,7 +244,7 @@ an additional text field can be supplied specifying the transfer matrix to
 
 CHI_XSFILE\n
 Loads transport cross-sections from CHI type cross-section files. Expects
-to be followed by a filepath specifying the xs-file. 
+to be followed by a filepath specifying the xs-file.
 
 ####_
 
@@ -738,3 +741,4 @@ int chiPhysicsMaterialModifyTotalCrossSection(lua_State* L) {
   return 0;
 }
 
+#endif

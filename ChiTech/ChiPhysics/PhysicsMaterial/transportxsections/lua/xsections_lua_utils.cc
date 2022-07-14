@@ -1,4 +1,7 @@
 #include "ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include<iostream>
 #include "ChiPhysics/chi_physics.h"
 #include "ChiPhysics/PhysicsMaterial/transportxsections/material_property_transportxsections.h"
@@ -483,3 +486,5 @@ int chiPhysicsTransportXSExportToChiTechFormat(lua_State* L)
 
   return 0;
 }
+
+#endif

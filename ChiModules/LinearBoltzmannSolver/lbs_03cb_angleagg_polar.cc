@@ -12,9 +12,11 @@ extern ChiLog& chi_log;
 
 extern ChiTimer chi_program_timer;
 
+#ifdef CHITECH_HAVE_LUA
 #include "ChiConsole/chi_console.h"
 
 extern ChiConsole& chi_console;
+#endif
 
 typedef chi_mesh::sweep_management::AngleSet TAngleSet;
 typedef chi_mesh::sweep_management::AngleSetGroup TAngleSetGroup;
@@ -93,12 +95,16 @@ void lbs::SteadySolver::InitAngleAggPolar(LBSGroupset& groupset)
                   PRIMARY_FLUDS(groupset.grp_subset_sizes[gs_ss],
                                 grid_nodal_mappings);
 
+#ifdef CHITECH_HAVE_LUA
+            // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+            // can be activated again
             chi_log.Log(LOG_0VERBOSE_1)
               << "Initializing FLUDS for omega="
               << groupset.sweep_orderings[a]->omega.PrintS()
               << "         Process memory = "
               << std::setprecision(3) << chi_console.GetMemoryUsageInMB()
               << " MB.";
+#endif
 
             primary_fluds->InitializeAlphaElements(groupset.sweep_orderings[a]);
             primary_fluds->InitializeBetaElements(groupset.sweep_orderings[a]);
@@ -159,12 +165,16 @@ void lbs::SteadySolver::InitAngleAggPolar(LBSGroupset& groupset)
             PRIMARY_FLUDS(groupset.grp_subset_sizes[gs_ss],
                           grid_nodal_mappings);
 
+#ifdef CHITECH_HAVE_LUA
+            // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
+            // can be activated again
             chi_log.Log(LOG_0VERBOSE_1)
               << "Initializing FLUDS for omega="
               << groupset.sweep_orderings[a+num_azi]->omega.PrintS()
               << "         Process memory = "
               << std::setprecision(3) << chi_console.GetMemoryUsageInMB()
               << " MB.";
+#endif
 
             primary_fluds->InitializeAlphaElements(groupset.sweep_orderings[a+num_azi]);
             primary_fluds->InitializeBetaElements(groupset.sweep_orderings[a+num_azi]);

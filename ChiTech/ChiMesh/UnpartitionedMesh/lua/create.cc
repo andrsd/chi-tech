@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/UnpartitionedMesh/chi_unpartitioned_mesh.h"
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
 
@@ -310,3 +312,5 @@ int chiUnpartitionedMeshFromMshFormat(lua_State* L)
 
   return 1;
 }
+
+#endif

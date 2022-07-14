@@ -1,13 +1,17 @@
 #include "chi_physics.h"
+
 #include"../ChiTimer/chi_timer.h"
 
 #include "chi_runtime.h"
 
+#ifdef CHITECH_HAVE_LUA
 #include"../ChiConsole/chi_console.h"
 extern ChiConsole&  chi_console;
+#endif
 
 #include <iostream>
 #include <unistd.h>
+
 
 //############################################################################# Run physics loop
 /** Timed loop executing all physics events.*/
@@ -36,7 +40,9 @@ void ChiPhysics::RunPhysicsLoop()
 			physicsOldTime=physicsTime;
 
 			//============================================= Flushes the console
+#ifdef CHITECH_HAVE_LUA
       chi_console.FlushConsole();
+#endif
 //			for (int k=0;k<chiconsoleInputBuffer.itemCount;k++)
 //			{
 //         int error = luaL_dostring(chi_console.consoleState, chiconsoleInputBuffer.GetItem(k));
@@ -67,4 +73,3 @@ void ChiPhysics::RunPhysicsLoop()
 
 	std::cout<<"Physics loop stopped successfully.\n";
 }
-

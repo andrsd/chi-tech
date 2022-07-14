@@ -1,4 +1,6 @@
 #include "chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
 #include "../legendrepoly.h"
 
 //##########################################################
@@ -68,3 +70,5 @@ int chiYlm(lua_State* L)
   lua_pushnumber(L,retval);
   return 1;
 }
+
+#endif

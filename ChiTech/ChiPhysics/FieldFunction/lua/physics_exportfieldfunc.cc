@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiPhysics/chi_physics.h"
 #include "ChiPhysics/FieldFunction/fieldfunction.h"
 
@@ -131,3 +133,5 @@ int chiExportMultiFieldFunctionToVTK(lua_State *L)
 
   return 0;
 }
+
+#endif

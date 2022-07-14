@@ -1,6 +1,8 @@
 #include "ChiLua/chi_lua.h"
 #include "lbkes_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 //###################################################################
 /**Executes the LBS solver.
 \param SolverIndex int Handle to the solver.
@@ -17,3 +19,5 @@ int chiLBKESExecute(lua_State *L)
 
   return 0;
 }
+
+#endif

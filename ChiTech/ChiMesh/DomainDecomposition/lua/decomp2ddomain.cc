@@ -1,4 +1,7 @@
 #include "ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include<iostream>
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
 
@@ -47,3 +50,5 @@ int chiDecomposeSurfaceMeshPxPy(lua_State *L)
 
   return 0;
 }
+
+#endif

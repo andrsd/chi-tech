@@ -1,5 +1,7 @@
 #include "unpartition_mesh_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
 
 namespace chi_mesh
@@ -29,3 +31,5 @@ chi_mesh::UnpartitionedMesh&
 }
 }//namespace unpartition_mesh_lua_utils
 }//namespace chi_mesh
+
+#endif

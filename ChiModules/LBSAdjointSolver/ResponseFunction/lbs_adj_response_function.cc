@@ -2,8 +2,10 @@
 
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
 #include "ChiConsole/chi_console.h"
 extern ChiConsole&  chi_console;
+#endif
 
 #include "chi_log.h"
 extern ChiLog& chi_log;
@@ -18,6 +20,7 @@ std::vector<double> lbs_adjoint::ResponseFunctionDesignation::
 
   std::vector<double> response(num_groups, 0.0);
 
+#ifdef CHITECH_HAVE_LUA
   //======================================== Utility lambdas
   auto PushVector3AsTable = [](lua_State* L, const chi_mesh::Vector3& vec)
   {
@@ -91,6 +94,10 @@ std::vector<double> lbs_adjoint::ResponseFunctionDesignation::
 
   for (size_t g=0; g<num_groups; ++g)
     response[g] = lua_return[g];
+
+#else
+  throw std::logic_error(fname + " works only with Lua support compiled.");
+#endif
 
   return response;
 }

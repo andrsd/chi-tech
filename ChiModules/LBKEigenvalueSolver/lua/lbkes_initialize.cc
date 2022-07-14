@@ -1,6 +1,8 @@
 #include "ChiLua/chi_lua.h"
 #include "lbkes_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 using namespace lbs;
 
 //###################################################################
@@ -16,3 +18,5 @@ int chiLBKESInitialize(lua_State* L)
 
   return 0;
 }
+
+#endif

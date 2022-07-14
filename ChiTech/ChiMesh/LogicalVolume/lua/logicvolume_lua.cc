@@ -1,4 +1,7 @@
 #include"chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include <iostream>
 
 #include "../chi_mesh_logicalvolume.h"
@@ -215,3 +218,5 @@ int chiLogicalVolumeCreate(lua_State *L)
 
   return 1;
 }
+
+#endif

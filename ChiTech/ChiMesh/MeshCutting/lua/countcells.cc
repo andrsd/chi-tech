@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/chi_mesh.h"
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
 #include "ChiMesh/MeshContinuum/chi_meshcontinuum.h"
@@ -36,3 +38,5 @@ int chiCountMeshInLogicalVolume(lua_State* L)
   lua_pushinteger(L,int(count));
   return 1;
 }
+
+#endif

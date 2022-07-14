@@ -1,6 +1,8 @@
 #include "ChiLua/chi_lua.h"
 #include "lbs_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMath/Quadratures/product_quadrature.h"
 
 #include "chi_log.h"
@@ -1057,3 +1059,5 @@ int chiLBSGroupsetSetTGDSA(lua_State *L)
 
   return 0;
 }
+
+#endif

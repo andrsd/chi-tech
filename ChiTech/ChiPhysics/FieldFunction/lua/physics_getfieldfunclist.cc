@@ -1,5 +1,7 @@
 #include <ChiLua/chi_lua.h>
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiPhysics/chi_physics.h"
 
 #include <chi_log.h>
@@ -106,3 +108,5 @@ int chiGetFieldFunctionHandleByName(lua_State* L)
   lua_pushinteger(L, static_cast<lua_Integer>(handles_that_matched.front()));
   return 1;
 }
+
+#endif

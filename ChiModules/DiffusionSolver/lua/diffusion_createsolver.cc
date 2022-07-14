@@ -1,5 +1,7 @@
 #include"ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include"../Solver/diffusion_solver.h"
 
 #include"ChiPhysics/chi_physics.h"
@@ -40,3 +42,5 @@ int chiDiffusionCreateSolver(lua_State *L)
     << std::endl;
   return 1;
 }
+
+#endif

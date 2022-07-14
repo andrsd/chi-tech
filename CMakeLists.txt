@@ -5,6 +5,7 @@ SET(TARGET ChiTech)
 project(${TARGET} C CXX)
 
 option(CHITECH_WITH_VTK "Build with VTK support" YES)
+option(CHITECH_WITH_LUA "Build with Lua support" YES)
 
 message(STATUS "Configuring ${CMAKE_BUILD_TYPE} build of ChiTech.")
 
@@ -27,15 +28,17 @@ if (NOT DEFINED PETSC_ROOT)
 endif()
 message(STATUS "PETSC_ROOT set to ${PETSC_ROOT}")
 
-if (NOT DEFINED LUA_ROOT)
-    if (NOT (DEFINED ENV{LUA_ROOT}))
-        find_package(Lua REQUIRED)
-    else()
-        set(LUA_ROOT "$ENV{LUA_ROOT}")
+if (CHITECH_WITH_LUA)
+    if (NOT DEFINED LUA_ROOT)
+        if (NOT (DEFINED ENV{LUA_ROOT}))
+            find_package(Lua REQUIRED)
+        else()
+            set(LUA_ROOT "$ENV{LUA_ROOT}")
+        endif()
     endif()
-endif()
-if (DEFINED LUA_ROOT)
-    message(STATUS "LUA_ROOT set to ${LUA_ROOT}")
+    if (DEFINED LUA_ROOT)
+        message(STATUS "LUA_ROOT set to ${LUA_ROOT}")
+    endif()
 endif()
 
 if (CHITECH_WITH_VTK)
@@ -86,10 +89,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 #================================================ Default include directories
 include_directories(SYSTEM ${MPI_CXX_INCLUDE_PATH})
-if (DEFINED LUA_ROOT)
-    include_directories(SYSTEM "${LUA_ROOT}/include")
-else()
-    include_directories(SYSTEM ${LUA_INCLUDE_DIR})
+if (CHITECH_WITH_LUA)
+    if (DEFINED LUA_ROOT)
+        include_directories(SYSTEM "${LUA_ROOT}/include")
+    else()
+        include_directories(SYSTEM ${LUA_INCLUDE_DIR})
+    endif()
 endif()
 include_directories(SYSTEM "${PETSC_ROOT}/include")
 
@@ -105,13 +110,17 @@ include_directories("${CHI_TECH_DIR}/ChiResources")
 include_directories("${CHI_TECH_DIR}/ChiModules")
 
 #================================================ Library directories
-if (DEFINED LUA_ROOT)
-    link_directories("${LUA_ROOT}/lib")
-    set(LUA_LIBRARIES lua)
-endif()
-link_directories("${PETSC_ROOT}/lib")
+set(CHI_LIBS stdc++ m dl ${MPI_CXX_LIBRARIES} petsc)
 
-set(CHI_LIBS stdc++ ${LUA_LIBRARIES} m dl ${MPI_CXX_LIBRARIES} petsc)
+if (CHITECH_WITH_LUA)
+    if (DEFINED LUA_ROOT)
+        link_directories("${LUA_ROOT}/lib")
+        set(LUA_LIBRARIES lua)
+    endif()
+    list(APPEND CHI_LIBS ${LUA_LIBRARIES})
+endif()
+
+link_directories("${PETSC_ROOT}/lib")
 
 # --------------------------- VTK
 if(CHITECH_WITH_VTK)
@@ -120,7 +129,7 @@ if(CHITECH_WITH_VTK)
     if (NOT VTK_FOUND)
         message(FATAL_ERROR "VTK not found: ${VTK_NOT_FOUND_MESSAGE}")
     endif()
-    
+
     if (VTK_VERSION VERSION_LESS "8.90.0")
         find_package(VTK COMPONENTS
                 vtkCommonCore vtkCommonDataModel
@@ -207,9 +216,11 @@ if(CHITECH_WITH_VTK)
     target_link_libraries(ChiLib ThirdParty)
 endif()
 
-add_executable(${TARGET} "${CHI_TECH_DIR}/ChiTech/chi_tech_main.cc")
-target_link_libraries(${TARGET} ChiLib)
-target_compile_options(${TARGET} PUBLIC ${CHI_CXX_FLAGS})
+if(CHITECH_WITH_LUA)
+    add_executable(${TARGET} "${CHI_TECH_DIR}/ChiTech/chi_tech_main.cc")
+    target_link_libraries(${TARGET} ChiLib)
+    target_compile_options(${TARGET} PUBLIC ${CHI_CXX_FLAGS})
+endif()
 
 # |------------ Write Makefile to root directory
 file(WRITE ${PROJECT_SOURCE_DIR}/Makefile "subsystem:\n" "\t$(MAKE) -C chi_build \n\n"
@@ -217,6 +228,9 @@ file(WRITE ${PROJECT_SOURCE_DIR}/Makefile "subsystem:\n" "\t$(MAKE) -C chi_build
 
 #================================================ Config
 
+if(CHITECH_WITH_LUA)
+  set(CHITECH_HAVE_LUA ${CHITECH_WITH_LUA})
+endif()
 if(CHITECH_WITH_VTK)
   set(CHITECH_HAVE_VTK ${CHITECH_WITH_VTK})
 endif()

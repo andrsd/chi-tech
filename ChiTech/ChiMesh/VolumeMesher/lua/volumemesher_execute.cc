@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
 #include "ChiMesh/VolumeMesher/chi_volumemesher.h"
 
@@ -58,3 +60,5 @@ int chiVolumeMesherExecute(lua_State *L)
 
   return 0;
 }
+
+#endif

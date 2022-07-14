@@ -1,5 +1,7 @@
 #include"ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include"../Solver/diffusion_solver.h"
 
 #include "chi_log.h"
@@ -232,3 +234,5 @@ int chiDiffusionSetProperty(lua_State *L)
   }
   return 0;
 }
+
+#endif

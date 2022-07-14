@@ -5,6 +5,8 @@
 
 #include "chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 namespace chi_mesh
 {
 namespace unpartition_mesh_lua_utils
@@ -28,5 +30,7 @@ int chiUnpartitionedMeshFromMshFormat(lua_State* L);
 int chiUnpartitionedMeshUploadVertex(lua_State* L);
 int chiUnpartitionedMeshUploadCell(lua_State* L);
 int chiUnpartitionedMeshFinalizeEmpty(lua_State* L);
+
+#endif
 
 #endif //CHITECH_UNPARTITION_MESH_LUA_UTILS_H

@@ -1,4 +1,7 @@
 #include"../../../ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include<iostream>
 #include "../chi_surfacemesh.h"
 #include "../../MeshHandler/chi_meshhandler.h"
@@ -117,3 +120,5 @@ int chiSurfaceMeshCreateFromArrays(lua_State *L)
 
   return 1;
 }
+
+#endif

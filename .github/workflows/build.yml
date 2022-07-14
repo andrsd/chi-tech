@@ -14,12 +14,17 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.os }}-vtk:${{ matrix.vtk}}
+    name: ${{ matrix.os }}-vtk:${{ matrix.vtk }}-lua:${{ matrix.lua }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-22.04, macos-10.15]
         vtk: [ON, OFF]
+        include:
+          - vtk: ON
+            lua: ON
+          - vtk: OFF
+            lua: OFF
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout source
@@ -89,6 +94,7 @@ jobs:
       - name: Configure
         run: |
           cmake -S . -B ${{ github.workspace }}/build \
-            -DCHITECH_WITH_VTK=${{ matrix.vtk }}
+            -DCHITECH_WITH_VTK=${{ matrix.vtk }} \
+            -DCHITECH_WITH_LUA=${{ matrix.lua }}
       - name: Build
         run: make -C ${{ github.workspace }}/build

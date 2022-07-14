@@ -17,6 +17,7 @@ public:
   ScalarValue() : MaterialProperty(PropertyType::SCALAR_VALUE) {}
 
   double GetScalarValue() override {return value;}
+#ifdef CHITECH_HAVE_LUA
   void PushLuaTable(lua_State* L) override
   {
     lua_newtable(L);
@@ -28,6 +29,7 @@ public:
     lua_pushnumber(L,value);
     lua_settable(L,-3);
   }
+#endif
 
 };
 

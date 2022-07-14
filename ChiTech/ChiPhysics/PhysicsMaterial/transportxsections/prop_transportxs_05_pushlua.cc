@@ -1,5 +1,7 @@
 #include "material_property_transportxsections.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 //###################################################################
 /**Pushes all of the relevant items of the transport xs to a lua table.*/
 void chi_physics::TransportCrossSections::PushLuaTable(lua_State *L)
@@ -163,3 +165,5 @@ void chi_physics::TransportCrossSections::PushLuaTable(lua_State *L)
   lua_pushnumber(L,sigma_a_jpart);
   lua_settable(L,-3);
 }
+
+#endif

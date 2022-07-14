@@ -1,5 +1,7 @@
 #include "lbs_lua_utils.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiPhysics/chi_physics.h"
 extern ChiPhysics&  chi_physics_handler;
 
@@ -150,3 +152,5 @@ void lbs::lua_utils::RegisterLuaEntities(lua_State *L)
   //=================================== Point source
   LUA_FMACRO1(chiLBSAddPointSource);
 }
+
+#endif

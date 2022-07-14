@@ -4,6 +4,8 @@
 
 #include "lua/chi_log_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 extern ChiLog& chi_log;
 
 /** \defgroup LuaLogging D Output and Logging
@@ -108,3 +110,5 @@ void chi_log_utils::lua_utils::RegisterLuaEntities(lua_State *L)
   LUA_CMACRO1(LOG_ALLVERBOSE_1, 11);
   LUA_CMACRO1(LOG_ALLVERBOSE_2, 12);
 }
+
+#endif

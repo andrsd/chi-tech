@@ -16,6 +16,7 @@ public:
   IsotropicMultiGrpSource() :
     MaterialProperty(PropertyType::ISOTROPIC_MG_SOURCE) {}
 
+#ifdef CHITECH_HAVE_LUA
   void PushLuaTable(lua_State* L) override
   {
     lua_newtable(L);
@@ -39,6 +40,7 @@ public:
     }
     lua_settable(L,-3);
   }
+#endif
 };
 
 }

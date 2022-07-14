@@ -1,5 +1,7 @@
 #include "chi_console.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #if defined(__MACH__)
 #include <mach/mach.h>
 #endif
@@ -62,3 +64,5 @@ double ChiConsole::GetMemoryUsageInMB()
 
   return  mem_struct.memory_mbytes;
 }
+
+#endif

@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "../meshcutting.h"
 #include "ChiMesh/chi_mesh.h"
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
@@ -54,3 +56,5 @@ int chiCutMesh(lua_State* L)
 
   return 0;
 }
+
+#endif

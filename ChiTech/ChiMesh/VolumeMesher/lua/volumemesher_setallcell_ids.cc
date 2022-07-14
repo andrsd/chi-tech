@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/VolumeMesher/chi_volumemesher.h"
 
 //###################################################################
@@ -20,3 +22,5 @@ int chiVolumeMesherSetMatIDToAll(lua_State* L)
   chi_mesh::VolumeMesher::SetMatIDToAll(mat_id);
   return 0;
 }
+
+#endif

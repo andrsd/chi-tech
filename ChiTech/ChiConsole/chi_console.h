@@ -1,6 +1,10 @@
 #ifndef CHI_CONSOLE_H
 #define CHI_CONSOLE_H
 
+#include "chitech_config.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 extern "C"
 {
 #include "lua.h"
@@ -38,10 +42,11 @@ public:
   //03
   void        FlushConsole();
   //05 Memory
+	// FIXME: Memory usage should not be part of console. It should be refactored into its own thing
   CSTMemory  GetMemoryUsage();
   double      GetMemoryUsageInMB();
 };
 
-
+#endif
 
 #endif

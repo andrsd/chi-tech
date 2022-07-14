@@ -1,5 +1,7 @@
 #include "ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
 #include "ChiMesh/SurfaceMesher/surfacemesher.h"
 #include "ChiMesh/VolumeMesher/Extruder/volmesher_extruder.h"
@@ -335,3 +337,5 @@ int chiVolumeMesherSetKBACutsZ(lua_State *L)
 
   return 0;
 }
+
+#endif

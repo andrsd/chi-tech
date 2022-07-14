@@ -1,5 +1,7 @@
 #include "chi_modules_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "LinearBoltzmannSolver/lua/lbs_lua_utils.h"
 #include "DiffusionSolver/lua/diffusion_lua.h"
 #include "LBSCurvilinear/lua/lbs_curvilinear_solver_lua.h"
@@ -14,3 +16,5 @@ void chi_modules::lua_utils::RegisterLuaEntities(lua_State *L)
   lbs::k_eigenvalue_lua_utils::RegisterLuaEntities(L);
   lbs_adjoint::lua_utils::RegisterLuaEntities(L);
 }
+
+#endif

@@ -1,10 +1,13 @@
 #ifndef CHI_PHYSICS_MATERIAL_PROPERTY_BASE_H
 #define CHI_PHYSICS_MATERIAL_PROPERTY_BASE_H
 
+#include "chitech_config.h"
 #include <string>
 #include <vector>
 
+#ifdef CHITECH_HAVE_LUA
 #include "ChiLua/chi_lua.h"
+#endif
 
 namespace chi_physics
 {
@@ -32,7 +35,9 @@ public:
 
   virtual double GetScalarValue() { return 0.0; }
 
+#ifdef CHITECH_HAVE_LUA
   virtual void PushLuaTable(lua_State *L);
+#endif
 };
 
 }

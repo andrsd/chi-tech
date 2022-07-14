@@ -1,4 +1,7 @@
 #include "../../../ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "../../MeshHandler/chi_meshhandler.h"
 #include "../../../ChiPhysics/chi_physics.h"
 #include "../chi_ffinterpolation.h"
@@ -72,3 +75,4 @@ int chiFFInterpolationExportPython(lua_State* L)
   return 0;
 }
 
+#endif

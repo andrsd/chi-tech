@@ -4,12 +4,10 @@
 
 #include "chi_log.h"
 #include "chi_mpi.h"
-#include "ChiConsole/chi_console.h"
 #include "ChiTimer/chi_timer.h"
 
 extern ChiLog& chi_log;
 extern ChiMPI& chi_mpi;
-extern ChiConsole&  chi_console;
 extern ChiTimer   chi_program_timer;
 
 #include <algorithm>

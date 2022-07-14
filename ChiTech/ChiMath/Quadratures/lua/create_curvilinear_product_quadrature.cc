@@ -1,4 +1,7 @@
 #include "ChiLua/chi_lua.h"
+
+#ifdef CHITECH_HAVE_LUA
+
 #include "ChiMath/chi_math.h"
 
 #include "ChiMath/Quadratures/quadrature_gausschebyshev.h"
@@ -233,3 +236,5 @@ int chiCreateSphericalProductQuadrature(lua_State *L)
 
   return 0;
 }
+
+#endif

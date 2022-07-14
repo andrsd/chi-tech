@@ -1,5 +1,7 @@
 #include "chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include "chi_log.h"
 
 #include <string>
@@ -151,3 +153,5 @@ void LuaPopulateVectorFrom1DArray(const std::string& func_name,
   invalid_table:
     throw std::invalid_argument("Invalid table used in call to " + func_name);
 }
+
+#endif

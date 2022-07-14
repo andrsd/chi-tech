@@ -1,5 +1,7 @@
 #include"../../../ChiLua/chi_lua.h"
 
+#ifdef CHITECH_HAVE_LUA
+
 #include <iostream>
 #include <sstream>
 #include "../chi_surfacemesh.h"
@@ -81,3 +83,5 @@ int chiSurfaceMeshExportPolyFile(lua_State* L)
   }
   return 0;
 }
+
+#endif
