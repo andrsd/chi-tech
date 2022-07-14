@@ -88,6 +88,7 @@ jobs:
           echo "VTK_DIR=/usr" >> $GITHUB_ENV
       - name: Configure
         run: |
-          cmake -S . -B ${{ github.workspace }}/build
+          cmake -S . -B ${{ github.workspace }}/build \
+            -DCHITECH_WITH_VTK=${{ matrix.vtk }}
       - name: Build
         run: make -C ${{ github.workspace }}/build
