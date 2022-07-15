@@ -2,7 +2,6 @@ name: build
 
 env:
   PETSC_VERSION: 3.17.0
-  SDKROOT: /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk
 
 on:
   push:
@@ -18,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-10.15]
+        os: [ubuntu-22.04, macos-11]
         vtk: [ON, OFF]
         include:
           - vtk: ON
@@ -40,7 +39,7 @@ jobs:
             mpich \
             libblas-dev \
             liblapack-dev \
-            lua5.4 liblua5.4-dev \
+            lua5.4 liblua5.4-dev
       - name: Install dependencies
         if: startsWith(matrix.os, 'macos')
         run: |
@@ -82,6 +81,9 @@ jobs:
             --download-hypre \
             --download-metis \
             --download-parmetis \
+            --CC=$CC \
+            --CXX=$CXX \
+            --FC=$FC \
             PETSC_DIR=`pwd`
           echo "::endgroup::"
           echo "::group::make"
