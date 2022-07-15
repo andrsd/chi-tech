@@ -98,3 +98,6 @@ jobs:
             -DCHITECH_WITH_LUA=${{ matrix.lua }}
       - name: Build
         run: make -C ${{ github.workspace }}/build
+      - name: Run tests (diffusion)
+        if: matrix.lua == 'ON'
+        run: python3 ChiTest/Z_Run_all.py "tests_to_run=[*range(1,13)]"
