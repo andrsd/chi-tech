@@ -206,13 +206,13 @@ add_subdirectory("${CHI_TECH_MOD}")
 
 #================================================ Define targets
 add_library(ChiLib STATIC ${SOURCES})
-target_link_libraries(ChiLib ${CHI_LIBS})
+target_link_libraries(ChiLib PUBLIC ${CHI_LIBS})
 target_compile_options(ChiLib PUBLIC ${CHI_CXX_FLAGS})
 
 #================================================ Third-party library
 add_subdirectory("${CHI_TECH_DIR}/ThirdParty")
 if(CHITECH_WITH_VTK)
-    target_link_libraries(ChiLib ThirdParty)
+    target_link_libraries(ChiLib PRIVATE ThirdParty)
 endif()
 
 if(CHITECH_WITH_LUA)
@@ -235,3 +235,48 @@ if(CHITECH_WITH_VTK)
 endif()
 
 configure_file(ChiTech/chitech_config.h.in chitech_config.h)
+configure_file(ChiResources/Macros/ChiTechConfig.cmake.in ChiTechConfig.cmake)
+
+install(
+    TARGETS ChiLib
+    EXPORT ChiTechTargets
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+if(CHITECH_WITH_VTK)
+  install(
+      TARGETS ThirdParty
+      EXPORT ChiTechTargets
+      LIBRARY DESTINATION lib
+  )
+endif()
+
+install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/ChiModules/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ChiTech/ChiModules
+    FILES_MATCHING PATTERN "*.h"
+)
+
+install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/ChiTech/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ChiTech/ChiTech
+    FILES_MATCHING PATTERN "*.h"
+)
+
+include(CMakePackageConfigHelpers)
+
+install(
+    EXPORT ChiTechTargets
+    FILE ChiTechTargets.cmake
+    NAMESPACE ChiTech::
+    DESTINATION lib/cmake/ChiTech
+)
+
+install(
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/ChiTechConfig.cmake"
+    DESTINATION lib/cmake/ChiTech
+)
