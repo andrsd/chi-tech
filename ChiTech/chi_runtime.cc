@@ -1,8 +1,6 @@
 /** @file Runtime file*/
 #include "chi_runtime.h"
 
-#ifdef CHITECH_HAVE_LUA
-
 #include "ChiConsole/chi_console.h"
 #include "ChiMath/chi_math.h"
 #include "ChiPhysics/chi_physics.h"
@@ -17,7 +15,6 @@
 //=============================================== Global variables
 chi_math::UnknownManager ChiMath::UNITARY_UNKNOWN_MANAGER;
 
-ChiConsole  ChiConsole::instance;
 ChiMath     ChiMath::instance;
 ChiMPI      ChiMPI::instance;
 ChiLog      ChiLog::instance;
@@ -25,7 +22,6 @@ ChiPhysics  ChiPhysics::instance;
 
 
 
-ChiConsole&  chi_console = ChiConsole::GetInstance();
 ChiMath&     chi_math_handler = ChiMath::GetInstance();
 ChiMPI&      chi_mpi = ChiMPI::GetInstance();
 ChiLog&      chi_log = ChiLog::GetInstance();
@@ -37,11 +33,16 @@ ChiTimer    chi_program_timer;
 std::vector<chi_mesh::MeshHandler*>  ChiTech::meshhandler_stack;
 int                                  ChiTech::current_mesh_handler=-1;
 bool                                 ChiTech::termination_posted = false;
-std::string                          ChiTech::input_file_name;
-bool                                 ChiTech::sim_option_interactive = true;
 bool                                 ChiTech::allow_petsc_error_handler = false;
 
+#ifdef CHITECH_HAVE_LUA
 
+ChiConsole  ChiConsole::instance;
+
+ChiConsole&  chi_console = ChiConsole::GetInstance();
+
+std::string                          ChiTech::input_file_name;
+bool                                 ChiTech::sim_option_interactive = true;
 
 
 //############################################### Argument parser
@@ -230,10 +231,5 @@ int ChiTech::RunBatch(int argc, char** argv)
 
   return error_code;
 }
-
-#else
-
-std::vector<chi_mesh::MeshHandler*>  ChiTech::meshhandler_stack;
-int                                  ChiTech::current_mesh_handler=-1;
 
 #endif

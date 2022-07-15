@@ -1,13 +1,13 @@
 #include "chi_ffinter_volume.h"
 #include "chitech_config.h"
 
+#include <chi_log.h>
+extern ChiLog& chi_log;
+
 #ifdef CHITECH_HAVE_LUA
 
 #include "ChiConsole/chi_console.h"
 extern ChiConsole&  chi_console;
-
-#include <chi_log.h>
-extern ChiLog& chi_log;
 
 //###################################################################
 /**Calls the designated lua function*/
@@ -30,6 +30,14 @@ double chi_mesh::FieldFunctionInterpolationVolume::
 
 
   return ret_val;
+}
+
+#else
+
+double chi_mesh::FieldFunctionInterpolationVolume::CallLuaFunction(double ff_value, int mat_id)
+{
+  chi_log.Log(LOG_ALLERROR) << "chi_mesh::FieldFunctionInterpolationVolume::CallLuaFunction: ChiTech was not built with Lua support.";
+  exit(EXIT_FAILURE);
 }
 
 #endif
