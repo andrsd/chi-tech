@@ -1,0 +1,14 @@
+include(CMakeFindDependencyMacro)
+
+set(CHITECH_HAVE_LUA @CHITECH_WITH_LUA@)
+set(CHITECH_HAVE_VTK @CHITECH_WITH_VTK@)
+
+find_dependency(MPI)
+if(CHITECH_HAVE_LUA)
+    find_dependency(Lua)
+endif()
+if(CHITECH_HAVE_VTK)
+    find_dependency(VTK)
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/ChiTechTargets.cmake")
