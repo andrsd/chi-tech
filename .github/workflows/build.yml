@@ -78,6 +78,8 @@ jobs:
             --with-pic=yes \
             --with-ssl=no \
             --download-hypre \
+            --download-metis \
+            --download-parmetis \
             PETSC_DIR=`pwd`
           echo "::endgroup::"
           echo "::group::make"
