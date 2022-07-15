@@ -7,6 +7,11 @@ extern ChiTimer  chi_program_timer;
 
 #include <sstream>
 
+ChiLog& ChiLog::GetInstance() noexcept
+{
+  return instance;
+}
+
 //###################################################################
 /** Default constructor*/
 ChiLog::ChiLog() noexcept

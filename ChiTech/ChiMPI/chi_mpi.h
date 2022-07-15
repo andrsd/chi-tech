@@ -49,7 +49,7 @@ private:
   void SetLocationID(int in_location_id) {m_location_id = in_location_id;}
   void SetProcessCount(int in_process_count) {m_process_count = in_process_count;}
 public:
-  static ChiMPI& GetInstance() noexcept {return instance;}
+  static ChiMPI& GetInstance() noexcept;
 };
 
 

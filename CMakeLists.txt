@@ -6,6 +6,7 @@ project(${TARGET} C CXX)
 
 option(CHITECH_WITH_VTK "Build with VTK support" YES)
 option(CHITECH_WITH_LUA "Build with Lua support" YES)
+option(BUILD_SHARED_LIBS "Build as a shared library" NO)
 
 message(STATUS "Configuring ${CMAKE_BUILD_TYPE} build of ChiTech.")
 
@@ -205,7 +206,7 @@ add_subdirectory("${CHI_TECH_DIR}/ChiTech/LuaTest")
 add_subdirectory("${CHI_TECH_MOD}")
 
 #================================================ Define targets
-add_library(ChiLib STATIC ${SOURCES})
+add_library(ChiLib ${SOURCES})
 target_link_libraries(ChiLib ${CHI_LIBS})
 target_compile_options(ChiLib PUBLIC ${CHI_CXX_FLAGS})
 

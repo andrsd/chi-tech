@@ -203,8 +203,8 @@ private:
   static ChiLog instance;
 
 public:
-  static ChiLog& GetInstance() noexcept
-  { return instance;}
+  static ChiLog& GetInstance() noexcept;
+
 private:
   //00
                   ChiLog() noexcept;
