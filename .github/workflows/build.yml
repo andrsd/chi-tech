@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.os }}-vtk:${{ matrix.vtk }}-lua:${{ matrix.lua }}
+    name: ${{ matrix.os }}-vtk:${{ matrix.vtk }}-lua:${{ matrix.lua }}-shared:${{ matrix.shared }}
     strategy:
       fail-fast: false
       matrix:
@@ -23,8 +23,10 @@ jobs:
         include:
           - vtk: ON
             lua: ON
+            shared: OFF
           - vtk: OFF
             lua: OFF
+            shared: ON
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout source
@@ -97,7 +99,8 @@ jobs:
         run: |
           cmake -S . -B ${{ github.workspace }}/build \
             -DCHITECH_WITH_VTK=${{ matrix.vtk }} \
-            -DCHITECH_WITH_LUA=${{ matrix.lua }}
+            -DCHITECH_WITH_LUA=${{ matrix.lua }} \
+            -DBUILD_SHARED_LIBS=${{ matrix.shared }}
       - name: Build
         run: make -C ${{ github.workspace }}/build
       - name: Run tests (diffusion)
