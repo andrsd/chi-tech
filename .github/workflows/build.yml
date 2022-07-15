@@ -78,6 +78,8 @@ jobs:
             --with-pic=yes \
             --with-ssl=no \
             --download-hypre \
+            --download-metis \
+            --download-parmetis \
             PETSC_DIR=`pwd`
           echo "::endgroup::"
           echo "::group::make"
@@ -98,3 +100,6 @@ jobs:
             -DCHITECH_WITH_LUA=${{ matrix.lua }}
       - name: Build
         run: make -C ${{ github.workspace }}/build
+      - name: Run tests (diffusion)
+        if: matrix.lua == 'ON'
+        run: python3 ChiTest/Z_Run_all.py "tests_to_run=[*range(1,13)]"
