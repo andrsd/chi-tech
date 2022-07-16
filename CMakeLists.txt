@@ -277,6 +277,11 @@ install(
     FILES_MATCHING PATTERN "*.h"
 )
 
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/chitech_config.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ChiTech
+)
+
 include(CMakePackageConfigHelpers)
 
 install(
