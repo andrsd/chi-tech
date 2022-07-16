@@ -236,7 +236,13 @@ if(CHITECH_WITH_VTK)
 endif()
 
 configure_file(ChiTech/chitech_config.h.in chitech_config.h)
-configure_file(ChiResources/Macros/ChiTechConfig.cmake.in ChiTechConfig.cmake)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    ChiResources/Macros/ChiTechConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/ChiTechConfig.cmake
+    INSTALL_DESTINATION lib/cmake/ChiTech
+)
 
 install(
     TARGETS ChiLib
