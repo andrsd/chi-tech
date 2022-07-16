@@ -209,6 +209,9 @@ add_subdirectory("${CHI_TECH_MOD}")
 add_library(ChiLib ${SOURCES})
 target_link_libraries(ChiLib PUBLIC ${CHI_LIBS})
 target_compile_options(ChiLib PUBLIC ${CHI_CXX_FLAGS})
+set_target_properties(ChiLib PROPERTIES MACOSX_RPATH OFF)
+set_target_properties(ChiLib PROPERTIES INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+set_target_properties(ChiLib PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 #================================================ Third-party library
 add_subdirectory("${CHI_TECH_DIR}/ThirdParty")
