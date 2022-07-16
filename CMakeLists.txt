@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.12)
 SET(TARGET ChiTech)
 project(${TARGET} C CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 option(CHITECH_WITH_VTK "Build with VTK support" YES)
 option(CHITECH_WITH_LUA "Build with Lua support" YES)
 option(BUILD_SHARED_LIBS "Build as a shared library" NO)
