@@ -105,7 +105,7 @@ public:
 
  public:
   //00
-  explicit SteadySolver(const std::string& in_text_name);
+  explicit SteadySolver(MPI_Comm in_comm, const std::string& in_text_name);
   ~SteadySolver() override =default;
 
   //01

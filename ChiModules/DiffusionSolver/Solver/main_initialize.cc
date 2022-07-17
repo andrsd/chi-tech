@@ -111,7 +111,7 @@ int chi_diffusion::Solver::Initialize(bool verbose)
     << t_init.GetTime()/1000.0 << std::endl;
 
   //================================================== Initialize x and b
-  ierr = VecCreate(PETSC_COMM_WORLD,&x);CHKERRQ(ierr);
+  ierr = VecCreate(comm,&x);CHKERRQ(ierr);
   ierr = PetscObjectSetName((PetscObject) x, "Solution");CHKERRQ(ierr);
   ierr = VecSetSizes(x, static_cast<PetscInt>(local_dof_count),
                         static_cast<PetscInt>(global_dof_count));CHKERRQ(ierr);
@@ -122,7 +122,7 @@ int chi_diffusion::Solver::Initialize(bool verbose)
   VecSet(b,0.0);
 
   //################################################## Create matrix
-  ierr = MatCreate(PETSC_COMM_WORLD,&A);CHKERRQ(ierr);
+  ierr = MatCreate(comm,&A);CHKERRQ(ierr);
   ierr = MatSetSizes(A, static_cast<PetscInt>(local_dof_count),
                         static_cast<PetscInt>(local_dof_count),
                         static_cast<PetscInt>(global_dof_count),
@@ -138,7 +138,7 @@ int chi_diffusion::Solver::Initialize(bool verbose)
   MatSetUp(A);
 
   //================================================== Set up solver
-  ierr = KSPCreate(PETSC_COMM_WORLD,&ksp);
+  ierr = KSPCreate(comm,&ksp);
   ierr = KSPSetOperators(ksp,A,A);
   ierr = KSPSetType(ksp,KSPCG);
 

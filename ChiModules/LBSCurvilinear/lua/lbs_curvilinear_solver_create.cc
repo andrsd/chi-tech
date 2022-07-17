@@ -45,7 +45,7 @@ int chiLBSCurvilinearCreateSolver(lua_State *L)
   }
 
   const auto new_solver =
-    new LBSCurvilinear::Solver(coord_system_type, solver_name);
+    new LBSCurvilinear::Solver(PETSC_COMM_WORLD, coord_system_type, solver_name);
 
   chi_physics_handler.solver_stack.push_back(new_solver);
   const auto index = chi_physics_handler.solver_stack.size() - 1;

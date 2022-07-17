@@ -31,7 +31,7 @@ int chiAdjointSolverCreate(lua_State* L)
     solver_name = lua_tostring(L, 1);
   }
 
-  auto solver = new lbs_adjoint::AdjointSolver(solver_name);
+  auto solver = new lbs_adjoint::AdjointSolver(PETSC_COMM_WORLD, solver_name);
 
   auto& physics_handler = ChiPhysics::GetInstance();
   physics_handler.solver_stack.push_back(solver);

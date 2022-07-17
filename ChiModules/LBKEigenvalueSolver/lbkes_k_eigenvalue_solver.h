@@ -21,8 +21,8 @@ public:
   double tolerance = 1.0e-8;
 
 public:
-  explicit KEigenvalueSolver(const std::string& in_text_name) :
-    lbs::SteadySolver(in_text_name) {}
+  explicit KEigenvalueSolver(MPI_Comm in_comm, const std::string& in_text_name) :
+    lbs::SteadySolver(in_comm, in_text_name) {}
 
   void Execute() override;
 

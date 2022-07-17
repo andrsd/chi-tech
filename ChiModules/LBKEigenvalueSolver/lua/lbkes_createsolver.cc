@@ -28,7 +28,7 @@ int chiLBKESCreateSolver(lua_State* L)
     solver_name = lua_tostring(L, 1);
   }
 
-  auto solver = new KEigenvalueSolver(solver_name);
+  auto solver = new KEigenvalueSolver(PETSC_COMM_WORLD, solver_name);
 
   chi_physics_handler.solver_stack.push_back(solver);
 

@@ -38,7 +38,7 @@ void lbs::SteadySolver::InitWGDSA(LBSGroupset& groupset)
 
     //================================= Set diffusion solver
     std::string solver_name = std::string("WGDSA");
-    auto dsolver = new chi_diffusion::Solver(solver_name);
+    auto dsolver = new chi_diffusion::Solver(comm, solver_name);
     groupset.wgdsa_solver = dsolver;
 
     dsolver->regions.push_back(this->regions.back());

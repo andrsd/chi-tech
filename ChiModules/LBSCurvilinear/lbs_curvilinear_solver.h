@@ -25,9 +25,10 @@ private:
 //  Methods
 public:
   /** Constructor. */
-  Solver(const chi_math::CoordinateSystemType& coord_system_type,
+  Solver(MPI_Comm in_comm,
+         const chi_math::CoordinateSystemType& coord_system_type,
          const std::string& in_text_name)
-  : lbs::SteadySolver(in_text_name)
+  : lbs::SteadySolver(in_comm, in_text_name)
   , coord_system_type(coord_system_type)
   , discretization_secondary()
   {}

@@ -41,7 +41,7 @@ void lbs::SteadySolver::InitTGDSA(LBSGroupset& groupset)
                  + std::string("-")
                  + std::to_string(groupset.groups.back().id)
                  + std::string("]");
-    auto dsolver = new chi_diffusion::Solver(solver_name);
+    auto dsolver = new chi_diffusion::Solver(comm, solver_name);
     groupset.tgdsa_solver = dsolver;
 
     dsolver->regions.push_back(this->regions.back());

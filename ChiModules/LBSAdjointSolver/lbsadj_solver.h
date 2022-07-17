@@ -22,7 +22,7 @@ protected:
   std::vector<RespFuncAndSubs> response_functions;
 
 public:
-  explicit AdjointSolver(const std::string& solver_name);
+  explicit AdjointSolver(MPI_Comm in_comm, const std::string& solver_name);
 
   void SetSource(LBSGroupset& groupset,
                  std::vector<double>&  destination_q,

@@ -30,7 +30,7 @@ int chiDiffusionCreateSolver(lua_State *L)
     solver_name = lua_tostring(L, 1);
   }
 
-  auto new_solver = new chi_diffusion::Solver(solver_name);
+  auto new_solver = new chi_diffusion::Solver(PETSC_COMM_WORLD, solver_name);
 
   chi_physics_handler.solver_stack.push_back(new_solver);
 
