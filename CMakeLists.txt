@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.12)
 SET(TARGET ChiTech)
 project(${TARGET} C CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 option(CHITECH_WITH_VTK "Build with VTK support" YES)
 option(CHITECH_WITH_LUA "Build with Lua support" YES)
 option(BUILD_SHARED_LIBS "Build as a shared library" NO)
@@ -209,6 +212,9 @@ add_subdirectory("${CHI_TECH_MOD}")
 add_library(ChiLib ${SOURCES})
 target_link_libraries(ChiLib PUBLIC ${CHI_LIBS})
 target_compile_options(ChiLib PUBLIC ${CHI_CXX_FLAGS})
+set_target_properties(ChiLib PROPERTIES MACOSX_RPATH OFF)
+set_target_properties(ChiLib PROPERTIES INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+set_target_properties(ChiLib PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 #================================================ Third-party library
 add_subdirectory("${CHI_TECH_DIR}/ThirdParty")
@@ -236,7 +242,13 @@ if(CHITECH_WITH_VTK)
 endif()
 
 configure_file(ChiTech/chitech_config.h.in chitech_config.h)
-configure_file(ChiResources/Macros/ChiTechConfig.cmake.in ChiTechConfig.cmake)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    ChiResources/Macros/ChiTechConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/ChiTechConfig.cmake
+    INSTALL_DESTINATION lib/cmake/ChiTech
+)
 
 install(
     TARGETS ChiLib
@@ -266,6 +278,11 @@ install(
     DIRECTORY ${CMAKE_SOURCE_DIR}/ChiTech/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ChiTech/ChiTech
     FILES_MATCHING PATTERN "*.h"
+)
+
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/chitech_config.h
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ChiTech
 )
 
 include(CMakePackageConfigHelpers)

@@ -3,9 +3,10 @@
 #include<iostream>
 #include<cmath>
 #include <sstream>
+#include <vector>
 
 //=============================================== General 3D vector structure
-/**General 3 element vector structure. 
+/**General 3 element vector structure.
  * \author Jan
 */
 struct chi_mesh::Vector3
@@ -54,7 +55,7 @@ struct chi_mesh::Vector3
 
   Vector3& operator=(std::initializer_list<double> list)
   {
-    if (not empty(list))
+    if (not std::empty(list))
     {
       std::vector<double> vec = list;
       for (size_t i=0; ( (i<3) and ( i<vec.size() ) ); ++i)
