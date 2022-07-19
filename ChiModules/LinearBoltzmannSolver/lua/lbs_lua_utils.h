@@ -39,9 +39,7 @@ int chiLBSGroupsetSetTGDSA(lua_State *L);
 
 int chiLBSAddPointSource(lua_State *L);
 
-namespace lbs
-{
-  namespace lua_utils
+namespace lbs::lua_utils
   {
     //###################################################################
     /** Obtains a pointer to a LinearBoltzmann::Solver object or an object
@@ -53,11 +51,11 @@ namespace lbs
      *                              should uniquely identify the calling function.
      *
      */
-    lbs::SteadySolver* GetSolverByHandle(int handle, const std::string& calling_function_name);
+    lbs::SteadySolver& GetSolverByHandle(int handle,
+                                         const std::string& calling_function_name);
 
     void RegisterLuaEntities(lua_State* L);
   }
-}
 
 #endif
 

@@ -12,6 +12,9 @@
 
 typedef std::vector<std::pair<double,double>> Tvecdbl_vecdbl;
 
+/**\defgroup LuaTransportXSs Transport Cross Sections
+ * \ingroup LuaPhysics*/
+
 namespace chi_physics
 {
 

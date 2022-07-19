@@ -3,16 +3,16 @@
 
 #include "ChiMesh/SweepUtilities/SweepScheduler/sweepscheduler.h"
 
+#include "chi_runtime.h"
 #include "chi_log.h"
-extern ChiLog&     chi_log;
 
 #include "chi_mpi.h"
-extern ChiMPI&      chi_mpi;
 
 #ifdef CHITECH_HAVE_LUA
 #include "ChiConsole/chi_console.h"
-extern ChiConsole&  chi_console;
 #endif
+#include "Groupset/lbs_groupset.h"
+
 
 #include <iomanip>
 
@@ -23,7 +23,7 @@ void lbs::SteadySolver::Execute()
   MPI_Barrier(MPI_COMM_WORLD);
   for (auto& groupset : groupsets)
   {
-    chi_log.Log(LOG_0)
+    chi::log.Log()
       << "\n********* Initializing Groupset " << groupset.id
       << "\n" << std::endl;
 
@@ -46,7 +46,7 @@ void lbs::SteadySolver::Execute()
   if (options.use_precursors)
     ComputePrecursors();
 
-  chi_log.Log(LOG_0) << "LB solver " << TextName() << " execution completed\n";
+  chi::log.Log() << "LB solver " << TextName() << " execution completed\n";
 }
 
 
@@ -54,7 +54,7 @@ void lbs::SteadySolver::Execute()
 /**Solves a single groupset.*/
 void lbs::SteadySolver::SolveGroupset(LBSGroupset& groupset)
 {
-  source_event_tag = chi_log.GetRepeatingEventTag("Set Source");
+  source_event_tag = chi::log.GetRepeatingEventTag("Set Source");
 
   //================================================== Setting up required
   //                                                   sweep chunks
@@ -89,9 +89,9 @@ void lbs::SteadySolver::SolveGroupset(LBSGroupset& groupset)
 #ifdef CHITECH_HAVE_LUA
   // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
   // can be activated again
-  chi_log.Log(LOG_0)
+  chi::log.Log()
     << "Groupset solve complete.                  Process memory = "
     << std::setprecision(3)
-    << chi_console.GetMemoryUsageInMB() << " MB";
+    << chi::console.GetMemoryUsageInMB() << " MB";
 #endif
 }

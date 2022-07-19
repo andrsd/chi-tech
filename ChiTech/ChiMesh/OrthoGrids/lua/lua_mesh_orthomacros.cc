@@ -4,16 +4,11 @@
 
 #include "ChiMesh/chi_mesh.h"
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
+
+#include "chi_runtime.h"
 #include "chi_log.h"
 
-extern ChiLog&  chi_log;
 
-/** \defgroup LuaMeshMacros Mesh Macros
- * These functions are considered "macros" because they encapsulate
- * functionality available from lower level function calls.
- *
- * \ingroup LuaMesh
-*/
 
 //###################################################################
 /** Creates a 1D Mesh from an array of 1D vertices.
@@ -49,9 +44,9 @@ int chiMeshCreateUnpartitioned1DOrthoMesh(lua_State* L)
   //=================================== Check args table
   if (not lua_istable(L,1))
   {
-    chi_log.Log(LOG_ALLERROR)
+    chi::log.LogAllError()
       << func_name << ": First argument found to not be an array.";
-    exit(EXIT_FAILURE);
+   chi::Exit(EXIT_FAILURE);
   }
 
   //=================================== Decl vars
@@ -73,12 +68,11 @@ int chiMeshCreateUnpartitioned1DOrthoMesh(lua_State* L)
   }
 
   //=================================== Create mesh
-  chi_mesh::CreateUnpartitioned1DOrthoMesh(array[0]);
+  const size_t handle = chi_mesh::CreateUnpartitioned1DOrthoMesh(array[0]);
 
   //=================================== Push handles
-  auto handler = chi_mesh::GetCurrentHandler();
-  lua_pushnumber(L,handler->unpartitionedmesh_stack.size()-1);
-  lua_pushnumber(L,handler->region_stack.size()-1);
+  lua_pushnumber(L,static_cast<lua_Number>(handle));
+  lua_pushnumber(L,0);
 
   return 2;
 }
@@ -120,15 +114,15 @@ int chiMeshCreateUnpartitioned2DOrthoMesh(lua_State* L)
   //=================================== Check args table
   if (not lua_istable(L,1))
   {
-    chi_log.Log(LOG_ALLERROR)
+    chi::log.LogAllError()
       << func_name << ": First argument found to not be an array.";
-    exit(EXIT_FAILURE);
+   chi::Exit(EXIT_FAILURE);
   }
   if (not lua_istable(L,2))
   {
-    chi_log.Log(LOG_ALLERROR)
+    chi::log.LogAllError()
       << func_name << ": Second argument found to not be an array.";
-    exit(EXIT_FAILURE);
+   chi::Exit(EXIT_FAILURE);
   }
 
   //=================================== Decl vars
@@ -162,12 +156,12 @@ int chiMeshCreateUnpartitioned2DOrthoMesh(lua_State* L)
   }
 
   //=================================== Create mesh
-  chi_mesh::CreateUnpartitioned2DOrthoMesh(array[0],array[1]);
+  const size_t handle =
+    chi_mesh::CreateUnpartitioned2DOrthoMesh(array[0],array[1]);
 
   //=================================== Push handles
-  auto handler = chi_mesh::GetCurrentHandler();
-  lua_pushnumber(L,handler->unpartitionedmesh_stack.size()-1);
-  lua_pushnumber(L,handler->region_stack.size()-1);
+  lua_pushnumber(L,static_cast<lua_Number>(handle));
+  lua_pushnumber(L,0);
 
   return 2;
 }
@@ -213,21 +207,21 @@ int chiMeshCreateUnpartitioned3DOrthoMesh(lua_State* L)
   //=================================== Check args table
   if (not lua_istable(L,1))
   {
-    chi_log.Log(LOG_ALLERROR)
+    chi::log.LogAllError()
       << func_name << ": First argument found to not be an array.";
-    exit(EXIT_FAILURE);
+   chi::Exit(EXIT_FAILURE);
   }
   if (not lua_istable(L,2))
   {
-    chi_log.Log(LOG_ALLERROR)
+    chi::log.LogAllError()
       << func_name << ": Second argument found to not be an array.";
-    exit(EXIT_FAILURE);
+   chi::Exit(EXIT_FAILURE);
   }
   if (not lua_istable(L,3))
   {
-    chi_log.Log(LOG_ALLERROR)
+    chi::log.LogAllError()
       << func_name << ": Third argument found to not be an array.";
-    exit(EXIT_FAILURE);
+   chi::Exit(EXIT_FAILURE);
   }
 
   //=================================== Decl vars
@@ -273,12 +267,12 @@ int chiMeshCreateUnpartitioned3DOrthoMesh(lua_State* L)
   }
 
   //=================================== Create mesh
-  chi_mesh::CreateUnpartitioned3DOrthoMesh(array[0],array[1],array[2]);
+  const size_t handle =
+    chi_mesh::CreateUnpartitioned3DOrthoMesh(array[0],array[1],array[2]);
 
   //=================================== Push handles
-  auto handler = chi_mesh::GetCurrentHandler();
-  lua_pushnumber(L,handler->unpartitionedmesh_stack.size()-1);
-  lua_pushnumber(L,handler->region_stack.size()-1);
+  lua_pushnumber(L,static_cast<lua_Number>(handle));
+  lua_pushnumber(L,0);
 
   return 2;
 }

@@ -3,12 +3,13 @@
 #ifdef CHITECH_HAVE_LUA
 
 #include <iostream>
-#include <sstream>
 #include "../chi_surfacemesh.h"
 #include "../../MeshHandler/chi_meshhandler.h"
-#include <chi_log.h>
 
-extern ChiLog& chi_log;
+#include "chi_runtime.h"
+
+#include "chi_log.h"
+;
 
 //############################################################################# Create
 /** Exports mesh as a .obj format.
@@ -20,7 +21,7 @@ extern ChiLog& chi_log;
 \author Jan*/
 int chiSurfaceMeshExportToObj(lua_State* L)
 {
-  chi_mesh::MeshHandler* cur_hndlr = chi_mesh::GetCurrentHandler();
+  auto& cur_hndlr = chi_mesh::GetCurrentHandler();
 
   //============================================= Get arguments
   int num_args = lua_gettop(L);
@@ -32,18 +33,11 @@ int chiSurfaceMeshExportToObj(lua_State* L)
   size_t length = 0;
   const char* temp = lua_tolstring(L, 2, &length);
 
+  auto& surface_mesh = chi::GetStackItem<chi_mesh::SurfaceMesh>(
+    chi::surface_mesh_stack, handle, __FUNCTION__);
 
-
-  try{
-    chi_mesh::SurfaceMesh* curItem = cur_hndlr->surface_mesh_stack.at(handle);
-
-    curItem->ExportToOBJFile(temp);
-  }
-
-  catch(const std::out_of_range& o){
-    std::cerr << "ERROR: Invalid index to surface mesh.\n";
-    exit(EXIT_FAILURE);
-  }
+  surface_mesh.ExportToOBJFile(temp);
+  
   return 0;
 }
 
@@ -57,7 +51,7 @@ int chiSurfaceMeshExportToObj(lua_State* L)
 \author Jan*/
 int chiSurfaceMeshExportPolyFile(lua_State* L)
 {
-  chi_mesh::MeshHandler* cur_hndlr = chi_mesh::GetCurrentHandler();
+  auto& cur_hndlr = chi_mesh::GetCurrentHandler();
 
   //============================================= Get arguments
   int num_args = lua_gettop(L);
@@ -69,18 +63,10 @@ int chiSurfaceMeshExportPolyFile(lua_State* L)
   size_t length = 0;
   const char* temp = lua_tolstring(L, 2, &length);
 
+  auto& surface_mesh = chi::GetStackItem<chi_mesh::SurfaceMesh>(
+    chi::surface_mesh_stack, handle, __FUNCTION__);
 
-
-  try{
-    chi_mesh::SurfaceMesh* curItem = cur_hndlr->surface_mesh_stack.at(handle);
-
-    curItem->ExportToPolyFile(temp);
-  }
-
-  catch(const std::out_of_range& o){
-    std::cerr << "ERROR: Invalid index to surface mesh.\n";
-    exit(EXIT_FAILURE);
-  }
+  surface_mesh.ExportToPolyFile(temp);
   return 0;
 }
 

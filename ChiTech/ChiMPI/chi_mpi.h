@@ -4,8 +4,10 @@
 #include <mpi.h>
 #include "chitech_config.h"
 #include "../ChiMesh/chi_mesh.h"
-
 #include "chi_runtime.h"
+
+namespace chi_objects
+{
 
 //################################################################### Class def
 /**Simple implementation a communicator set.*/
@@ -27,31 +29,50 @@ public:
   }
 };
 
-//################################################################### Class def
-/**An object for storing various MPI states.*/
-class ChiMPI
-{
-private:
-  int m_location_id = 0;
-  int m_process_count = 1;
-public:
-  const int& location_id = m_location_id;
-  const int& process_count = m_process_count;
+  //################################################################### Class def
+  /**An object for storing various MPI states.*/
+  class MPI_Info
+  {
+  private:
+    int m_location_id = 0;
+    int m_process_count = 1;
 
+    bool m_location_id_set = false;
+    bool m_process_count_set = false;
 
-private:
-  static ChiMPI instance;
+  public:
+    const int& location_id = m_location_id;     ///< Current process rank.
+    const int& process_count = m_process_count; ///< Total number of processes.
+
+  private:
+    static MPI_Info instance;
+    MPI_Info() = default;
+
+  public:
+    MPI_Info(const MPI_Info&) = delete;           //Deleted copy constructor
+    MPI_Info operator=(const MPI_Info&) = delete; //Deleted assigment operator
+
+  private:
 #ifdef CHITECH_HAVE_LUA
-  friend int ChiTech::Initialize(int argc, char **argv);
+    friend int chi::Initialize(int argc, char** argv);
 #endif
+    void SetLocationID(int in_location_id)
+    {
+      if (not m_location_id_set)
+        m_location_id = in_location_id;
+      m_location_id_set = true;
+    }
+    void SetProcessCount(int in_process_count)
+    {
+      if (not m_process_count_set)
+        m_process_count = in_process_count;
+      m_process_count_set = true;
+    }
 
-  ChiMPI() noexcept {}
-  void SetLocationID(int in_location_id) {m_location_id = in_location_id;}
-  void SetProcessCount(int in_process_count) {m_process_count = in_process_count;}
-public:
-  static ChiMPI& GetInstance() noexcept;
-};
-
+  public:
+    static MPI_Info& GetInstance() noexcept;
+  };
+}//namespace chi_objects
 
 
 

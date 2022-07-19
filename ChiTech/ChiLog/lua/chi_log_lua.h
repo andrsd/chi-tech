@@ -5,14 +5,11 @@
 
 #ifdef CHITECH_HAVE_LUA
 
-namespace chi_log_utils
-{
-  namespace lua_utils
+namespace chi_log_utils::lua_utils
   {
     void RegisterLuaEntities(lua_State* L);
-  }//namespace lua_utils
-}//namespace chi_log_utils
+  }//namespace chi::log_utils
 
 #endif
 
-#endif //CHITECH_CHI_LOG_LUA_H
+#endif //CHITECH_chi::log_LUA_H

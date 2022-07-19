@@ -4,14 +4,12 @@
 #include <chi_mpi.h>
 #include <chi_log.h>
 
-extern ChiMPI& chi_mpi;
-extern ChiLog& chi_log;
+
+;
 
 #include <iomanip>
-#ifdef CHITECH_HAVE_LUA
 #include "ChiConsole/chi_console.h"
-extern ChiConsole&  chi_console;
-#endif
+
 
 
 
@@ -35,7 +33,7 @@ void lbs::SteadySolver::Initialize()
 
   if (invalid_mat_cell_count>0)
   {
-    chi_log.Log(LOG_ALLWARNING)
+    chi::log.LogAllWarning()
       << "Number of invalid material cells: " << invalid_mat_cell_count;
   }
 
@@ -52,7 +50,7 @@ void lbs::SteadySolver::Initialize()
   ComputeNumberOfMoments(); //f
 
   //================================================== Initialize parrays
-  chi_log.Log(LOG_0)
+  chi::log.Log()
     << "Initializing parallel arrays. " << std::endl;
 
   InitializeParrays();//g
@@ -61,10 +59,10 @@ void lbs::SteadySolver::Initialize()
   // FIXME: When GetMemoryUsageInMB() is refactored out of ChiConsole, this
   // can be activated again
   MPI_Barrier(MPI_COMM_WORLD);
-  chi_log.Log(LOG_0)
+  chi::log.Log()
     << "Done with parallel arrays.                Process memory = "
     << std::setprecision(3)
-    << chi_console.GetMemoryUsageInMB() << " MB" << std::endl;
+    << chi::console.GetMemoryUsageInMB() << " MB" << std::endl;
 #endif
 
   //================================================== Initialize boundaries

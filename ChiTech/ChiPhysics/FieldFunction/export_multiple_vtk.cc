@@ -3,11 +3,11 @@
 #include "ChiMath/SpatialDiscretization/spatial_discretization.h"
 #include "ChiMath/SpatialDiscretization/FiniteVolume/fv.h"
 
+#include "chi_runtime.h"
 #include "chi_log.h"
-extern ChiLog& chi_log;
 
 #include "chi_mpi.h"
-extern ChiMPI& chi_mpi;
+
 
 #ifdef CHITECH_HAVE_VTK
 #include <vtkCellType.h>
@@ -31,15 +31,15 @@ void chi_physics::FieldFunction::
                         const std::vector<std::shared_ptr<chi_physics::FieldFunction>>& ff_list)
 {
 #ifdef CHITECH_HAVE_VTK
-  chi_log.Log(LOG_0) << "Exporting field functions to VTK with file base \""
+  chi::log.Log() << "Exporting field functions to VTK with file base \""
                      << file_base_name << "\"";
 
   //============================================= Check ff_list populated
   if (ff_list.empty())
   {
-    chi_log.Log(LOG_ALLERROR)
+    chi::log.LogAllError()
       << "ExportMultipleFFToVTK: Empty field-function list.";
-    exit(EXIT_FAILURE);
+    chi::Exit(EXIT_FAILURE);
   }
 
   //============================================= Check spatial discretization
@@ -47,13 +47,13 @@ void chi_physics::FieldFunction::
   for (auto& ff : ff_list)
     if (ff->spatial_discretization->type != ff_type)
     {
-      chi_log.Log(LOG_ALLERROR)
+      chi::log.LogAllError()
         << "ExportMultipleFFToVTK: Dissimilar field-function type encountered "
            "in the supplied field-function list. "
            "Currently this function requires "
            "all field-functions used in this call to have the same "
            "spatial discretization.";
-      exit(EXIT_FAILURE);
+      chi::Exit(EXIT_FAILURE);
     }
   auto ff_spatial_discretization = ff_list.front()->spatial_discretization;
 
@@ -62,13 +62,13 @@ void chi_physics::FieldFunction::
   for (auto& ff : ff_list)
     if (ff->spatial_discretization->ref_grid != grid)
     {
-      chi_log.Log(LOG_ALLERROR)
+      chi::log.LogAllError()
         << "ExportMultipleFFToVTK: Differing grids encountered "
            "in the supplied field-function list. "
            "Currently this function requires "
            "all field-functions used in this call to refer to the same"
            "grid/mesh.";
-      exit(EXIT_FAILURE);
+      chi::Exit(EXIT_FAILURE);
     }
 
   //============================================= Instantiate VTK grid
@@ -146,9 +146,9 @@ void chi_physics::FieldFunction::
     }//polyhedron
     else
     {
-      chi_log.Log(LOG_ALLERROR)
+      chi::log.LogAllError()
         << "ExportMultipleFFToVTK: Unsupported cell type encountered.";
-      exit(EXIT_FAILURE);
+      chi::Exit(EXIT_FAILURE);
     }
   }//for cell
 
@@ -157,7 +157,7 @@ void chi_physics::FieldFunction::
 
   //=============================================
   typedef chi_math::SpatialDiscretizationType SDMType;
-  typedef SpatialDiscretization_FV SDMFV;
+  typedef chi_math::SpatialDiscretization_FV SDMFV;
 
   if (ff_type == SDMType::FINITE_VOLUME)
   {
@@ -275,11 +275,11 @@ void chi_physics::FieldFunction::
   std::string base_filename     = std::string(file_base_name);
   std::string location_filename = base_filename +
                                   std::string("_") +
-                                  std::to_string(chi_mpi.location_id) +
+                                  std::to_string(chi::mpi.location_id) +
                                   std::string(".vtu");
 
   //============================================= Write master file
-  if (chi_mpi.location_id == 0)
+  if (chi::mpi.location_id == 0)
   {
     std::string pvtu_file_name = base_filename + std::string(".pvtu");
 
@@ -287,9 +287,9 @@ void chi_physics::FieldFunction::
 
     pgrid_writer->EncodeAppendedDataOff();
     pgrid_writer->SetFileName(pvtu_file_name.c_str());
-    pgrid_writer->SetNumberOfPieces(chi_mpi.process_count);
-    pgrid_writer->SetStartPiece(chi_mpi.location_id);
-    pgrid_writer->SetEndPiece(chi_mpi.process_count-1);
+    pgrid_writer->SetNumberOfPieces(chi::mpi.process_count);
+    pgrid_writer->SetStartPiece(chi::mpi.location_id);
+    pgrid_writer->SetEndPiece(chi::mpi.process_count-1);
     pgrid_writer->SetInputData(ugrid);
 
     pgrid_writer->Write();
@@ -304,9 +304,9 @@ void chi_physics::FieldFunction::
 
   grid_writer->Write();
 
-  chi_log.Log(LOG_0) << "Done exporting field functions to VTK.";
+  chi::log.Log() << "Done exporting field functions to VTK.";
 #else
-  chi_log.Log(LOG_ALLERROR) << "ExportMultipleFFToVTK: ChiTech was not built with VTK support.";
+  chi::log.LogAllError() << "ExportMultipleFFToVTK: ChiTech was not built with VTK support.";
   exit(EXIT_FAILURE);
 #endif
 }

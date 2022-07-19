@@ -9,7 +9,8 @@ file (GLOB MORE_SOURCES
 )
 
 FOREACH(item ${MORE_SOURCES})
-    IF(${item} MATCHES "FieldFunction/fieldfunction_maindoc.cc")
+    IF(${item} MATCHES "FieldFunction/fieldfunction_maindoc.cc" OR
+       ${item} MATCHES "physics_doc.cc")
         LIST(REMOVE_ITEM MORE_SOURCES ${item})
     ENDIF()
 ENDFOREACH(item)
@@ -20,16 +21,10 @@ if(CHITECH_WITH_LUA)
         "${CMAKE_CURRENT_SOURCE_DIR}/FieldFunction/lua/*.cc"
         "${CMAKE_CURRENT_SOURCE_DIR}/PhysicsMaterial/transportxsections/lua/*.cc"
     )
-    FOREACH(item ${LUA_SOURCES})
-        IF(${item} MATCHES "lua/physics_maindoc_page.cc")
-            LIST(REMOVE_ITEM LUA_SOURCES ${item})
-        ENDIF()
-    ENDFOREACH(item)
 else()
     FOREACH(item ${MORE_SOURCES})
         IF(${item} MATCHES "PhysicsMaterial/transportxsections/prop_transportxs_05_pushlua.cc" OR
-           ${item} MATCHES "PhysicsMaterial/material_property_base.cc" OR
-           ${item} MATCHES "chi_physics_physics_loop.cpp")
+           ${item} MATCHES "PhysicsMaterial/material_property_base.cc")
             LIST(REMOVE_ITEM MORE_SOURCES ${item})
         ENDIF()
     ENDFOREACH(item)

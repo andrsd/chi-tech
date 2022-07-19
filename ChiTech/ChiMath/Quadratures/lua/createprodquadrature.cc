@@ -2,14 +2,11 @@
 
 #ifdef CHITECH_HAVE_LUA
 
-#include "ChiMath//chi_math.h"
+#include "chi_runtime.h"
 
 #include "ChiMath/Quadratures/product_quadrature.h"
 
-#include <chi_log.h>
-
-extern ChiMath&     chi_math_handler;
-extern ChiLog&     chi_log;
+#include "chi_log.h"
 
 #include <memory>
 
@@ -69,18 +66,18 @@ int chiCreateProductQuadrature(lua_State *L)
     if (num_args == 3)
       verbose = lua_toboolean(L,3);
 
-    chi_log.Log(LOG_0) << "Creating Gauss-Legendre Quadrature\n";
+    chi::log.Log() << "Creating Gauss-Legendre Quadrature\n";
 
     auto new_quad = std::make_shared<chi_math::ProductQuadrature>();
     new_quad->InitializeWithGL(Np,verbose);
 
-    chi_math_handler.angular_quadratures.push_back(new_quad);
-    int index = (int)chi_math_handler.angular_quadratures.size() - 1;
-    lua_pushnumber(L,index);
+    chi::angular_quadrature_stack.push_back(new_quad);
+    const size_t index = chi::angular_quadrature_stack.size() - 1;
+    lua_pushnumber(L,static_cast<lua_Number>(index));
 
     if (verbose)
     {
-      chi_log.Log(LOG_0)
+      chi::log.Log()
         << "Created Gauss-Legendre Quadrature with "
         << new_quad->azimu_ang.size()
         << " azimuthal angles and "
@@ -100,18 +97,18 @@ int chiCreateProductQuadrature(lua_State *L)
     if (num_args == 4)
       verbose = lua_toboolean(L,4);
 
-    chi_log.Log(LOG_0) << "Creating Gauss-Legendre-Legendre Quadrature\n";
+    chi::log.Log() << "Creating Gauss-Legendre-Legendre Quadrature\n";
 
     auto new_quad = std::make_shared<chi_math::ProductQuadrature>();
     new_quad->InitializeWithGLL(Np,Na,verbose);
 
-    chi_math_handler.angular_quadratures.push_back(new_quad);
-    int index = (int)chi_math_handler.angular_quadratures.size() - 1;
-    lua_pushnumber(L,index);
+    chi::angular_quadrature_stack.push_back(new_quad);
+    const size_t index = chi::angular_quadrature_stack.size() - 1;
+    lua_pushnumber(L,static_cast<lua_Number>(index));
 
     if (verbose)
     {
-      chi_log.Log(LOG_0)
+      chi::log.Log()
         << "Created Gauss-Legendre-Legendre Quadrature with "
         << new_quad->azimu_ang.size()
         << " azimuthal angles and "
@@ -131,18 +128,18 @@ int chiCreateProductQuadrature(lua_State *L)
     if (num_args == 4)
       verbose = lua_toboolean(L,4);
 
-    chi_log.Log(LOG_0) << "Creating Gauss-Legendre-ChebyShev Quadrature\n";
+    chi::log.Log() << "Creating Gauss-Legendre-ChebyShev Quadrature\n";
 
     auto new_quad = std::make_shared<chi_math::ProductQuadrature>();
     new_quad->InitializeWithGLC(Np,Na,verbose);
 
-    chi_math_handler.angular_quadratures.push_back(new_quad);
-    int index = (int)chi_math_handler.angular_quadratures.size() - 1;
-    lua_pushnumber(L,index);
+    chi::angular_quadrature_stack.push_back(new_quad);
+    const size_t index = chi::angular_quadrature_stack.size() - 1;
+    lua_pushnumber(L,static_cast<lua_Number>(index));
 
     if (verbose)
     {
-      chi_log.Log(LOG_0)
+      chi::log.Log()
       << "Created Gauss-Legendre-Chebyshev Quadrature with "
       << new_quad->azimu_ang.size()
       << " azimuthal angles and "
@@ -159,31 +156,31 @@ int chiCreateProductQuadrature(lua_State *L)
 
     if (not lua_istable(L,2))
     {
-      chi_log.Log(LOG_ALLERROR)
+      chi::log.LogAllError()
         << "chiCreateProductQuadrature:CUSTOM_QUADRATURE, second argument must "
         << "be a lua table.";
-      exit(EXIT_FAILURE);
+     chi::Exit(EXIT_FAILURE);
     }
     if (not lua_istable(L,3))
     {
-      chi_log.Log(LOG_ALLERROR)
+      chi::log.LogAllError()
         << "chiCreateProductQuadrature:CUSTOM_QUADRATURE, third argument must "
         << "be a lua table.";
-      exit(EXIT_FAILURE);
+     chi::Exit(EXIT_FAILURE);
     }
     if (not lua_istable(L,4))
     {
-      chi_log.Log(LOG_ALLERROR)
+      chi::log.LogAllError()
         << "chiCreateProductQuadrature:CUSTOM_QUADRATURE, fourth argument must "
         << "be a lua table.";
-      exit(EXIT_FAILURE);
+     chi::Exit(EXIT_FAILURE);
     }
     if (num_args == 5)
       verbose = lua_toboolean(L,4);
 
-    int Na = lua_rawlen(L,2);
-    int Np = lua_rawlen(L,3);
-    int Nw = lua_rawlen(L,4);
+    size_t Na = lua_rawlen(L,2);
+    size_t Np = lua_rawlen(L,3);
+    size_t Nw = lua_rawlen(L,4);
 
     std::vector<double> azimuthal(Na,0.0);
     std::vector<double> polar(Np,0.0);
@@ -211,20 +208,20 @@ int chiCreateProductQuadrature(lua_State *L)
       lua_pop(L,1);
     }
 
-    chi_log.Log(LOG_0) << "Creating custom product quadrature Quadrature\n";
+    chi::log.Log() << "Creating custom product quadrature Quadrature\n";
 
-    chi_log.Log(LOG_0) << Na << " " << Np << " " << Nw;
+    chi::log.Log() << Na << " " << Np << " " << Nw;
 
     auto new_quad = std::make_shared<chi_math::ProductQuadrature>();
     new_quad->InitializeWithCustom(azimuthal,polar,weights,verbose);
 
-    chi_math_handler.angular_quadratures.push_back(new_quad);
-    int index = (int)chi_math_handler.angular_quadratures.size() - 1;
-    lua_pushnumber(L,index);
+    chi::angular_quadrature_stack.push_back(new_quad);
+    const size_t index = chi::angular_quadrature_stack.size() - 1;
+    lua_pushnumber(L,static_cast<lua_Number>(index));
 
     if (verbose)
     {
-      chi_log.Log(LOG_0)
+      chi::log.Log()
         << "Created Custom Quadrature with "
         << new_quad->azimu_ang.size()
         << " azimuthal angles and "
@@ -236,10 +233,10 @@ int chiCreateProductQuadrature(lua_State *L)
   }
   else
   {
-    chi_log.Log(LOG_ALLERROR)
+    chi::log.LogAllError()
       << "In call to chiCreateProductQuadrature. Unsupported quadrature type"
          " supplied. Given: " << ident;
-    exit(EXIT_FAILURE);
+   chi::Exit(EXIT_FAILURE);
   }
   return 0;
 }

@@ -3,15 +3,14 @@
 #include "ChiMesh/Cell/cell.h"
 
 #include "ChiMesh/MeshHandler/chi_meshhandler.h"
+#include "ChiMesh/VolumeMesher/chi_volumemesher.h"
 
+#include "chi_runtime.h"
 #include "chi_log.h"
-extern ChiLog& chi_log;
+;
 
 #include "chi_mpi.h"
-extern ChiMPI& chi_mpi;
 
-#include "ChiPhysics/chi_physics.h"
-extern ChiPhysics&  chi_physics_handler;
 
 #ifdef CHITECH_HAVE_VTK
 #include <vtkCellType.h>
@@ -32,7 +31,7 @@ extern ChiPhysics&  chi_physics_handler;
 void chi_mesh::MeshContinuum::ExportCellsToVTK(const char* baseName) const
 {
 #ifdef CHITECH_HAVE_VTK
-  chi_log.Log() << "Exporting mesh to VTK. " << local_cells.size();
+  chi::log.Log() << "Exporting mesh to VTK. " << local_cells.size();
   std::vector<std::vector<double>> d_nodes;
 
   auto points = vtkSmartPointer<vtkPoints>::New();
@@ -124,7 +123,7 @@ void chi_mesh::MeshContinuum::ExportCellsToVTK(const char* baseName) const
   std::string base_filename     = std::string(baseName);
   std::string location_filename = base_filename +
                                   std::string("_") +
-                                  std::to_string(chi_mpi.location_id) +
+                                  std::to_string(chi::mpi.location_id) +
                                   std::string(".vtu");
 
   //============================================= Serial Output each piece
@@ -139,7 +138,7 @@ void chi_mesh::MeshContinuum::ExportCellsToVTK(const char* baseName) const
   grid_writer->Write();
 
   //============================================= Parallel summary file
-  if (chi_mpi.location_id == 0)
+  if (chi::mpi.location_id == 0)
   {
     std::string summary_file_name = base_filename + std::string(".pvtu");
     std::ofstream ofile;
@@ -164,12 +163,12 @@ void chi_mesh::MeshContinuum::ExportCellsToVTK(const char* baseName) const
     ofile << "    </PPoints>" << std::endl;
 
     bool is_global_mesh =
-      chi_mesh::GetCurrentHandler()->volume_mesher->options.mesh_global;
+      chi_mesh::GetCurrentHandler().volume_mesher->options.mesh_global;
 
     // Cut off path to base_filename
     std::string filename_short = base_filename.substr(base_filename.find_last_of("/\\")+1);
 
-    for (int p=0; p<chi_mpi.process_count; ++p)
+    for (int p=0; p<chi::mpi.process_count; ++p)
     {
       if (is_global_mesh and p!=0) continue;
 
@@ -187,9 +186,9 @@ void chi_mesh::MeshContinuum::ExportCellsToVTK(const char* baseName) const
     ofile.close();
   }
 
-  chi_log.Log() << "Done exporting mesh to VTK.";
+  chi::log.Log() << "Done exporting mesh to VTK.";
 #else
-  chi_log.Log(LOG_ALLERROR) << "ExportCellsToVTK: ChiTech was not built with VTK support.";
+  chi::log.LogAllError() << "ExportCellsToVTK: ChiTech was not built with VTK support.";
   exit(EXIT_FAILURE);
 #endif
 }

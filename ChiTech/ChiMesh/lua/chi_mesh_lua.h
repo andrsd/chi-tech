@@ -5,13 +5,10 @@
 
 #ifdef CHITECH_HAVE_LUA
 
-namespace chi_mesh
-{
-  namespace lua_utils
+namespace chi_mesh::lua_utils
   {
     void RegisterLuaEntities(lua_State* L);
-  }//namespace lua_utils
-}//namespace chi_mesh
+  }//namespace chi_mesh
 
 #endif
 

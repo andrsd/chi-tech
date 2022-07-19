@@ -3,8 +3,9 @@
 
 #ifdef CHITECH_HAVE_LUA
 
+#include "chi_runtime.h"
 #include "chi_log.h"
-extern ChiLog& chi_log;
+;
 
 //###################################################################
 /**Adds a point source to an LBS solver.
@@ -31,7 +32,7 @@ int chiLBSAddPointSource(lua_State *L)
 
   //============================================= Get pointer to solver
   const int solver_index = lua_tonumber(L,1);
-  auto lbs_solver = lbs::lua_utils::GetSolverByHandle(solver_index, fname);
+  auto& lbs_solver = lbs::lua_utils::GetSolverByHandle(solver_index, fname);
 
   //============================================= Get other arguments
   const double x = lua_tonumber(L, 2);
@@ -40,15 +41,14 @@ int chiLBSAddPointSource(lua_State *L)
 
   const chi_mesh::Vector3 location(x,y,z);
 
-
   LuaCheckTableValue(fname, L, 5);
 
   std::vector<double> strength;
   LuaPopulateVectorFrom1DArray(fname,L, 5, strength);
 
-  lbs_solver->point_sources.emplace_back(location, strength);
+  lbs_solver.point_sources.emplace_back(location, strength);
 
-  chi_log.Log() << "LBS: Added point source at "
+  chi::log.Log() << "LBS: Added point source at "
                 << location.PrintStr();
 
   return 0;

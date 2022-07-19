@@ -1,4 +1,5 @@
-#include "chi_console.h"
+#include "ChiConsole/chi_console.h"
+#include "chi_console_structs.h"
 
 #ifdef CHITECH_HAVE_LUA
 
@@ -11,7 +12,7 @@
 
 //###################################################################
 /**Gets the current memory usage.*/
-CSTMemory ChiConsole::GetMemoryUsage()
+chi_objects::CSTMemory chi_objects::ChiConsole::GetMemoryUsage()
 {
   double mem = 0.0;
 #if defined(__MACH__)
@@ -58,7 +59,7 @@ CSTMemory ChiConsole::GetMemoryUsage()
 
 //###################################################################
 /**Gets the current memory usage in megabytes.*/
-double ChiConsole::GetMemoryUsageInMB()
+double chi_objects::ChiConsole::GetMemoryUsageInMB()
 {
   CSTMemory mem_struct = GetMemoryUsage();
 

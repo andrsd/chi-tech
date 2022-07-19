@@ -1,4 +1,5 @@
-#include "chi_console.h"
+
+#include "ChiConsole/chi_console.h"
 
 #ifdef CHITECH_HAVE_LUA
 
@@ -13,7 +14,7 @@
 
 //############################################################################# Default constructor
 /** Default constructor for the console*/
-ChiConsole::ChiConsole() noexcept
+chi_objects::ChiConsole::ChiConsole() noexcept
 {
 	//========================================== Initializing console
 	consoleState = luaL_newstate();

@@ -21,6 +21,9 @@ public:
   double tolerance = 1.0e-8;
 
 public:
+  KEigenvalueSolver (const KEigenvalueSolver&) = delete;
+  KEigenvalueSolver& operator= (const KEigenvalueSolver&) = delete;
+
   explicit KEigenvalueSolver(MPI_Comm in_comm, const std::string& in_text_name) :
     lbs::SteadySolver(in_comm, in_text_name) {}
 

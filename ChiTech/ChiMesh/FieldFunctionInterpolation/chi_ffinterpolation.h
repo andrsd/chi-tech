@@ -31,9 +31,13 @@ public:
 
 public:
   FieldFunctionInterpolation() : grid_view(nullptr) {}
+  virtual ~FieldFunctionInterpolation() {}
 
   virtual void Initialize(){};
   virtual void Execute(){};
+
+  virtual std::string GetDefaultFileBaseName() const = 0;
+  virtual void ExportPython(std::string base_name) = 0;
 };
 
 

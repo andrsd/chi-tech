@@ -2,7 +2,7 @@
 
 #ifdef CHITECH_HAVE_LUA
 
-#include "ChiMath/chi_math.h"
+#include "chi_runtime.h"
 
 #include "ChiMath/Quadratures/quadrature_gausschebyshev.h"
 #include "ChiMath/Quadratures/quadrature_gausslegendre.h"
@@ -10,9 +10,6 @@
 #include "ChiMath/Quadratures/spherical_angular_quadrature.h"
 
 #include "chi_log.h"
-
-extern ChiMath&     chi_math_handler;
-extern ChiLog&     chi_log;
 
 //#include <memory>
 
@@ -68,10 +65,10 @@ int chiCreateCylindricalProductQuadrature(lua_State *L)
     const int lNa = lua_rawlen(L,3);
     if (lNa != Np)
     {
-      chi_log.Log(LOG_ALLERROR)
+      chi::log.LogAllError()
         << "chiCreateCylindricalProductQuadrature : third argument, "
         << ", if a lua table, must be of length equal to second argument.";
-      std::exit(EXIT_FAILURE);
+      chi::Exit(EXIT_FAILURE);
     }
     vNa.resize(Np, 0);
     for (int n=1; n <= lNa; ++n)
@@ -84,10 +81,10 @@ int chiCreateCylindricalProductQuadrature(lua_State *L)
   }
   else
   {
-    chi_log.Log(LOG_ALLERROR)
+    chi::log.LogAllError()
       << "chiCreateCylindricalProductQuadrature : third argument "
       << "must be a number or a lua table.";
-    std::exit(EXIT_FAILURE);
+    chi::Exit(EXIT_FAILURE);
   }
 
   bool verbose = false;
@@ -100,7 +97,7 @@ int chiCreateCylindricalProductQuadrature(lua_State *L)
   {
     case chi_math::ProductQuadratureType::GAUSS_LEGENDRE_CHEBYSHEV:
     {
-      chi_log.Log(LOG_0)
+      chi::log.Log()
         << "chiCreateCylindricalProductQuadrature : "
         << "Creating Gauss-Legendre-Legendre Quadrature\n";
 
@@ -111,15 +108,15 @@ int chiCreateCylindricalProductQuadrature(lua_State *L)
       const auto new_quad =
         std::make_shared<chi_math::CylindricalAngularQuadrature>(quad_pol, quad_azi, verbose);
 
-      chi_math_handler.angular_quadratures.push_back(new_quad);
-      const int index = chi_math_handler.angular_quadratures.size() - 1;
+      chi::angular_quadrature_stack.push_back(new_quad);
+      const int index = chi::angular_quadrature_stack.size() - 1;
       lua_pushnumber(L,index);
 
       return 1;
     }
     case chi_math::ProductQuadratureType::GAUSS_LEGENDRE_LEGENDRE:
     {
-      chi_log.Log(LOG_0)
+      chi::log.Log()
         << "chiCreateCylindricalProductQuadrature : "
         << "Creating Gauss-Legendre-Legendre Quadrature\n";
 
@@ -130,18 +127,18 @@ int chiCreateCylindricalProductQuadrature(lua_State *L)
       const auto new_quad =
         std::make_shared<chi_math::CylindricalAngularQuadrature>(quad_pol, quad_azi, verbose);
 
-      chi_math_handler.angular_quadratures.push_back(new_quad);
-      const int index = chi_math_handler.angular_quadratures.size() - 1;
-      lua_pushnumber(L,index);
+      chi::angular_quadrature_stack.push_back(new_quad);
+      const size_t index = chi::angular_quadrature_stack.size() - 1;
+      lua_pushnumber(L,static_cast<lua_Number>(index));
 
       return 1;
     }
     default:
     {
-      chi_log.Log(LOG_ALLERROR)
+      chi::log.LogAllError()
         << "chiCreateCylindricalProductQuadrature : "
         << "Unsupported quadrature type supplied, type=" << ident;
-      std::exit(EXIT_FAILURE);
+      chi::Exit(EXIT_FAILURE);
     }
   }
 
@@ -195,7 +192,7 @@ int chiCreateSphericalProductQuadrature(lua_State *L)
   {
     case chi_math::ProductQuadratureType::GAUSS_CHEBYSHEV:
     {
-      chi_log.Log(LOG_0)
+      chi::log.Log()
         << "chiCreateSphericalProductQuadrature : "
         << "Creating Gauss-Chebyshev Quadrature\n";
 
@@ -203,15 +200,15 @@ int chiCreateSphericalProductQuadrature(lua_State *L)
       const auto new_quad =
         std::make_shared<chi_math::SphericalAngularQuadrature>(quad_pol, verbose);
 
-      chi_math_handler.angular_quadratures.push_back(new_quad);
-      const int index = chi_math_handler.angular_quadratures.size() - 1;
-      lua_pushnumber(L,index);
+      chi::angular_quadrature_stack.push_back(new_quad);
+      const size_t index = chi::angular_quadrature_stack.size() - 1;
+      lua_pushnumber(L,static_cast<lua_Number>(index));
 
       return 1;
     }
     case chi_math::ProductQuadratureType::GAUSS_LEGENDRE:
     {
-      chi_log.Log(LOG_0)
+      chi::log.Log()
         << "chiCreateSphericalProductQuadrature : "
         << "Creating Gauss-Legendre Quadrature\n";
 
@@ -219,18 +216,18 @@ int chiCreateSphericalProductQuadrature(lua_State *L)
       const auto new_quad =
         std::make_shared<chi_math::SphericalAngularQuadrature>(quad_pol, verbose);
 
-      chi_math_handler.angular_quadratures.push_back(new_quad);
-      const int index = chi_math_handler.angular_quadratures.size() - 1;
-      lua_pushnumber(L,index);
+      chi::angular_quadrature_stack.push_back(new_quad);
+      const size_t index = chi::angular_quadrature_stack.size() - 1;
+      lua_pushnumber(L,static_cast<lua_Number>(index));
 
       return 1;
     }
     default:
     {
-      chi_log.Log(LOG_ALLERROR)
+      chi::log.LogAllError()
         << "chiCreateSphericalProductQuadrature : "
         << "Unsupported quadrature type supplied, type=" << ident;
-      std::exit(EXIT_FAILURE);
+      chi::Exit(EXIT_FAILURE);
     }
   }
 

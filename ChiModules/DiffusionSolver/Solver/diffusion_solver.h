@@ -17,6 +17,7 @@
 #include "ChiPhysics/FieldFunction/fieldfunction.h"
 #include "ChiTimer/chi_timer.h"
 
+
 #include <petscksp.h>
 
 #define DIFFUSION_MATERIALS_REGULAR                       10
@@ -33,8 +34,8 @@
 class chi_diffusion::Solver : public chi_physics::Solver
 {
 private:
-  ChiTimer t_assembly;
-  ChiTimer t_solve;
+  chi_objects::ChiTimer t_assembly;
+  chi_objects::ChiTimer t_solve;
 
   double time_assembly=0.0, time_solve=0.0;
   bool verbose_info=true;
@@ -49,7 +50,7 @@ public:
   std::vector<chi_diffusion::Boundary*>    boundaries;
   chi_mesh::MeshContinuumPtr                 grid = nullptr;
 
-  std::shared_ptr<SpatialDiscretization>   discretization;
+  std::shared_ptr<chi_math::SpatialDiscretization>   discretization;
 
   chi_math::UnknownManager                 unknown_manager;
 
@@ -80,6 +81,9 @@ public:
 
 public:
   //00
+  Solver (const Solver&) = delete;
+  Solver& operator= (const Solver&) = delete;
+
   explicit Solver(MPI_Comm comm, const std::string& in_solver_name);
   virtual ~Solver();
   //01 General
