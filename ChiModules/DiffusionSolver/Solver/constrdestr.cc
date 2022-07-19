@@ -24,13 +24,13 @@ Option name           | Type   | Default Value | Description
  * chiSolverSetBasicOption(phys1, "discretization_method", "PWLC")
  * \endcode*/
 
-chi_diffusion::Solver::Solver(const std::string& in_solver_name):
-  chi_physics::Solver(in_solver_name, {{"discretization_method", std::string("None")},
-                                       {"max_iters", int64_t(500)},
-                                       {"residual_tolerance", 1.0e-8},
-                                       {"property_map_D",int64_t(0)},
-                                       {"property_map_q",int64_t(1)},
-                                       {"property_map_sigma",int64_t(2)}})
+chi_diffusion::Solver::Solver(MPI_Comm in_comm, const std::string& in_solver_name):
+  chi_physics::Solver(in_comm, in_solver_name, {{"discretization_method", std::string("None")},
+                                                {"max_iters", int64_t(500)},
+                                                {"residual_tolerance", 1.0e-8},
+                                                {"property_map_D",int64_t(0)},
+                                                {"property_map_q",int64_t(1)},
+                                                {"property_map_sigma",int64_t(2)}})
 {}
 
 chi_diffusion::Solver::~Solver()

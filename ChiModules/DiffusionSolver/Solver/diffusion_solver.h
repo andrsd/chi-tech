@@ -1,6 +1,7 @@
 #ifndef CHI_DIFFUSION_SOLVER_H
 #define CHI_DIFFUSION_SOLVER_H
 
+#include "mpi.h"
 #include "ChiMesh/Cell/cell.h"
 
 #include "DiffusionSolver/Boundaries/chi_diffusion_bndry.h"
@@ -79,7 +80,7 @@ public:
 
 public:
   //00
-  explicit Solver(const std::string& in_solver_name);
+  explicit Solver(MPI_Comm comm, const std::string& in_solver_name);
   virtual ~Solver();
   //01 General
   void GetMaterialProperties(const chi_mesh::Cell& cell,
