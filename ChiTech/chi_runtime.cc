@@ -200,8 +200,10 @@ void chi::Finalize()
   trnsprt_xs_stack.clear();
   fieldfunc_stack.clear();
 
+#ifdef CHITECH_HAVE_LUA
   PetscFinalize();
   MPI_Finalize();
+#endif
 }
 
 #ifdef CHITECH_HAVE_LUA
