@@ -8,7 +8,7 @@ bool chi_mesh::SurfaceMesh::CheckNegativeSense(double x, double y, double z)
   //======================================================= Loop through each face
   std::vector<chi_mesh::Face>::iterator cur_face;
   for (cur_face = this->faces.begin();
-          cur_face != this->faces.end(); cur_face++)
+          cur_face != this->faces.end(); ++cur_face)
   {
     //=========================================== Get a vertex (first one)
     chi_mesh::Vertex p;
