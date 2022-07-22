@@ -16,7 +16,7 @@ void chi_mesh::sweep_management::PRIMARY_FLUDS::
   //=================================================== Loop over faces
   //           INCIDENT                                 but process
   //                                                    only incident faces
-  for (short f=0; f < cell->faces.size(); f++)
+  for (size_t f=0; f < cell->faces.size(); f++)
   {
     CellFace&  face = cell->faces[f];
     double     mu   = face.normal.Dot(spds->omega);
