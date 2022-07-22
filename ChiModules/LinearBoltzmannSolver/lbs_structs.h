@@ -54,9 +54,9 @@ class CellLBSView
 {
 private:
   size_t phi_address;
-  int num_nodes;
-  int num_grps;
-  int num_grps_moms;
+  unsigned int num_nodes;
+  unsigned int num_grps;
+  unsigned int num_grps_moms;
   const chi_physics::TransportCrossSections& xs;
   double volume;
   std::vector<bool> face_local_flags = {};
@@ -64,9 +64,9 @@ private:
 
 public:
   CellLBSView(size_t in_phi_address,
-              int in_num_nodes,
-              int in_num_grps,
-              int in_num_moms,
+              unsigned int in_num_nodes,
+              unsigned int in_num_grps,
+              unsigned int in_num_moms,
               const chi_physics::TransportCrossSections& in_xs_mapping,
               double in_volume,
               const std::vector<bool>& in_face_local_flags,
@@ -83,7 +83,7 @@ public:
       outflow.resize(num_grps,0.0);
   }
 
-  size_t MapDOF(int node, int moment, int grp) const
+  size_t MapDOF(unsigned int node, unsigned int moment, unsigned int grp) const
   {
     return phi_address + node * num_grps_moms + num_grps * moment + grp;
   }
@@ -91,19 +91,19 @@ public:
    const chi_physics::TransportCrossSections& XS() const
   {return xs;}
 
-  bool IsFaceLocal(int f) const {return face_local_flags[f];}
+  bool IsFaceLocal(unsigned int f) const {return face_local_flags[f];}
 
-  int NumNodes() const {return num_nodes;}
+  unsigned int NumNodes() const {return num_nodes;}
 
   double Volume() const {return volume;}
 
   void ZeroOutflow(     ) {outflow.assign(outflow.size(),0.0);}
-  void ZeroOutflow(int g) {if (g<outflow.size()) outflow[g]=0.0;}
-  void AddOutflow(int g, double intS_mu_psi)
+  void ZeroOutflow(unsigned int g) {if (g<outflow.size()) outflow[g]=0.0;}
+  void AddOutflow(unsigned int g, double intS_mu_psi)
   {
     if (g<outflow.size()) outflow[g] += intS_mu_psi;
   }
-  double GetOutflow(int g) const
+  double GetOutflow(unsigned int g) const
   {
     if (g<outflow.size()) return outflow[g];
     else return 0.0;
