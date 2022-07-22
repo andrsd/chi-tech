@@ -950,13 +950,13 @@ void chi_mesh::SurfaceMesh::ExportToPolyFile(const char *fileName)
     return;
   }
 
-  fprintf(outputFile,"%lu 2 0 0\n", vertices.size());
+  fprintf(outputFile,"%zu 2 0 0\n", vertices.size());
   for (int v=0; v<vertices.size(); v++)
   {
     fprintf(outputFile,"%d %.15f %.15f 0\n",v+1,vertices[v].x,vertices[v].y);
   }
 
-  fprintf(outputFile,"%lu 0\n", lines.size());
+  fprintf(outputFile,"%zu 0\n", lines.size());
   for (int e=0; e<lines.size(); e++)
   {
     fprintf(outputFile,"%d %d %d\n",e+1,lines[e].v_index[0]+1,
