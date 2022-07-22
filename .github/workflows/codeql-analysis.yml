@@ -1,0 +1,114 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ "next" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "next" ]
+  schedule:
+    - cron: '23 14 * * 5'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-22.04
+    env:
+      PETSC_VERSION: 3.17.0
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'cpp', 'python' ]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -qq
+        sudo apt install cmake mpich libblas-dev liblapack-dev lua5.4 liblua5.4-dev
+
+    - name: Update alternatives
+      run: |
+        sudo update-alternatives --set mpi /usr/bin/mpicc.mpich
+        sudo update-alternatives --set mpirun /usr/bin/mpirun.mpich
+        sudo update-alternatives --set mpi-x86_64-linux-gnu /usr/include/x86_64-linux-gnu/mpich
+
+    - name: Setup env
+      run: |
+        echo "CC=mpicc" >> $GITHUB_ENV
+        echo "CXX=mpicxx" >> $GITHUB_ENV
+        echo "FC=mpif90" >> $GITHUB_ENV
+        echo "PETSC_ARCH=arch-chitech-c-opt" >> $GITHUB_ENV
+
+    - name: Build PETSc
+      run: |
+        cd ${{ github.workspace }}
+        wget -q https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/petsc-${PETSC_VERSION}.tar.gz
+        tar -xzf petsc-${PETSC_VERSION}.tar.gz
+        cd petsc-${PETSC_VERSION}
+        echo "::group::configure"
+        ./configure \
+          --prefix=${{ github.workspace }}/petsc \
+          --shared-libraries \
+          --with-debugging=no \
+          --with-64-bit-indices=yes \
+          --with-cxx-dialect=cxx14 \
+          --with-pic=yes \
+          --with-ssl=no \
+          --download-hypre \
+          --download-metis \
+          --download-parmetis \
+          --CC=$CC \
+          --CXX=$CXX \
+          --FC=$FC \
+          PETSC_DIR=`pwd`
+        echo "::endgroup::"
+        echo "::group::make"
+        make PETSC_DIR=`pwd` all
+        make PETSC_DIR=`pwd` install
+        echo "::endgroup::"
+
+    - name: Setup PETSc env
+      run: |
+        echo "PETSC_ROOT=${{ github.workspace }}/petsc" >> $GITHUB_ENV
+
+    - name: Configure
+      run: |
+        cmake -S . -B ${{ github.workspace }}/build \
+          -DCHITECH_WITH_VTK=OFF \
+          -DCHITECH_WITH_LUA=OFF \
+          -DBUILD_SHARED_LIBS=ON
+
+    - name: Build
+      run: make -C ${{ github.workspace }}/build
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        upload: false
+        output: sarif-results
+
+    - name: filter-sarif
+      uses: zbazztian/filter-sarif@master
+      with:
+        patterns: |
+          -petsc*/**/*
+        input: sarif-results/${{ matrix.language }}.sarif
+        output: sarif-results/${{ matrix.language }}.sarif
+
+    - name: Upload SARIF
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: sarif-results/${{ matrix.language }}.sarif
