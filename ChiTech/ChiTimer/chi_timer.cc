@@ -5,9 +5,9 @@
 
 //################################################################### Default constr
 /** Default constructor.*/
-chi_objects::ChiTimer::ChiTimer() noexcept
+chi_objects::ChiTimer::ChiTimer() noexcept :
+  startTime(std::chrono::steady_clock::now())
 {
-  startTime = std::chrono::steady_clock::now();
 }
 
 //################################################################### Reset
