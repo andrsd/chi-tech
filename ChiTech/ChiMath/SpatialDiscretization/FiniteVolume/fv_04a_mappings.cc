@@ -44,8 +44,6 @@ int64_t chi_math::SpatialDiscretization_FV::
          const unsigned int unknown_id,
          const unsigned int component) const
 {
-  if (component < 0) return -1;
-
   auto storage = unknown_manager.dof_storage_type;
 
   size_t num_unknowns = unknown_manager.GetTotalUnknownStructureSize();

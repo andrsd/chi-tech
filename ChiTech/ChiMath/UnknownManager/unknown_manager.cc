@@ -75,7 +75,7 @@ unsigned int chi_math::UnknownManager::
 {
   auto& log = chi_objects::ChiLog::GetInstance();
 
-  if (unknown_id < 0 or unknown_id >= unknowns.size())
+  if (unknown_id >= unknowns.size())
   {
     log.LogAllError()
       << "UnknownManager failed call to MapUnknown";
@@ -103,7 +103,7 @@ void chi_math::UnknownManager::
 {
   auto& log = chi_objects::ChiLog::GetInstance();
 
-  if (unknown_id < 0 or unknown_id >= unknowns.size())
+  if (unknown_id >= unknowns.size())
   {
     log.LogAllError()
       << "UnknownManager failed call to SetUnknownNumOffBlockConnections,"
@@ -124,7 +124,7 @@ void chi_math::UnknownManager::
 {
   auto& log = chi_objects::ChiLog::GetInstance();
 
-  if (unknown_id < 0 or unknown_id >= unknowns.size())
+  if (unknown_id >= unknowns.size())
   {
     log.LogAllError()
       << "UnknownManager failed call to SetUnknownComponentTextName,"
@@ -132,7 +132,7 @@ void chi_math::UnknownManager::
    chi::Exit(EXIT_FAILURE);
   }
 
-  if (component < 0 or component >= unknowns[unknown_id].num_components)
+  if (component >= unknowns[unknown_id].num_components)
   {
     log.LogAllError()
       << "UnknownManager failed call to SetUnknownComponentTextName,"
@@ -152,7 +152,7 @@ void chi_math::UnknownManager::
 {
   auto& log = chi_objects::ChiLog::GetInstance();
 
-  if (unknown_id < 0 or unknown_id >= unknowns.size())
+  if (unknown_id >= unknowns.size())
   {
     log.LogAllError()
       << "UnknownManager failed call to SetUnknownTextName,"
@@ -173,7 +173,7 @@ void chi_math::UnknownManager::
 {
   auto& log = chi_objects::ChiLog::GetInstance();
 
-  if (unknown_id < 0 or unknown_id >= unknowns.size())
+  if (unknown_id >= unknowns.size())
   {
     log.LogAllError()
       << "UnknownManager failed call to SetUnknownComponentTextName,"
@@ -181,7 +181,7 @@ void chi_math::UnknownManager::
    chi::Exit(EXIT_FAILURE);
   }
 
-  if (component < 0 or component >= unknowns[unknown_id].num_components)
+  if (component >= unknowns[unknown_id].num_components)
   {
     log.LogAllError()
       << "UnknownManager failed call to SetUnknownComponentTextName,"

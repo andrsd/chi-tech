@@ -39,7 +39,7 @@ void chi_math::SparseMatrix::Insert(size_t i, size_t j, double value)
 {
   CheckInitialized();
 
-  if ((i<0) || (i>=row_size) || (j<0) || (j>=col_size))
+  if ((i>=row_size) || (j>=col_size))
   {
     chi::log.LogAllError()
       << "SparseMatrix::Insert encountered out of bounds,"
@@ -138,7 +138,7 @@ void chi_math::SparseMatrix::SetDiagonal(const std::vector<double>& diag)
 double chi_math::SparseMatrix::ValueIJ(size_t i, size_t j) const
 {
   double retval = 0.0;
-  if ((i<0) || (i >= rowI_indices.size()))
+  if (i >= rowI_indices.size())
   {
     chi::log.LogAllError()
       << "Index i out of bounds"
@@ -281,6 +281,3 @@ namespace chi_math
   SparseMatrix::EntriesIterator SparseMatrix::end()
   {return EntriesIterator(*this, row_size);}
 }
-
-
-
