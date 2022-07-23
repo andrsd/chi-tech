@@ -26,7 +26,7 @@ std::ostream& operator<<(std::ostream& os,
   std::vector<chi_mesh::Face>::iterator curface;
   for (curface = that.faces.begin();
        curface != that.faces.end();
-       curface++)
+       ++curface)
   {
     int index = std::distance(that.faces.begin(),curface);
     os << "Face " << index << " v:";

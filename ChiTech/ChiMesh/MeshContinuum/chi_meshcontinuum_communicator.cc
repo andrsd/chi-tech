@@ -37,7 +37,7 @@ chi_objects::ChiMPICommunicatorSet& chi_mesh::MeshContinuum::GetCommunicator()
   std::set<int>::iterator graph_edge;
   for (graph_edge =  local_graph_edges.begin();
        graph_edge != local_graph_edges.end();
-       graph_edge++)
+       ++graph_edge)
   {
     local_connections.push_back(*graph_edge);
   }

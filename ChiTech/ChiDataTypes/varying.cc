@@ -36,11 +36,11 @@ void chi_data_types::Varying::PopulateRaw(const std::string& value)
 /**Constructor for an arbitrary sequence of bytes value.*/
 chi_data_types::Varying::
   Varying(const std::vector<std::byte>& value) :
+  m_raw_data(value),
+  m_data_initialized(true),
   m_type(VaryingDataType::ARBITRARY_BYTES),
   m_type_name(VaryingDataTypeStringName(m_type))
 {
-  m_raw_data = value;
-  m_data_initialized = true;
 }
 
 /**Constructor for a string value.*/

@@ -335,7 +335,7 @@ int chi_mesh::SurfaceMesh::
 
   //======================================================= Calculate face properties
   std::vector<chi_mesh::Face>::iterator curFace;
-  for (curFace = this->faces.begin(); curFace!=this->faces.end(); curFace++)
+  for (curFace = this->faces.begin(); curFace!=this->faces.end(); ++curFace)
   {
     //=========================================== Calculate geometrical normal
     chi_mesh::Vertex vA = this->vertices.at(curFace->v_index[0]);
@@ -364,7 +364,7 @@ int chi_mesh::SurfaceMesh::
   std::vector<chi_mesh::PolyFace*>::iterator curPFace;
   for (curPFace = this->poly_faces.begin();
        curPFace!=this->poly_faces.end();
-       curPFace++)
+       ++curPFace)
   {
     chi_mesh::Vector3 centroid;
     int num_verts = (*curPFace)->v_indices.size();
@@ -887,7 +887,7 @@ void chi_mesh::SurfaceMesh::ExportToOBJFile(const char *fileName)
   std::vector<chi_mesh::Vertex>::iterator cur_v;
   for (cur_v = this->vertices.begin();
        cur_v != this->vertices.end();
-       cur_v++)
+       ++cur_v)
   {
     fprintf(outputFile,"v %9.6f %9.6f %9.6f\n",cur_v->x,cur_v->y,cur_v->z);
   }
@@ -909,7 +909,7 @@ void chi_mesh::SurfaceMesh::ExportToOBJFile(const char *fileName)
     std::vector<chi_mesh::Face>::iterator cur_face;
     for (cur_face = this->faces.begin();
          cur_face != this->faces.end();
-         cur_face++)
+         ++cur_face)
     {
       fprintf(outputFile,"f %d//1 %d//1 %d//1\n",cur_face->v_index[0]+1,
               cur_face->v_index[1]+1,
@@ -950,13 +950,13 @@ void chi_mesh::SurfaceMesh::ExportToPolyFile(const char *fileName)
     return;
   }
 
-  fprintf(outputFile,"%lu 2 0 0\n", vertices.size());
+  fprintf(outputFile,"%zu 2 0 0\n", vertices.size());
   for (int v=0; v<vertices.size(); v++)
   {
     fprintf(outputFile,"%d %.15f %.15f 0\n",v+1,vertices[v].x,vertices[v].y);
   }
 
-  fprintf(outputFile,"%lu 0\n", lines.size());
+  fprintf(outputFile,"%zu 0\n", lines.size());
   for (int e=0; e<lines.size(); e++)
   {
     fprintf(outputFile,"%d %d %d\n",e+1,lines[e].v_index[0]+1,

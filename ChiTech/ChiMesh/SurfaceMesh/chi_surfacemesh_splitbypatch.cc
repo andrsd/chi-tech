@@ -12,7 +12,7 @@ void chi_mesh::SurfaceMesh::SplitByPatch(
   FaceList::iterator cur_face;
   for (cur_face = this->faces.begin();
        cur_face != this->faces.end();
-       cur_face++)
+       ++cur_face)
   {
     unsorted_faces.push_back((*cur_face));
   }
@@ -30,7 +30,7 @@ void chi_mesh::SurfaceMesh::SplitByPatch(
   FaceList::reverse_iterator us_face;
   for (us_face = unsorted_faces.rbegin();
        us_face != unsorted_faces.rend();
-       us_face++)
+       ++us_face)
   {
     bool matchFound = false;
 
@@ -38,7 +38,7 @@ void chi_mesh::SurfaceMesh::SplitByPatch(
     FaceListCollection::iterator existing_list;
     for (existing_list = co_planar_lists.begin();
          existing_list != co_planar_lists.end();
-         existing_list++)
+         ++existing_list)
     {
       for (cur_face = (*existing_list)->begin();
            cur_face != (*existing_list)->end();
@@ -69,7 +69,7 @@ void chi_mesh::SurfaceMesh::SplitByPatch(
     }
   }
 
-  printf("Number of co-planar collections=%lu\n",co_planar_lists.size());
+  printf("Number of co-planar collections=%zu\n",co_planar_lists.size());
 
   FaceListCollection patch_list_collection;
 
@@ -106,13 +106,13 @@ void chi_mesh::SurfaceMesh::SplitByPatch(
       FaceList::iterator us_face_f;  //Forward iterator
       for (us_face_f = unused_faces.begin();
            us_face_f != unused_faces.end();
-           us_face_f++)
+           ++us_face_f)
       {
         //============================= Try to to find a home
         FaceListCollection::iterator inner_list;
         for (inner_list = inner_patch_list_collection.begin();
              inner_list != inner_patch_list_collection.end();
-             inner_list++)
+             ++inner_list)
         {
           for (cur_face = (*inner_list)->begin();
                cur_face != (*inner_list)->end();
@@ -164,13 +164,13 @@ void chi_mesh::SurfaceMesh::SplitByPatch(
 
   }
 
-  printf("Number of patches = %lu\n", patch_list_collection.size());
+  printf("Number of patches = %zu\n", patch_list_collection.size());
 
   //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Create surfaces for each patch
   FaceListCollection::iterator outer_patch;
   for (outer_patch = patch_list_collection.begin();
        outer_patch != patch_list_collection.end();
-       outer_patch++)
+       ++outer_patch)
   {
 
     chi_mesh::SurfaceMesh* new_surface = new chi_mesh::SurfaceMesh;
@@ -195,7 +195,7 @@ void chi_mesh::SurfaceMesh::SplitByPatch(
         std::vector<int*>::iterator cur_map;
         for (cur_map = vertex_mapping.begin();
              cur_map != vertex_mapping.end();
-             cur_map++)
+             ++cur_map)
         {
           if ((*cur_map)[0] == vi)
           {
