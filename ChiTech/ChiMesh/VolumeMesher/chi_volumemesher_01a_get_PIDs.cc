@@ -122,7 +122,7 @@ GetCellXYZPartitionID(chi_mesh::Cell *cell)
     std::get<1>(ijk_id) = ij_id.second;
     std::get<2>(ijk_id) = 0;
   }
-  else if (typeid(*vol_mesher) == typeid(chi_mesh::VolumeMesherExtruder))
+  else if (std::dynamic_pointer_cast<chi_mesh::VolumeMesherExtruder>(vol_mesher))
   {
     auto& extruder = (chi_mesh::VolumeMesherExtruder&)*vol_mesher;
 
@@ -189,7 +189,7 @@ GetCellXYZPartitionID(chi_mesh::Cell *cell)
       zmin = zmax;
     }
   }//if typeid
-  else if (typeid(*vol_mesher) == typeid(chi_mesh::VolumeMesherPredefinedUnpartitioned))
+  else if (std::dynamic_pointer_cast<chi_mesh::VolumeMesherPredefinedUnpartitioned>(vol_mesher))
   {
     if (vol_mesher->options.zcuts.empty())
     {
