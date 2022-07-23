@@ -115,7 +115,7 @@ void lbs::SteadySolver::ComputeSweepOrderingsAngleAggPolar(LBSGroupset& groupset
   if (options.geometry_type == GeometryType::ONED_SLAB ||
       options.geometry_type == GeometryType::TWOD_CARTESIAN ||
       (options.geometry_type == GeometryType::THREED_CARTESIAN &&
-       typeid(*mesher) == typeid(chi_mesh::VolumeMesherExtruder)))
+       std::dynamic_pointer_cast<chi_mesh::VolumeMesherExtruder>(mesher)))
   {
     if (groupset.quadrature->type == chi_math::AngularQuadratureType::ProductQuadrature)
     {

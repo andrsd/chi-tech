@@ -40,7 +40,7 @@ int chiFFInterpolationGetValue(lua_State *L)
   auto p_ffi = chi::GetStackItemPtr(chi::field_func_interpolation_stack,
                                     ffihandle, fname);
 
-  if (typeid(*p_ffi) == typeid(chi_mesh::FieldFunctionInterpolationVolume))
+  if (std::dynamic_pointer_cast<chi_mesh::FieldFunctionInterpolationVolume>(p_ffi))
   {
     auto& cur_ffi_volume = (chi_mesh::FieldFunctionInterpolationVolume&)*p_ffi;
     value = cur_ffi_volume.op_value;
@@ -48,7 +48,7 @@ int chiFFInterpolationGetValue(lua_State *L)
     lua_pushnumber(L,value);
     return 1;
   }
-  else if (typeid(*p_ffi) == typeid(chi_mesh::FieldFunctionInterpolationLine))
+  else if (std::dynamic_pointer_cast<chi_mesh::FieldFunctionInterpolationLine>(p_ffi))
   {
     auto& cur_ffi_line = (chi_mesh::FieldFunctionInterpolationLine&)*p_ffi;
 

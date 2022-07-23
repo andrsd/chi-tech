@@ -114,14 +114,13 @@ int chiFFInterpolationSetProperty(lua_State *L)
   //======================================== Check slice properties
   if ((property >= FFI_PROP_SLICEPOINT) && (property <= FFI_PROP_SLICEBINORM))
   {
-    if (typeid(*p_ffi) !=
-        typeid(chi_mesh::FieldFunctionInterpolationSlice))
+    if (std::dynamic_pointer_cast<chi_mesh::FieldFunctionInterpolationSlice>(p_ffi) == nullptr)
     {
       chi::log.LogAllError()
         << "Slice property" << property
         << " used in chiFFInterpolationSetProperty but "
            "FFI is not a slice.";
-      chi::log.Log() << typeid(*p_ffi).name();
+      chi::log.Log() << typeid(p_ffi.get()).name();
       chi::log.Log() << typeid(chi_mesh::FieldFunctionInterpolationSlice).name();
       chi::Exit(EXIT_FAILURE);
     }
@@ -131,15 +130,14 @@ int chiFFInterpolationSetProperty(lua_State *L)
   //======================================== Check Line properties
   if ((property >= FFI_LINE_FIRSTPOINT) && (property <= FFI_LINE_NUMBEROFPOINTS))
   {
-    if (typeid(*p_ffi) !=
-        typeid(chi_mesh::FieldFunctionInterpolationLine))
+    if (std::dynamic_pointer_cast<chi_mesh::FieldFunctionInterpolationLine>(p_ffi) == nullptr)
     {
       chi::log.LogAllError()
         << "Line property" << property
         << " used in chiFFInterpolationSetProperty but "
            "FFI is not a line.";
-      chi::log.Log() << typeid(*p_ffi).name();
-      chi::log.Log() << typeid(chi_mesh::FieldFunctionInterpolationSlice).name();
+      chi::log.Log() << typeid(p_ffi.get()).name();
+      chi::log.Log() << typeid(chi_mesh::FieldFunctionInterpolationLine).name();
       chi::Exit(EXIT_FAILURE);
     }
 
@@ -277,7 +275,7 @@ int chiFFInterpolationSetProperty(lua_State *L)
     if (numArgs!=3 and numArgs!=4)
       LuaPostArgAmountError("chiFFInterpolationSetProperty",3,numArgs);
 
-    if (typeid(*p_ffi) != typeid(chi_mesh::FieldFunctionInterpolationVolume))
+    if (std::dynamic_pointer_cast<chi_mesh::FieldFunctionInterpolationVolume>(p_ffi) == nullptr)
     {
       chi::log.LogAllError()
         << "Volume property FFI_PROP_OPERATION"
@@ -321,7 +319,7 @@ int chiFFInterpolationSetProperty(lua_State *L)
                                                  logvol_hndle,
                                                  __FUNCTION__);
 
-    if (typeid(*p_ffi) != typeid(chi_mesh::FieldFunctionInterpolationVolume))
+    if (std::dynamic_pointer_cast<chi_mesh::FieldFunctionInterpolationVolume>(p_ffi) == nullptr)
     {
       chi::log.LogAllError()
         << "Volume property FFI_PROP_LOGICAL_VOLUME"

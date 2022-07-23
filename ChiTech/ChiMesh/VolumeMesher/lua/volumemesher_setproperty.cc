@@ -155,7 +155,7 @@ int chiVolumeMesherSetProperty(lua_State *L)
 
   else if (property_index == VMP::EXTRUSION_LAYER)
   {
-    if (typeid(*cur_hndlr.volume_mesher) == typeid(chi_mesh::VolumeMesherExtruder))
+    if (std::dynamic_pointer_cast<chi_mesh::VolumeMesherExtruder>(cur_hndlr.volume_mesher))
     {
       auto& mesher = (chi_mesh::VolumeMesherExtruder&)*cur_hndlr.volume_mesher;
 

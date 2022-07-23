@@ -27,7 +27,7 @@ void lbs::SteadySolver::InitFluxDataStructures(LBSGroupset& groupset)
 
   if ( options.geometry_type == GeometryType::ONED_SLAB or
        options.geometry_type == GeometryType::TWOD_CARTESIAN or
-       (typeid(mesher) == typeid(chi_mesh::VolumeMesherExtruder)))
+       (std::dynamic_pointer_cast<chi_mesh::VolumeMesherExtruder>(handler.volume_mesher)))
   {
     switch (groupset.angleagg_method)
     {
