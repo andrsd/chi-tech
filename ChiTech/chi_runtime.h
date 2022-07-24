@@ -143,8 +143,9 @@ public:
   static int  RunInteractive(int argc, char** argv);
   static int  RunBatch(int argc, char** argv);
   static int  Initialize(int argc, char** argv);
-#endif
   static void Finalize();
+#endif
+  static void Free();
   static void Exit(int error_code);
 
 public:

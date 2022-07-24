@@ -183,10 +183,7 @@ int chi::run_time::InitPetSc(int argc, char** argv)
   return 0;
 }
 
-//############################################### Finalize ChiTech
-/**Finalizes ChiTech.
- * */
-void chi::Finalize()
+void chi::Free()
 {
   meshhandler_stack.clear();
 
@@ -199,14 +196,19 @@ void chi::Finalize()
   material_stack.clear();
   trnsprt_xs_stack.clear();
   fieldfunc_stack.clear();
-
-#ifdef CHITECH_HAVE_LUA
-  PetscFinalize();
-  MPI_Finalize();
-#endif
 }
 
 #ifdef CHITECH_HAVE_LUA
+
+//############################################### Finalize ChiTech
+/**Finalizes ChiTech.
+ * */
+void chi::Finalize()
+{
+  Free();
+  PetscFinalize();
+  MPI_Finalize();
+}
 
 //############################################### Interactive interface
 /**Runs the interactive chitech engine*/
