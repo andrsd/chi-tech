@@ -272,18 +272,6 @@ int chi::RunBatch(int argc, char** argv)
 
   chi::console.FlushConsole();
 
-#ifndef NDEBUG
-  chi::log.Log() << "Waiting...";
-  if (chi::mpi.location_id == 0)
-    for (int k=0; k<30; ++k)
-    {
-      usleep(1000000);
-      chi::log.Log() << k;
-    }
-
-  MPI_Barrier(MPI_COMM_WORLD);
-#endif
-
   const auto& input_fname = chi::run_time::input_file_name;
   int error_code = 0;
 
