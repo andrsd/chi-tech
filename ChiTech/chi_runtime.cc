@@ -183,10 +183,7 @@ int chi::run_time::InitPetSc(int argc, char** argv)
   return 0;
 }
 
-//############################################### Finalize ChiTech
-/**Finalizes ChiTech.
- * */
-void chi::Finalize()
+void chi::Free()
 {
   meshhandler_stack.clear();
 
@@ -199,14 +196,19 @@ void chi::Finalize()
   material_stack.clear();
   trnsprt_xs_stack.clear();
   fieldfunc_stack.clear();
-
-#ifdef CHITECH_HAVE_LUA
-  PetscFinalize();
-  MPI_Finalize();
-#endif
 }
 
 #ifdef CHITECH_HAVE_LUA
+
+//############################################### Finalize ChiTech
+/**Finalizes ChiTech.
+ * */
+void chi::Finalize()
+{
+  Free();
+  PetscFinalize();
+  MPI_Finalize();
+}
 
 //############################################### Interactive interface
 /**Runs the interactive chitech engine*/
@@ -271,18 +273,6 @@ int chi::RunBatch(int argc, char** argv)
       << "     -allow_petsc_error_handler Allow petsc error handler.\n\n\n";
 
   chi::console.FlushConsole();
-
-#ifndef NDEBUG
-  chi::log.Log() << "Waiting...";
-  if (chi::mpi.location_id == 0)
-    for (int k=0; k<30; ++k)
-    {
-      usleep(1000000);
-      chi::log.Log() << k;
-    }
-
-  MPI_Barrier(MPI_COMM_WORLD);
-#endif
 
   const auto& input_fname = chi::run_time::input_file_name;
   int error_code = 0;
