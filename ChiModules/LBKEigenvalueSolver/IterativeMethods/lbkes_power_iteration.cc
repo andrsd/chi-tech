@@ -39,7 +39,7 @@ void KEigenvalueSolver::PowerIteration()
 
   //================================================== Start power iterations
   int nit = 0;
-  bool converged = false;
+  converged = false;
   while (nit < max_iterations)
   {
     //============================================= Loop over groupsets
