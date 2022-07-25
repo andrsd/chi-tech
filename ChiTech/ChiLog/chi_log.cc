@@ -29,6 +29,9 @@ chi_objects::ChiLog::ChiLog() noexcept
 /** Makes a log entry.*/
 chi_objects::LogStream chi_objects::ChiLog::Log(LOG_LVL level/*=LOG_0*/)
 {
+  if (verbosity == LOG_NONE)
+    return {&null_stream, ""};
+
   switch (level)
   {
     case LOG_0:
@@ -131,7 +134,11 @@ chi_objects::LogStream chi_objects::ChiLog::Log(LOG_LVL level/*=LOG_0*/)
 /** Sets the verbosity level.*/
 void chi_objects::ChiLog::SetVerbosity(int int_level)
 {
-  if (int_level == 0)
+  if (int_level == -1)
+  {
+    verbosity = LOG_NONE;
+  }
+  else if (int_level == 0)
   {
     verbosity = LOG_0VERBOSE_0;
   }

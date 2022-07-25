@@ -187,7 +187,9 @@ namespace chi_objects
   {
   public:
     /**Logging level*/
-    enum LOG_LVL {LOG_0=1,                ///< Used only for location 0
+    enum LOG_LVL {
+      LOG_NONE=0,             ///< Used for no logging
+      LOG_0=1,                ///< Used only for location 0
       LOG_0WARNING=2,         ///< Warning only for location 0
       LOG_0ERROR=3,           ///< Error only for location 0
       LOG_0VERBOSE_0=4,       ///< Default verbosity level
@@ -202,6 +204,7 @@ namespace chi_objects
 
   private:
     DummyStream dummy_stream;
+    NullStream null_stream;
     int verbosity;
 
     static ChiLog instance;
