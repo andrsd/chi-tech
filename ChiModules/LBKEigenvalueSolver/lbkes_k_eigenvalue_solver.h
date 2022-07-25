@@ -20,6 +20,8 @@ public:
   size_t max_iterations = 1000;
   double tolerance = 1.0e-8;
 
+  bool converged = false;
+
 public:
   KEigenvalueSolver (const KEigenvalueSolver&) = delete;
   KEigenvalueSolver& operator= (const KEigenvalueSolver&) = delete;
