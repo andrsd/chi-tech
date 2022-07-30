@@ -21,6 +21,7 @@
 void lbs::SteadySolver::Execute()
 {
   MPI_Barrier(MPI_COMM_WORLD);
+  converged = true;
   for (auto& groupset : groupsets)
   {
     chi::log.Log()
@@ -67,19 +68,21 @@ void lbs::SteadySolver::SolveGroupset(LBSGroupset& groupset)
 
   if (groupset.iterative_method == IterativeMethod::CLASSICRICHARDSON)
   {
-    ClassicRichardson(groupset, sweep_scheduler,
-                      APPLY_MATERIAL_SOURCE |
-                      APPLY_AGS_SCATTER_SOURCE | APPLY_WGS_SCATTER_SOURCE |
-                      APPLY_AGS_FISSION_SOURCE | APPLY_WGS_FISSION_SOURCE,
-                      options.verbose_inner_iterations);
+    converged &=
+      ClassicRichardson(groupset, sweep_scheduler,
+                        APPLY_MATERIAL_SOURCE |
+                        APPLY_AGS_SCATTER_SOURCE | APPLY_WGS_SCATTER_SOURCE |
+                        APPLY_AGS_FISSION_SOURCE | APPLY_WGS_FISSION_SOURCE,
+                        options.verbose_inner_iterations);
   }
   else if (groupset.iterative_method == IterativeMethod::GMRES)
   {
-    GMRES(groupset, sweep_scheduler,
-          APPLY_WGS_SCATTER_SOURCE | APPLY_WGS_FISSION_SOURCE,  //lhs_scope
-          APPLY_MATERIAL_SOURCE | APPLY_AGS_SCATTER_SOURCE |
-          APPLY_AGS_FISSION_SOURCE,                             //rhs_scope
-          options.verbose_inner_iterations);
+    converged &=
+      GMRES(groupset, sweep_scheduler,
+            APPLY_WGS_SCATTER_SOURCE | APPLY_WGS_FISSION_SOURCE,  //lhs_scope
+            APPLY_MATERIAL_SOURCE | APPLY_AGS_SCATTER_SOURCE |
+            APPLY_AGS_FISSION_SOURCE,                             //rhs_scope
+            options.verbose_inner_iterations);
   }
 
   if (options.write_restart_data)
