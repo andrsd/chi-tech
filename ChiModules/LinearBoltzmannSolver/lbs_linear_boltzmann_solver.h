@@ -65,6 +65,7 @@ public:
   double last_restart_write=0.0;
   lbs::Options options;
 
+  bool converged;
   size_t num_moments;
   size_t num_groups;
   size_t num_precursors;
