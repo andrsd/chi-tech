@@ -110,7 +110,6 @@ void chi_physics::TransportCrossSections::
   size_t num_grps_G = 0;
   size_t num_precursors_J = 0;
 
-  double N_total  = 0.0; // total density
   double Nf_total = 0.0; // total density of fissile materials
   double Np_total = 0.0; // total density of materials with precursors
 
@@ -129,11 +128,10 @@ void chi_physics::TransportCrossSections::
         << std::endl;
       chi::Exit(EXIT_FAILURE);
     }
-    
+
     cross_secs.push_back(xs);
 
     // Increment combo factor totals
-    N_total += combo.second;
     if (xs->is_fissile)
     {
       this->is_fissile = true;

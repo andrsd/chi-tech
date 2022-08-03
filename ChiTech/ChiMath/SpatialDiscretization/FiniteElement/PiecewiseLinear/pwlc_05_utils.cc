@@ -9,7 +9,7 @@ size_t chi_math::SpatialDiscretization_PWLC::
 {
   unsigned int N = unknown_manager.GetTotalUnknownStructureSize();
 
-  return local_base_block_size*N;
+  return (size_t) local_base_block_size*N;
 }
 
 //###################################################################
@@ -19,7 +19,7 @@ size_t chi_math::SpatialDiscretization_PWLC::
 {
   unsigned int N = unknown_manager.GetTotalUnknownStructureSize();
 
-  return globl_base_block_size*N;
+  return (size_t) globl_base_block_size*N;
 }
 
 //###################################################################

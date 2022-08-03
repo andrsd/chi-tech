@@ -27,7 +27,7 @@ chi_mesh::sweep_management::SweepBuffer::ReceiveUpstreamPsi(int angle_set_num)
     for (size_t prelocI=0; prelocI<spds->location_dependencies.size(); prelocI++)
     {
       angleset->prelocI_outgoing_psi[prelocI].resize(
-        fluds->prelocI_face_dof_count[prelocI]*num_grps*num_angles,0.0);
+        (size_t) fluds->prelocI_face_dof_count[prelocI]*num_grps*num_angles,0.0);
     }
 
     upstream_data_initialized = true;
@@ -49,7 +49,7 @@ chi_mesh::sweep_management::SweepBuffer::ReceiveUpstreamPsi(int angle_set_num)
         int msg_avail = 1;
 
         MPI_Iprobe(comm_set->MapIonJ(locJ,chi::mpi.location_id),
-                   max_num_mess*angle_set_num + m, //tag
+                   (size_t) max_num_mess*angle_set_num + m, //tag
                    comm_set->communicators[chi::mpi.location_id],
                    &msg_avail,MPI_STATUS_IGNORE);
 
@@ -70,7 +70,7 @@ chi_mesh::sweep_management::SweepBuffer::ReceiveUpstreamPsi(int angle_set_num)
                                   message_size,
                                   MPI_DOUBLE,
                                   comm_set->MapIonJ(locJ,chi::mpi.location_id),
-                                  max_num_mess*angle_set_num + m, //tag
+                                  (size_t) max_num_mess*angle_set_num + m, //tag
                                   comm_set->communicators[chi::mpi.location_id],
                                   MPI_STATUS_IGNORE);
 
@@ -217,5 +217,3 @@ chi_mesh::sweep_management::SweepBuffer::ReceiveUpstreamPsi(int angle_set_num)
 //  else
 //    return AngleSetStatus::READY_TO_EXECUTE;
 //}
-
-

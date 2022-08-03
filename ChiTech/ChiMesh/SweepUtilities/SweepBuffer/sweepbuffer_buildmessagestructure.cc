@@ -46,7 +46,7 @@ void chi_mesh::sweep_management::SweepBuffer::BuildMessageStructure()
   for (size_t prelocI=0; prelocI<num_dependencies; prelocI++)
   {
     u_ll_int num_unknowns =
-      fluds->prelocI_face_dof_count[prelocI]*num_grps*num_angles;
+      (u_ll_int) fluds->prelocI_face_dof_count[prelocI]*num_grps*num_angles;
 
     u_ll_int message_size  = num_unknowns;
     int      message_count = 1;
@@ -93,7 +93,7 @@ void chi_mesh::sweep_management::SweepBuffer::BuildMessageStructure()
     angleset->delayed_prelocI_norm.push_back(0.0);
 
     u_ll_int num_unknowns =
-      fluds->delayed_prelocI_face_dof_count[prelocI]*num_grps*num_angles;
+      (u_ll_int) fluds->delayed_prelocI_face_dof_count[prelocI]*num_grps*num_angles;
 
     u_ll_int message_size  = num_unknowns;
     int      message_count = 1;
@@ -141,7 +141,7 @@ void chi_mesh::sweep_management::SweepBuffer::BuildMessageStructure()
   for (size_t deplocI=0; deplocI<num_successors; deplocI++)
   {
     u_ll_int num_unknowns =
-      fluds->deplocI_face_dof_count[deplocI]*num_grps*num_angles;
+      (u_ll_int) fluds->deplocI_face_dof_count[deplocI]*num_grps*num_angles;
 
     u_ll_int message_size  = num_unknowns;
     int      message_count = 1;

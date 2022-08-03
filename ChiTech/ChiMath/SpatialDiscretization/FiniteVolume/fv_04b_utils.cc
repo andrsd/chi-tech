@@ -30,7 +30,7 @@ size_t chi_math::SpatialDiscretization_FV::
 
   const int num_globl_cells = ref_grid->GetGlobalNumberOfCells();
 
-  return num_globl_cells*N;
+  return (size_t) num_globl_cells*N;
 }
 
 //###################################################################

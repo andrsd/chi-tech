@@ -82,10 +82,6 @@ void chi_mesh::sweep_management::AngleAggregation::InitializeReflectingBCs()
 {
   const double epsilon = 1.0e-8;
 
-  int total_reflect_cells = 0;
-  int total_reflect_faces = 0;
-  int total_reflect_size = 0;
-
   bool reflecting_bcs_initialized=false;
 
   int bndry_id=0;
@@ -152,7 +148,6 @@ void chi_mesh::sweep_management::AngleAggregation::InitializeReflectingBCs()
             }
           }
           if (not on_ref_bndry) continue;
-          total_reflect_cells += 1;
 
           //=========================== If cell on ref bndry
           cell_vec[c].resize(cell.faces.size());
@@ -165,8 +160,6 @@ void chi_mesh::sweep_management::AngleAggregation::InitializeReflectingBCs()
               cell_vec[c][f].clear();
               cell_vec[c][f].resize(face.vertex_ids.size(),
                                     std::vector<double>(number_of_groups,0.0));
-              total_reflect_faces += 1;
-              total_reflect_size  += face.vertex_ids.size()*number_of_groups;
             }
             ++f;
           }
