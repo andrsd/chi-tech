@@ -1,5 +1,3 @@
-#include "chitech_config.h"
-
 #ifdef CHITECH_HAVE_LUA
 
 #define RegisterFunction(x) \

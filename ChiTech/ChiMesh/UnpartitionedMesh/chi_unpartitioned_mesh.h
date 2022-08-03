@@ -1,7 +1,6 @@
 #ifndef CHI_MESH_UNPARTITIONED_MESH_H
 #define CHI_MESH_UNPARTITIONED_MESH_H
 
-#include "chitech_config.h"
 #include "ChiMesh/chi_mesh.h"
 #include "ChiMesh/Cell/cell.h"
 

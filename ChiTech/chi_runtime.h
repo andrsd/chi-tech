@@ -1,8 +1,6 @@
 #ifndef chi_runtime_h
 #define chi_runtime_h
 
-#include "chitech_config.h"
-
 #include <utility>
 #include <vector>
 #include <string>

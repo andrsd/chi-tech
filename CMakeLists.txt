@@ -215,6 +215,12 @@ target_compile_options(ChiLib PUBLIC ${CHI_CXX_FLAGS})
 set_target_properties(ChiLib PROPERTIES MACOSX_RPATH OFF)
 set_target_properties(ChiLib PROPERTIES INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
 set_target_properties(ChiLib PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+if(CHITECH_WITH_LUA)
+    target_compile_definitions(ChiLib PUBLIC CHITECH_HAVE_LUA)
+endif()
+if(CHITECH_WITH_VTK)
+    target_compile_definitions(ChiLib PUBLIC CHITECH_HAVE_VTK)
+endif()
 
 #================================================ Third-party library
 add_subdirectory("${CHI_TECH_DIR}/ThirdParty")
