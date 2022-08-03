@@ -29,7 +29,7 @@ InitializeDelayedUpstreamData()
   {
     int num_dofs = fluds->delayed_prelocI_face_dof_count[prelocI];
 
-    u_ll_int buff_size = num_dofs*num_grps*num_angles;
+    u_ll_int buff_size = (u_ll_int) num_dofs*num_grps*num_angles;
 
     angleset->delayed_prelocI_outgoing_psi[prelocI].resize(buff_size,0.0);
     angleset->delayed_prelocI_outgoing_psi_old[prelocI].resize(buff_size,0.0);

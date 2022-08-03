@@ -84,8 +84,8 @@ BuildSparsityPattern(std::vector<int64_t> &nodal_nnz_in_diag,
   nodal_nnz_in_diag.clear();
   nodal_nnz_off_diag.clear();
 
-  nodal_nnz_in_diag.resize(local_base_block_size*N,0);
-  nodal_nnz_off_diag.resize(local_base_block_size*N,0);
+  nodal_nnz_in_diag.resize((size_t) local_base_block_size*N,0);
+  nodal_nnz_off_diag.resize((size_t) local_base_block_size*N,0);
 
   if (unknown_manager.dof_storage_type == chi_math::UnknownStorageType::NODAL)
   {
@@ -118,8 +118,3 @@ BuildSparsityPattern(std::vector<int64_t> &nodal_nnz_in_diag,
   chi::log.Log() << "Done building DFEM sparsity pattern";
 
 }
-
-
-
-
-

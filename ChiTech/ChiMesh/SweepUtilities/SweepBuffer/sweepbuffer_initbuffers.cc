@@ -43,7 +43,7 @@ InitializeLocalAndDownstreamBuffers()
     for (size_t deplocI=0; deplocI<spds->location_successors.size(); deplocI++)
     {
       angleset->deplocI_outgoing_psi[deplocI].resize(
-        fluds->deplocI_face_dof_count[deplocI]*num_grps*num_angles,0.0);
+        (size_t) fluds->deplocI_face_dof_count[deplocI]*num_grps*num_angles,0.0);
     }
 
 #ifdef CHITECH_HAVE_LUA
