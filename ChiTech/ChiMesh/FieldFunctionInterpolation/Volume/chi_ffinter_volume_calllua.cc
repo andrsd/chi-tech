@@ -1,4 +1,3 @@
-#include "chitech_config.h"
 #include "chi_ffinter_volume.h"
 #include "chi_log.h"
 

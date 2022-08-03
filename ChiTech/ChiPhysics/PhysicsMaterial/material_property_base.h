@@ -1,7 +1,6 @@
 #ifndef CHI_PHYSICS_MATERIAL_PROPERTY_BASE_H
 #define CHI_PHYSICS_MATERIAL_PROPERTY_BASE_H
 
-#include "chitech_config.h"
 #include <string>
 #include <vector>
 

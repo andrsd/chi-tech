@@ -1,8 +1,6 @@
 #ifndef CHITECH_QUADRATURES_LUA_H
 #define CHITECH_QUADRATURES_LUA_H
 
-#include "chitech_config.h"
-
 #ifdef CHITECH_HAVE_LUA
 
 int chiCreateCustomAngularQuadrature(lua_State *L);

@@ -1,7 +1,6 @@
 #ifndef CHI_FIELD_FUNCTION_H
 #define CHI_FIELD_FUNCTION_H
 
-#include "chitech_config.h"
 #include "../chi_physics_namespace.h"
 #include "../../ChiMesh/MeshContinuum/chi_meshcontinuum.h"
 #include "ChiMath/SpatialDiscretization/spatial_discretization.h"

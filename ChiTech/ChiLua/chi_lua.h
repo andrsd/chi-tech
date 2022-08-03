@@ -1,8 +1,6 @@
 #ifndef CHI_LUA_H
 #define CHI_LUA_H
 
-#include "chitech_config.h"
-
 #ifdef CHITECH_HAVE_LUA
 
 extern "C"

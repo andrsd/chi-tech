@@ -2,7 +2,6 @@
 #define CHI_MPI_H
 
 #include <mpi.h>
-#include "chitech_config.h"
 #include "../ChiMesh/chi_mesh.h"
 #include "chi_runtime.h"
 

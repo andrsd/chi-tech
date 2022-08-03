@@ -1,8 +1,6 @@
 #ifndef CHITECH_UNIT_TESTS_H
 #define CHITECH_UNIT_TESTS_H
 
-#include "chitech_config.h"
-
 #ifdef CHITECH_HAVE_LUA
 
 #define ChiUnitTestMessageHome(cond)                              \
