@@ -85,7 +85,7 @@ public:
 
   size_t MapDOF(unsigned int node, unsigned int moment, unsigned int grp) const
   {
-    return phi_address + node * num_grps_moms + num_grps * moment + grp;
+    return phi_address + (size_t) node * num_grps_moms + (size_t) num_grps * moment + grp;
   }
 
    const chi_physics::TransportCrossSections& XS() const
